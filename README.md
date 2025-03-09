@@ -6,7 +6,7 @@ Webshop internetes oldal tervezése, ahol tudunk rendelést leadni és látjuk h
 Adatbazis (termékek)
 Ötlet:Kutya kiegészítők és munka mennyiségtől függően a kínálat bővítése (pl: eledel v más állatok, macska)
 Weblap tervezes
-Felhasznált technológia: php, HTML5, CSS, JS, wordpress?
+Felhasznált technológia: php, HTML5, CSS, JS, Bootstrap?
 +MVP 
 Rendeles leadás menete
 Quick add opció
