@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="hu">
+
+<meta charset="UTF-8">
+
 <head>
 <title> Kutya webshop</title>    
 
