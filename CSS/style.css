@@ -1,0 +1,9 @@
+body{
+    background-color: whitesmoke;
+    color: black;
+    font-size: calc(15px + 0.390625vw)!important;
+}
+p {
+    font-size: calc(15px + 0.390625vw)!important;
+
+    font-family: Arial, sans-serif}
