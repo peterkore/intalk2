@@ -34,12 +34,22 @@ if (isset($_GET['add']) && isset($products[$_GET['add']])) {
     exit();
 }
 ?>
-<!DOCTYPE html>
+<?php
+ $PageTitle = "KutyaWebshop" ?>
+<?php 
+/**
+ * header beillesztése
+ * 
+ */
+
+include_once('header.php') ?>
+
+<!--!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <title>KutyaWebshop</title>
-</head>
+</head-->
 <body>
     <h1>KutyaWebshop</h1>
     <h2>Termékek</h2>

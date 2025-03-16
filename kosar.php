@@ -20,13 +20,22 @@ if (isset($_GET['remove']) && isset($_SESSION['kosar'][$_GET['remove']])) {
     exit();
 }
 ?>
-<!DOCTYPE html>
+<?php
+ $PageTitle = "Kosár" ?>
+<?php 
+/**
+ * header beillesztése
+ * 
+ */
+
+include_once('header.php') ?>
+<!--!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     
     <title>Kosár</title>
-</head>
+</head-->
 <body>
     <h1>Kosár</h1>
     <ul>
