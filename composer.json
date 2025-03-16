@@ -1,0 +1,16 @@
+{
+    "name": "kepe/intalk2",
+    "description": "intalk 2 unit test",
+    "autoload": {
+        "psr-4": {
+            "Kepe\\Intalk2\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Peter Kore",
+            "email": "kore.peter@gmail.com"
+        }
+    ],
+    "require": {}
+}
