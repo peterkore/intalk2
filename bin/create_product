@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+// create_product.php <name>
+use Webshop\Model\Product;
+
+require_once "vendor/autoload.php";
+require __DIR__ . '/../src/Bootstrap.php';
+
+$newProductName = $argv[1];
+if ($newProductName != '') {
+
+    $product = new Product();
+    $product->setName($newProductName);
+    $entityManager->persist($product);
+    $entityManager->flush();
+
+    echo "Created Product with ID " . $product->getId() . "\n";
+} else {
+    echo "Please specify a product name \n";
+}
