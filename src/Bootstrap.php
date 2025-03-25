@@ -15,14 +15,23 @@ $config = ORMSetup::createAttributeMetadataConfiguration(
     isDevMode: true,
 );
 
-$connection = DriverManager::getConnection([
-    'driver' => 'pdo_mysql',
-    'host' => $_ENV['DB_HOST'] ?? 'localhost',
-    'dbname' => $_ENV['DB_NAME'] ?? 'webshop',
-    'user' => $_ENV['DB_USER'] ?? 'root',
-    'password' => $_ENV['DB_PASSWORD'] ?? '',
-    'charset' => $_ENV['DB_CHARSET'] ?? 'utf8mb4',
-], $config);
+try {
+    $connection = DriverManager::getConnection([
+        'driver' => 'pdo_mysql',
+        'host' => $_ENV['DB_HOST'] ?? 'localhost',
+        'dbname' => $_ENV['DB_NAME'] ?? 'webshop',
+        'user' => $_ENV['DB_USER'] ?? 'root',
+        'password' => $_ENV['DB_PASSWORD'] ?? '',
+        'charset' => $_ENV['DB_CHARSET'] ?? 'utf8mb4',
+    ], $config);
 
-// Az entitásvezető megszerzése
+    // Ellenőrzés: Megpróbálunk egyszerű lekérdezést végrehajtani
+    $connection->executeQuery('SELECT 1');
+
+} catch (\Exception $e) {
+    // Ha bármilyen hiba történik, kivételt dobunk
+    throw new \RuntimeException('Nem sikerült csatlakozni az adatbázishoz');
+}
+
+// Az entitymanager példányosítása
 $entityManager = new EntityManager($connection, $config);

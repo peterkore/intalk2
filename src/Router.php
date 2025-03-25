@@ -14,23 +14,14 @@ class Router
         $method = $segments[1] ?? 'index';
         $params = array_slice($segments, 2);
 
-        // Kontroller fájl elérési útja
-        $controllerFile = __DIR__ . "/Controllers/{$controller}.php";
-
-        // Fájl, osztály és metódus ellenőrzése, hibakezeléssel
-        if (!file_exists($controllerFile)) {
-            $this->handleError();
-            return;
-        }
-
-        require_once $controllerFile;
         $controllerClass = "\\Webshop\\Controllers\\{$controller}";
 
         if (!class_exists($controllerClass)) {
             $this->handleError();
             return;
         }
-        require __DIR__ . '/../src/Bootstrap.php';
+        // Az entityManager eléréséhez Betöltjük a Bootstrap.php-t.
+        require_once __DIR__ . '/../src/Bootstrap.php';
         $instance = new $controllerClass($entityManager);
 
         try {
