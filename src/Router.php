@@ -7,6 +7,13 @@ use Webshop\Core\EntityManagerFactory;
 
 class Router
 {
+    private $entityManager;
+
+    public function __construct()
+    {
+        $this->entityManager = EntityManagerFactory::getEntityManager();
+    }
+
     public function dispatch(string $uri): void
     {
         // URL elemeinek szétbontása
@@ -15,16 +22,19 @@ class Router
         $method = $segments[1] ?? 'index';
         $params = array_slice($segments, 2);
 
+        // Próbáljuk meg mindkét névtérben megtalálni a controller-t
         $controllerClass = "\\Webshop\\Controllers\\{$controller}";
+        if (!class_exists($controllerClass)) {
+            $controllerClass = "\\Webshop\\Controller\\{$controller}";
+        }
 
         if (!class_exists($controllerClass)) {
             $this->handleError();
             return;
         }
 
-        // EntityManager létrehozása az EntityManagerFactory segítségével
-        $entityManager = EntityManagerFactory::getEntityManager();
-        $instance = new $controllerClass($entityManager);
+        // Controller példányosítása az EntityManager-rel
+        $instance = new $controllerClass($this->entityManager);
 
         try {
             $reflection = new \ReflectionMethod($controllerClass, $method);
@@ -48,6 +58,6 @@ class Router
 
     private function handleError(): void
     {
-        (new ErrorController)->index();
+        (new ErrorController($this->entityManager))->index();
     }
 }

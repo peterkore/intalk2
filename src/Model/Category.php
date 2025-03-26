@@ -7,21 +7,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
-#[ORM\Table(name: "category")]
+#[ORM\Table(name: 'categories')]
 class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: 'integer')]
     private int|null $id = null;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: "category", targetEntity: Product::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
     private Collection $products;
 
     public function __construct()
@@ -39,9 +39,10 @@ class Category
         return htmlspecialchars($this->name);
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -49,9 +50,10 @@ class Category
         return $this->description ? htmlspecialchars($this->description) : null;
     }
 
-    public function setDescription(?string $description): void
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
     }
 
     public function getProducts(): Collection
@@ -59,20 +61,22 @@ class Category
         return $this->products;
     }
 
-    public function addProduct(Product $product): void
+    public function addProduct(Product $product): self
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
             $product->setCategory($this);
         }
+        return $this;
     }
 
-    public function removeProduct(Product $product): void
+    public function removeProduct(Product $product): self
     {
         if ($this->products->removeElement($product)) {
             if ($product->getCategory() === $this) {
                 $product->setCategory(null);
             }
         }
+        return $this;
     }
 } 

@@ -45,10 +45,12 @@ try {
     // Ellenőrzés: Megpróbálunk egyszerű lekérdezést végrehajtani
     $connection->executeQuery('SELECT 1');
 
+    // Az entitymanager példányosítása
+    $entityManager = new EntityManager($connection, $config);
+
 } catch (\Exception $e) {
     // Ha bármilyen hiba történik, kivételt dobunk
     throw new \RuntimeException('Nem sikerült csatlakozni az adatbázishoz: ' . $e->getMessage());
 }
 
-// Az entitymanager példányosítása
-$entityManager = new EntityManager($connection, $config);
+return $entityManager;

@@ -1,62 +1,72 @@
 #!/usr/bin/env php
 <?php
-// create_product.php <name> [--price=100] [--stock=10] [--sku=ABC123] [--brand=BrandName] [--model=ModelName] [--attr="color=red,size=35"]
+// create_product.php <name> <price> <stock> <sku> <brand> <model> <category> [--description="Description"] [--attr="color=red,size=35"]
 use Webshop\Model\Product;
 use Webshop\Model\ProductAttribute;
+use Webshop\Model\Category;
 
 require_once "vendor/autoload.php";
 require __DIR__ . '/../src/Bootstrap.php';
 
-$newProductName = $argv[1];
-if ($newProductName != '') {
-    $product = new Product();
-    $product->setName($newProductName);
-    
-    // Alapértelmezett értékek
-    $product->setPrice(0);
-    $product->setStock(0);
-    
-    // Paraméterek feldolgozása
-    for ($i = 2; $i < count($argv); $i++) {
-        $arg = $argv[$i];
-        if (strpos($arg, '--') === 0) {
-            $parts = explode('=', substr($arg, 2));
-            if (count($parts) === 2) {
-                $key = $parts[0];
-                $value = $parts[1];
-                
-                switch ($key) {
-                    case 'price':
-                        $product->setPrice((float)$value);
-                        break;
-                    case 'stock':
-                        $product->setStock((int)$value);
-                        break;
-                    case 'sku':
-                        $product->setSku($value);
-                        break;
-                    case 'brand':
-                        $product->setBrand($value);
-                        break;
-                    case 'model':
-                        $product->setModel($value);
-                        break;
-                    case 'attr':
-                        $attributes = explode(',', $value);
-                        foreach ($attributes as $attr) {
-                            list($name, $val) = explode('=', $attr);
-                            $product->setAttribute($name, $val);
-                        }
-                        break;
-                }
+// Ellenőrizzük, hogy van-e elég argumentum
+if (count($argv) < 8) {
+    echo "Használat: php create_product.php <name> <price> <stock> <sku> <brand> <model> <category> [--description=\"Description\"] [--attr=\"color=red,size=35\"]\n";
+    exit(1);
+}
+
+// Alapvető adatok kinyerése
+$name = $argv[1];
+$price = (float)$argv[2];
+$stock = (int)$argv[3];
+$sku = $argv[4];
+$brand = $argv[5];
+$model = $argv[6];
+$categoryName = $argv[7];
+
+// Kategória keresése
+$category = $entityManager->getRepository(Category::class)->findOneBy(['name' => $categoryName]);
+if (!$category) {
+    echo "Hiba: A megadott kategória nem található: {$categoryName}\n";
+    exit(1);
+}
+
+// Termék létrehozása
+$product = new Product();
+$product->setName($name);
+$product->setPrice($price);
+$product->setStock($stock);
+$product->setSku($sku);
+$product->setBrand($brand);
+$product->setModel($model);
+$product->setCategory($category);
+
+// További paraméterek feldolgozása
+for ($i = 8; $i < count($argv); $i++) {
+    $arg = $argv[$i];
+    if (strpos($arg, '--') === 0) {
+        $parts = explode('=', substr($arg, 2));
+        if (count($parts) === 2) {
+            $key = $parts[0];
+            $value = $parts[1];
+            
+            switch ($key) {
+                case 'description':
+                    $product->setDescription($value);
+                    break;
+                case 'attr':
+                    $attributes = explode(',', $value);
+                    foreach ($attributes as $attr) {
+                        list($name, $val) = explode('=', $attr);
+                        $product->setAttribute($name, $val);
+                    }
+                    break;
             }
         }
     }
-    
-    $entityManager->persist($product);
-    $entityManager->flush();
-
-    echo "Created Product with ID " . $product->getId() . "\n";
-} else {
-    echo "Usage: php create_product.php <name> [--price=100] [--stock=10] [--sku=ABC123] [--brand=BrandName] [--model=ModelName] [--attr=\"color=red,size=35\"]\n";
 }
+
+// Mentés az adatbázisba
+$entityManager->persist($product);
+$entityManager->flush();
+
+echo "Termék létrehozva: {$name} (SKU: {$sku})\n";

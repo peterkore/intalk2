@@ -3,9 +3,10 @@
 namespace Webshop\Core;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\Console\ConsoleRunner;
 use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use Doctrine\DBAL\DriverManager;
 
 class EntityManagerFactory
 {
@@ -27,8 +28,9 @@ class EntityManagerFactory
                 'charset'  => $_ENV['DB_CHARSET']
             ];
 
-            $config = Setup::createAttributeMetadataConfiguration($paths, $isDevMode);
-            self::$entityManager = EntityManager::create($dbParams, $config);
+            $config = ORMSetup::createAttributeMetadataConfiguration($paths, $isDevMode);
+            $connection = DriverManager::getConnection($dbParams, $config);
+            self::$entityManager = new EntityManager($connection, $config);
         }
 
         return self::$entityManager;

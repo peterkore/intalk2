@@ -3,7 +3,7 @@
         'name' => 'app/webshop',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '26d3375322eac32e12e85d48ca5ff7619f58713c',
+        'reference' => '3d7b567e7c001e2b1632b7270591d8c7dc3efc3a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'app/webshop' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '26d3375322eac32e12e85d48ca5ff7619f58713c',
+            'reference' => '3d7b567e7c001e2b1632b7270591d8c7dc3efc3a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
