@@ -3,20 +3,28 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-use Webshop\Router;
+require_once __DIR__ . '/../vendor/autoload.php';
 
-require_once __DIR__ . "/../vendor/autoload.php";
+use Dotenv\Dotenv;
+use Webshop\Router;
+use Webshop\Core\EntityManagerFactory;
+
+// Környezeti változók betöltése
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
+// Entity Manager inicializálása
+$entityManager = EntityManagerFactory::getEntityManager();
+
+// Router inicializálása
+$router = new Router();
+
+// Kérés feldolgozása
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 try {
-    // Router példányosítása
-    $router = new Router();
-
-    // Request URI beolvasása
-    $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-    // Router vezénylése
     $router->dispatch($uri);
 } catch (Exception $e) {
-    // Hibakezelés
-    echo "Error: " . $e->getMessage();
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
 }

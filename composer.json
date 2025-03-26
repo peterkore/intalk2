@@ -1,12 +1,14 @@
 {
-    "name": "intalk2/webshop",
-    "description": "GDE webshop project",
+    "name": "app/webshop",
+    "description": "Webshop alkalmazás",
     "type": "project",
     "require": {
-        "doctrine/orm": "^3.3",
-        "doctrine/dbal": "^4.2",
-        "vlucas/phpdotenv": "^5.6",
-        "symfony/cache": "^6.4"
+        "php": "^8.0",
+        "vlucas/phpdotenv": "^5.5",
+        "doctrine/orm": "^2.11",
+        "doctrine/dbal": "^3.3",
+        "doctrine/annotations": "^2.0",
+        "symfony/cache": "^6.0"
     },
     "license": "MIT",
     "autoload": {

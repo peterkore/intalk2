@@ -1,9 +1,8 @@
 <?php
 
-namespace Webshop;
+namespace Webshop\Core;
 
 use Webshop\Controllers\ErrorController;
-use Webshop\Core\EntityManagerFactory;
 
 class Router
 {
@@ -50,4 +49,4 @@ class Router
     {
         (new ErrorController)->index();
     }
-}
+} 

@@ -45,6 +45,60 @@ cp .env.example .env
 
 ### Módosítsad az .env fájl tartalmát, adjad meg saját rendszered sql hozzáférésének adatait
 
+## Adatbázis kezelése
+
+### Adatbázis séma létrehozása
+```console
+php bin/doctrine orm:schema-tool:create
+```
+
+### Adatbázis séma törlése
+```console
+php bin/doctrine orm:schema-tool:drop --force
+```
+
+### Adatbázis újratöltése
+```console
+php bin/seed_database
+```
+
+A `seed_database` szkript a következő adatokat tölti be az adatbázisba:
+
+#### Kategóriák
+- Kutyaeledel
+- Macskaeledel
+- Felszerelések
+- Higiénia
+- Kiegészítők
+
+#### Felhasználók
+- Admin User (admin@petshop.hu)
+- Test User (test@petshop.hu)
+
+#### Termékek
+- Royal Canin Adult (Kutyaeledel) - 8999 Ft
+- Whiskas Csirke (Macskaeledel) - 399 Ft
+- Flexi póráz (Felszerelések) - 4999 Ft
+- Macska kaparófa (Felszerelések) - 12999 Ft
+- Kutyasampon (Higiénia) - 2499 Ft
+- Macska alom (Higiénia) - 3999 Ft
+- Kutya fekhely (Kiegészítők) - 6999 Ft
+- Macska szállítóbox (Kiegészítők) - 5999 Ft
+
+### Egyedi termék létrehozása
+```console
+php bin/create_product "Termék neve" --price=1000 --stock=10 --sku="ABC123" --brand="Márka" --model="Modell" --attr="color=red,size=35"
+```
+
+### Egyedi kategória létrehozása
+```console
+php bin/create_category "Kategória neve" --description="Kategória leírása"
+```
+
+### Egyedi felhasználó létrehozása
+```console
+php bin/create_user "Felhasználó neve" "email@example.com" "jelszó"
+```
 
 ## Termékek létrehozása
 
@@ -103,8 +157,6 @@ if(empty($id) && isset($_GET['id'])){
 ```
 
 A gyökér és a public folder alatt található .htaccess fájlokban meghatározott átírányítások részleteiért lásd: *https://stackoverflow.com/questions/23635746/htaccess-redirect-from-site-root-to-public-folder-hiding-public-in-url*
-
-
 
 ## Extrák
 A szemléltetés kedvéért kialakítottam egy alap MVC struktúrát, valamint az adatbázis kezeléséhez beállításra került a doctrine ORM is az alkalmazásban. Ezek a részek igény szerint cserélhetőek.
