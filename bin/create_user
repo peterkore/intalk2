@@ -2,25 +2,35 @@
 <?php
 // create_user.php <name> <email> <password>
 use Webshop\Model\User;
+use Webshop\Core\EntityManagerFactory;
 
-require_once "vendor/autoload.php";
+require_once __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/Bootstrap.php';
 
-if (count($argv) < 4) {
-    echo "Usage: php create_user.php <name> <email> <password>\n";
+// Parancssori argumentumok feldolgozása
+$options = getopt('', ['role:']);
+$name = $argv[1] ?? null;
+$email = $argv[2] ?? null;
+$password = $argv[3] ?? null;
+$role = $options['role'] ?? User::ROLE_CUSTOMER;
+
+if (!$name || !$email || !$password) {
+    echo "Használat: php create_user.php \"Név\" \"email@example.com\" \"jelszó\" [--role=ROLE_CUSTOMER]\n";
     exit(1);
 }
 
-$name = $argv[1];
-$email = $argv[2];
-$password = $argv[3];
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
 
+// Felhasználó létrehozása
 $user = new User();
 $user->setName($name);
 $user->setEmail($email);
-$user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+$user->setPassword($password);
+$user->setRole($role);
 
+// Mentés az adatbázisba
 $entityManager->persist($user);
 $entityManager->flush();
 
-echo "Created User with ID " . $user->getId() . "\n"; 
+echo "Felhasználó létrehozva: {$name} ({$role})\n"; 

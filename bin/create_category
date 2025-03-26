@@ -2,37 +2,53 @@
 <?php
 // create_category.php <name> [--description="Category description"]
 use Webshop\Model\Category;
+use Webshop\Core\EntityManagerFactory;
 
-require_once "vendor/autoload.php";
+require_once __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../src/Bootstrap.php';
 
-$newCategoryName = $argv[1];
-if ($newCategoryName != '') {
-    $category = new Category();
-    $category->setName($newCategoryName);
-    
-    // Paraméterek feldolgozása
-    for ($i = 2; $i < count($argv); $i++) {
-        $arg = $argv[$i];
-        if (strpos($arg, '--') === 0) {
-            $parts = explode('=', substr($arg, 2));
-            if (count($parts) === 2) {
-                $key = $parts[0];
-                $value = $parts[1];
-                
-                switch ($key) {
-                    case 'description':
-                        $category->setDescription($value);
-                        break;
-                }
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
+
+// Ellenőrizzük, hogy van-e elég argumentum
+if (count($argv) < 2) {
+    echo "Használat: php create_category.php <name> [--description=\"Category description\"]\n";
+    exit(1);
+}
+
+$name = $argv[1];
+$description = null;
+
+// Paraméterek feldolgozása
+for ($i = 2; $i < count($argv); $i++) {
+    $arg = $argv[$i];
+    if (strpos($arg, '--') === 0) {
+        $parts = explode('=', substr($arg, 2));
+        if (count($parts) === 2) {
+            $key = $parts[0];
+            $value = $parts[1];
+            
+            switch ($key) {
+                case 'description':
+                    $description = $value;
+                    break;
             }
         }
     }
-    
+}
+
+try {
+    $category = new Category();
+    $category->setName($name);
+    if ($description) {
+        $category->setDescription($description);
+    }
+
     $entityManager->persist($category);
     $entityManager->flush();
 
-    echo "Created Category with ID " . $category->getId() . "\n";
-} else {
-    echo "Usage: php create_category.php <name> [--description=\"Category description\"]\n";
+    echo "✓ Kategória létrehozva: {$name}" . ($description ? " ({$description})" : "") . "\n";
+} catch (\Exception $e) {
+    echo "Hiba történt: " . $e->getMessage() . "\n";
+    exit(1);
 } 

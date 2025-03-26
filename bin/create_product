@@ -1,18 +1,17 @@
 #!/usr/bin/env php
 <?php
-// create_product.php <name> [--price=100] [--stock=10] [--sku=ABC123] [--brand=BrandName] [--model=ModelName] [--attr="color=red,size=35"]
+// create_product.php <name> <price> <stock> <sku> <brand> <model> <category> [--description="Description"] [--attr="color=red,size=35"]
 use Webshop\Model\Product;
 use Webshop\Model\ProductAttribute;
+use Webshop\Model\Category;
 
 require_once "vendor/autoload.php";
 require __DIR__ . '/../src/Bootstrap.php';
 
 $newProductName = $argv[1];
-$newProductQuantity = $argv[2];
 if ($newProductName != '') {
     $product = new Product();
     $product->setName($newProductName);
-    $product->setQuantity($newProductQuantity);
     
     // Alapértelmezett értékek
     $product->setPrice(0);
@@ -58,7 +57,4 @@ if ($newProductName != '') {
     $entityManager->persist($product);
     $entityManager->flush();
 
-    echo "Created Product with ID " . $product->getId() . "\n";
-} else {
-    echo "Usage: php create_product.php <name> [--price=100] [--stock=10] [--sku=ABC123] [--brand=BrandName] [--model=ModelName] [--attr=\"color=red,size=35\"]\n";
-}
+echo "Termék létrehozva: {$name} (SKU: {$sku})\n";
