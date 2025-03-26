@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+// create_user.php <name> <email> <password>
+use Webshop\Model\User;
+
+require_once "vendor/autoload.php";
+require __DIR__ . '/../src/Bootstrap.php';
+
+if (count($argv) < 4) {
+    echo "Usage: php create_user.php <name> <email> <password>\n";
+    exit(1);
+}
+
+$name = $argv[1];
+$email = $argv[2];
+$password = $argv[3];
+
+$user = new User();
+$user->setName($name);
+$user->setEmail($email);
+$user->setPassword(password_hash($password, PASSWORD_DEFAULT));
+
+$entityManager->persist($user);
+$entityManager->flush();
+
+echo "Created User with ID " . $user->getId() . "\n"; 

@@ -2,20 +2,29 @@
 
 namespace Webshop\Controllers;
 
-use Webshop\View;
 use Webshop\Model\Product;
+use Webshop\View;
 use Webshop\BaseController;
 
 class ProductController extends BaseController
 {
-    public function view($id = '')
+    public function view(int $id): void
     {
-        if(empty($id) && isset($_GET['id'])){
-            $id = $_GET['id'];
+        $productRepository = $this->entityManager->getRepository(Product::class);
+        $product = $productRepository->find($id);
+
+        if (!$product) {
+            $this->handleError();
+            return;
         }
         echo (new View())->render('product.php', [
             'title' => 'Terméklap',
             'product' => $this->entityManager->find(Product::class, $id) ?? new class {}
         ]);
+    }
+
+    private function handleError(): void
+    {
+        (new ErrorController($this->entityManager))->index();
     }
 }

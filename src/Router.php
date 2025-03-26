@@ -3,6 +3,7 @@
 namespace Webshop;
 
 use Webshop\Controllers\ErrorController;
+use Webshop\Core\EntityManagerFactory;
 
 class Router
 {
@@ -20,8 +21,9 @@ class Router
             $this->handleError();
             return;
         }
-        // Az entityManager eléréséhez Betöltjük a Bootstrap.php-t.
-        require_once __DIR__ . '/../src/Bootstrap.php';
+
+        // EntityManager létrehozása az EntityManagerFactory segítségével
+        $entityManager = EntityManagerFactory::getEntityManager();
         $instance = new $controllerClass($entityManager);
 
         try {
@@ -30,6 +32,7 @@ class Router
             // A metódus paramétereinek számának lekérése
             $totalParams = $reflection->getNumberOfParameters();
             $requiredParams = $reflection->getNumberOfRequiredParameters();
+            
             // Amennyiben kevesebb vagy több paramétert találunk az URL-ben adjunk 404-et.
             if (count($params) > $totalParams || count($params) < $requiredParams) {
                 $this->handleError();

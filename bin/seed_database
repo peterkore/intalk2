@@ -1,0 +1,144 @@
+#!/usr/bin/env php
+<?php
+// seed_database.php
+require_once "vendor/autoload.php";
+require __DIR__ . '/../src/Bootstrap.php';
+
+echo "Starting database seeding...\n\n";
+
+// Kategóriák létrehozása
+echo "Creating categories...\n";
+$categories = [
+    ['name' => 'Kutyaeledel', 'description' => 'Száraz és nedves tápok kutyáknak'],
+    ['name' => 'Macskaeledel', 'description' => 'Száraz és nedves tápok macskáknak'],
+    ['name' => 'Felszerelések', 'description' => 'Nyakörvek, pórázok, játékok'],
+    ['name' => 'Higiénia', 'description' => 'Samponok, kefék, almok'],
+    ['name' => 'Kiegészítők', 'description' => 'Tálak, fekhelyek, szállítóboxok']
+];
+
+foreach ($categories as $category) {
+    $cmd = sprintf(
+        'php "%s/create_category" "%s" --description="%s"',
+        __DIR__,
+        $category['name'],
+        $category['description']
+    );
+    system($cmd);
+    echo "Created category: {$category['name']}\n";
+}
+echo "\n";
+
+// Felhasználók létrehozása
+echo "Creating users...\n";
+$users = [
+    ['name' => 'Admin User', 'email' => 'admin@petshop.hu', 'password' => 'admin123'],
+    ['name' => 'Test User', 'email' => 'test@petshop.hu', 'password' => 'test123']
+];
+
+foreach ($users as $user) {
+    $cmd = sprintf(
+        'php "%s/create_user" "%s" "%s" "%s"',
+        __DIR__,
+        $user['name'],
+        $user['email'],
+        $user['password']
+    );
+    system($cmd);
+    echo "Created user: {$user['name']}\n";
+}
+echo "\n";
+
+// Termékek létrehozása
+echo "Creating products...\n";
+$products = [
+    [
+        'name' => 'Royal Canin Adult',
+        'price' => 8999,
+        'stock' => 50,
+        'sku' => 'DOG-FOOD-001',
+        'brand' => 'Royal Canin',
+        'model' => 'Adult',
+        'attributes' => 'weight=10kg,type=dry,age=adult'
+    ],
+    [
+        'name' => 'Whiskas Csirke',
+        'price' => 399,
+        'stock' => 200,
+        'sku' => 'CAT-FOOD-001',
+        'brand' => 'Whiskas',
+        'model' => 'Classic',
+        'attributes' => 'weight=100g,type=wet,flavor=chicken'
+    ],
+    [
+        'name' => 'Flexi póráz',
+        'price' => 4999,
+        'stock' => 30,
+        'sku' => 'DOG-LEASH-001',
+        'brand' => 'Flexi',
+        'model' => 'Classic',
+        'attributes' => 'length=5m,color=black,size=L'
+    ],
+    [
+        'name' => 'Macska kaparófa',
+        'price' => 12999,
+        'stock' => 15,
+        'sku' => 'CAT-TREE-001',
+        'brand' => 'PetComfort',
+        'model' => 'Tower',
+        'attributes' => 'height=150cm,color=beige,material=sisal'
+    ],
+    [
+        'name' => 'Kutyasampon',
+        'price' => 2499,
+        'stock' => 40,
+        'sku' => 'DOG-SHAM-001',
+        'brand' => 'PetCare',
+        'model' => 'Sensitive',
+        'attributes' => 'volume=250ml,type=sensitive,scent=neutral'
+    ],
+    [
+        'name' => 'Macska alom',
+        'price' => 3999,
+        'stock' => 60,
+        'sku' => 'CAT-LIT-001',
+        'brand' => 'CatSan',
+        'model' => 'Ultra',
+        'attributes' => 'weight=5kg,type=clumping,scent=fresh'
+    ],
+    [
+        'name' => 'Kutya fekhely',
+        'price' => 6999,
+        'stock' => 25,
+        'sku' => 'DOG-BED-001',
+        'brand' => 'DogComfort',
+        'model' => 'Luxury',
+        'attributes' => 'size=XL,color=brown,material=memory_foam'
+    ],
+    [
+        'name' => 'Macska szállítóbox',
+        'price' => 5999,
+        'stock' => 20,
+        'sku' => 'CAT-CAR-001',
+        'brand' => 'PetSafe',
+        'model' => 'Travel',
+        'attributes' => 'size=M,color=gray,material=plastic'
+    ]
+];
+
+foreach ($products as $product) {
+    $cmd = sprintf(
+        'php "%s/create_product" "%s" --price=%d --stock=%d --sku="%s" --brand="%s" --model="%s" --attr="%s"',
+        __DIR__,
+        $product['name'],
+        $product['price'],
+        $product['stock'],
+        $product['sku'],
+        $product['brand'],
+        $product['model'],
+        $product['attributes']
+    );
+    system($cmd);
+    echo "Created product: {$product['name']}\n";
+}
+
+echo "\nDatabase seeding completed!\n"; 

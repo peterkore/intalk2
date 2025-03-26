@@ -2,6 +2,9 @@
 // Hibaüzenetek megjelenítése a fejlesztés idejére.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+session_start();
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Session indítása 
 session_start();
@@ -18,6 +21,7 @@ try {
     // Router vezénylése
     $router->dispatch($uri);
 } catch (Exception $e) {
-    // Hibakezelés
-    echo "Error: " . $e->getMessage();
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
 }
+

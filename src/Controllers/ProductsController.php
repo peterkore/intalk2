@@ -2,13 +2,13 @@
 
 namespace Webshop\Controllers;
 
-use Webshop\View;
 use Webshop\Model\Product;
+use Webshop\View;
 use Webshop\BaseController;
 
 class ProductsController extends BaseController
 {
-    public function index()
+    public function index(): void
     {
         $productRepository = $this->entityManager->getRepository(Product::class);
         echo (new View())->render('products.php', [
