@@ -48,7 +48,12 @@ class Router
                 $this->handleError();
                 return;
             } else {
-                $reflection->invokeArgs($instance, $params);
+                try {
+                    $reflection->invokeArgs($instance, $params);
+                } catch (\Throwable $th) {
+                    echo $th->getMessage();
+                }
+               
             }
         } catch (\Throwable $th) {
             $this->handleError();

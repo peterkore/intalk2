@@ -17,9 +17,10 @@ class ProductController extends BaseController
             $this->handleError();
             return;
         }
+
         echo (new View())->render('product.php', [
-            'title' => 'Terméklap',
-            'product' => $this->entityManager->find(Product::class, $id) ?? new class {}
+            'title' => $product->getName() . ' - Állatwebshop',
+            'product' => $product
         ]);
     }
 
