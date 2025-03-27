@@ -3,7 +3,7 @@
 namespace Webshop;
 
 
-class BaseController
+abstract class BaseController
 {
     protected $entityManager;
 

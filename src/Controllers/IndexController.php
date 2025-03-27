@@ -3,6 +3,7 @@
 namespace Webshop\Controllers;
 
 use Webshop\View;
+use Webshop\BaseController;
 
 class IndexController extends BaseController
 {
