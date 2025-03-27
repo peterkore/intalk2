@@ -8,15 +8,17 @@ use Webshop\BaseController;
 
 class ProductsController extends BaseController
 {
+    // Termékek lap
     public function index(): void
     {
         $productRepository = $this->entityManager->getRepository(Product::class);
         echo (new View())->render('products.php', [
-            'title' => 'Termék lista',
+            'title' => 'Termékek - Állatwebshop',
             'products' => $productRepository->findAll()
         ]);
     }
 
+    // Minta json formátumú adat visszadására pl. ajax kérésekhez (/products/jsonproduct)
     public function jsonProduct()
     {
         $productRepository = $this->entityManager->getRepository(Product::class);
@@ -30,7 +32,6 @@ class ProductsController extends BaseController
             ];
         }, $products);
 
-        // Json válasz visszaadásához a jsonResponse.php-t töltjük be, amely json 
         // Válasz beállítása JSON formátumban
         header("Content-Type: application/json");
         echo json_encode($responseData);

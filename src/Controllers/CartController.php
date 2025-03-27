@@ -40,7 +40,7 @@ class CartController extends BaseController
             $this->sendAjaxResponse('A megadott azonosítójú termék nem létezik');
         }
         // Lekérjük az adott termék készletét
-        $stockQuantity = $product->getQuantity();
+        $stockQuantity = $product->getStock();
         // GET paraméterből kivesszük a kosárba teendő termékmennyiséget (ha nem kaptunk adatot, 1 db termékkel dolgozunk)
         $requestedQuantity = $_GET['quantity'] ?? 1;
         // Megvizsgáljuk, hogy rendelkezésre áll e a kért mennyiség a készletben

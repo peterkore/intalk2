@@ -1,15 +1,17 @@
 <?php
+
 // Hibaüzenetek megjelenítése a fejlesztés idejére.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-session_start();
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
 // Session indítása 
 session_start();
 
+// Autoloader betöltése
 require_once __DIR__ . "/../vendor/autoload.php";
+
+// .env fájl használata
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
 
 try {
     // Router példányosítása

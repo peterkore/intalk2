@@ -20,7 +20,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
                 <tr>
                     <td><?= $id ?></td>
                     <td><?= $product->getName() ?></td>
-                    <td id="prodcuct-quantity"><?= $product->getQuantity() ?></td>
+                    <td id="prodcuct-quantity"><?= $product->getStock() ?></td>
                     <td>
                         <button class="btn btn-success btn-sm add-to-cart-btn" data-id="<?= $id ?>" data-quantity="1">Kosárba</button>
                         <button class="btn btn-success btn-sm add-to-cart-btn" data-id="<?= $id ?>" data-quantity="-1">Törlés</button>
