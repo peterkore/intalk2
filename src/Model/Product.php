@@ -16,6 +16,9 @@ class Product
     #[ORM\Column(type: "string", length: 255)]
     private string $name;
 
+    #[ORM\Column(type: "integer")]
+    private int|null $quantity = null;
+
     // Getter és setter metódusok
     public function getId(): ?int
     {
@@ -30,5 +33,15 @@ class Product
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        $this->quantity = $quantity;
     }
 }

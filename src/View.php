@@ -31,9 +31,7 @@ class View
         ob_start();
         ob_implicit_flush(false);
         extract($params, EXTR_OVERWRITE);
-
         require $viewPath;
-
         return ob_get_clean();
     }
 }

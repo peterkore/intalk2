@@ -30,7 +30,7 @@ git clone https://github.com/peterkore/intalk2.git
 
 ### Lépjél be a könyvtárba (például ha a /var/www alá szeretnéd elhelyezni a porjektet)
 ```console
-cd ./intalk2
+cd ./webshop
 ```
 
 ### Telepítsed a composer csomagokat
@@ -55,7 +55,7 @@ php bin/doctrine orm:schema-tool:create
 
 ### adjál hozzá egy terméket az adatbázishoz
 ```console
-php bin/create_product test3
+php bin/create_product TERMÉKNÉV MENNYISÉG
 ```
 &nbsp;
 &nbsp;

@@ -1,43 +1,7 @@
 <IfModule mod_rewrite.c>
-    #RewriteEngine On
-
-    # Ha a fájl vagy könyvtár létezik, hagyja figyelmen kívül
-    #RewriteCond %{REQUEST_FILENAME} !-f
-    #RewriteCond %{REQUEST_FILENAME} !-d
-
-    # Irányítsa az összes többi kérést az index.php-hoz
-    #RewriteRule ^(.*)$ index.php [QSA,L]
-
-
-    RewriteEngine On
-
-    # # Ha a fájl vagy könyvtár létezik a /public mappában, oda irányítjuk
-    # RewriteCond %{DOCUMENT_ROOT}/public/%{REQUEST_URI} -f [OR]
-    # RewriteCond %{DOCUMENT_ROOT}/public/%{REQUEST_URI} -d
-    # RewriteRule ^ /public/%{REQUEST_URI} [L]
-    
-    # # Ha nem létezik, irányítsuk az index.php-ra, de zárjuk ki az index.php-t
-    # RewriteCond %{REQUEST_URI} !^/public/index.php$
-    # RewriteRule ^ /public/index.php [L]
-
-    # Ha a fájl vagy könyvtár létezik, de nem az index.php, oda irányítsuk
-    #RewriteCond %{DOCUMENT_ROOT}/public/%{REQUEST_URI} -f [OR]
-    #RewriteCond %{DOCUMENT_ROOT}/public/%{REQUEST_URI} -d
-
-
-    #RewriteCond %{REQUEST_URI} !^/index.php$
-    #RewriteCond %{REQUEST_URI} !^/public [NC]
-    #RewriteRule ^ /public/%{REQUEST_URI} [L]
-
-    # Az összes más kérés az index.php-ra irányul
-    # RewriteRule ^ /public/index.php [L]
-
     RewriteEngine On
     RewriteBase /
-
     RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
     RewriteRule ^ %1 [L,NE,R=302]
-
     RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
-
 </IfModule>

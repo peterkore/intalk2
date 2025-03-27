@@ -14,6 +14,7 @@ class ProductController extends BaseController
             $id = $_GET['id'];
         }
         echo (new View())->render('product.php', [
+            'title' => 'Terméklap',
             'product' => $this->entityManager->find(Product::class, $id) ?? new class {}
         ]);
     }

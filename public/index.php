@@ -3,13 +3,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-use Webshop\Router;
+// Session indítása 
+session_start();
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
 try {
     // Router példányosítása
-    $router = new Router();
+    $router = new \Webshop\Router();
 
     // Request URI beolvasása
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

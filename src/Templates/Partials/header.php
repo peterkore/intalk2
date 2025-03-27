@@ -1,3 +1,8 @@
+<?php
+if (isset($statusCode)) {
+    http_response_code($statusCode);
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -18,6 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="/products">Termékek</a>
+                    <a class="nav-link active" aria-current="page" href="/cart ">Kosár</a>
                 </div>
             </div>
         </div>

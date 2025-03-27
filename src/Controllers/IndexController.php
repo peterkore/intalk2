@@ -8,6 +8,8 @@ class IndexController
 {
     public function index()
     {
-        echo (new View())->render('index.php', []);
+        echo (new View())->render('index.php', [
+            'title' => 'Webshop index'
+        ]);
     }
 }
