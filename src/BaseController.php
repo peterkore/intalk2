@@ -9,9 +9,9 @@ abstract class BaseController
 {
     protected $entityManager;
 
-    public function __construct($entityManager)
+    public function __construct()
     {
-        $this->entityManager = $entityManager;
+        $this->entityManager = EntityManagerFactory::getEntityManager();
     }
 
     //Protected láthatóságú metódus ajax kérés kezelésére, JSON response adással    

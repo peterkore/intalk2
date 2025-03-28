@@ -21,7 +21,7 @@ class View
      */
     public function render(string $view, array $params = []): string
     {
-        // Összeállítjuk a nézet fájl elérési útvonalát az aktuális könyvtárból, a basePath változó értékéből, illetve és a nézet fájl nevéből
+        // Összeállítjuk a nézet fájl elérési útvonalát az aktuális könyvtárból, a basePath változó értékéből, illetve a nézet fájl nevéből
         $viewPath = __DIR__ . DIRECTORY_SEPARATOR . $this->basePath . DIRECTORY_SEPARATOR . $view;
 
         // Ellenőrizzük, hogy létezik-e a nézet fájl

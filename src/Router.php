@@ -7,13 +7,6 @@ use Webshop\EntityManagerFactory;
 
 class Router
 {
-    private $entityManager;
-
-    public function __construct()
-    {
-        $this->entityManager = EntityManagerFactory::getEntityManager();
-    }
-
     public function dispatch(string $uri): void
     {
         // URL elemeinek szétbontása
@@ -29,14 +22,14 @@ class Router
         // Az aktuális kontroller osztály teljes nevét meghatározzuk a `\\Webshop\\Controllers` névtérben keresve
         $controllerClass = "\\Webshop\\Controllers\\{$controller}";
 
-        //// Ha a kontroller osztály nem létezik a névtérben, hiba kezelést végzünk és kilépünk
+        // Ha a kontroller osztály nem létezik a névtérben, hiba kezelést végzünk és kilépünk
         if (!class_exists($controllerClass)) {
             $this->handleError();
             return;
         }
 
-        // Controller példányosítása az EntityManager-rel
-        $instance = new $controllerClass($this->entityManager);
+        // Controller példányosítása a
+        $instance = new $controllerClass();
 
         try {
             // példányosítjuk a ReflectionMethod osztályt argumentumként átadva a kontrollerosztályt, illetve annak metódusát
@@ -53,16 +46,16 @@ class Router
                 return;
             } else {
                 try {
-                    //Dinamikusan meghívja a kontrollerosztály metódusát átadva a szükséges paramétereket
+                    // Dinamikusan meghívja a kontrollerosztály metódusát átadva a szükséges paramétereket
                     $reflection->invokeArgs($instance, $params);
-                    //Ha nem sikerül, hibakezelést hajt végre
+                    // Ha nem sikerül, hibakezelést hajt végre
                 } catch (\Throwable $th) {
-                    //Hibaüzenet kiírása
+                    // Hibaüzenet kiírása
                     echo $th->getMessage();
                 }
                
             }
-        //Ha nem sikerül, hibakezelést hajt végre
+        // Ha nem sikerül, hibakezelést hajt végre
         } catch (\Throwable $th) {
             //Meghívhja a handleError() metódust, ami lekezeli a hibát
             $this->handleError();
@@ -72,7 +65,7 @@ class Router
 
     private function handleError(): void
     {
-        //példányosítja az ErrorControl osztályt argumentumként átadva az entityManager példányt és annak index metódusát.
-        (new ErrorController($this->entityManager))->index();
+        // Példányosítja az ErrorController osztályt és meghívja annak index metódusát.
+        (new ErrorController())->index();
     }
 }
