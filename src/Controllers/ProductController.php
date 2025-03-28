@@ -24,8 +24,5 @@ class ProductController extends BaseController
         ]);
     }
 
-    private function handleError(): void
-    {
-        (new ErrorController($this->entityManager))->index();
-    }
+
 }

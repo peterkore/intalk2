@@ -2,10 +2,12 @@
 <?php
 // create_category.php <name> [--description="Category description"]
 use Webshop\Model\Category;
-use Webshop\Core\EntityManagerFactory;
+use Webshop\EntityManagerFactory;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/Bootstrap.php';
+// .env konfigurációs fájl használata ($_ENV superglobalban)
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
 
 // EntityManager létrehozása
 $entityManager = EntityManagerFactory::getEntityManager();

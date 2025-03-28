@@ -1,14 +1,16 @@
 <?php
 
-namespace Webshop\Controller;
+namespace Webshop\Controllers;
 
-use Webshop\Core\Controller;
+use Webshop\View;
+use Webshop\Model\User;
 use Webshop\Core\Request;
 use Webshop\Core\Response;
-use Webshop\Model\User;
-use Webshop\Core\EntityManagerFactory;
+use Webshop\EntityManagerFactory;
 
-class AuthController extends Controller
+
+
+class AuthController
 {
     private $entityManager;
 
@@ -17,7 +19,7 @@ class AuthController extends Controller
         $this->entityManager = EntityManagerFactory::getEntityManager();
     }
 
-    public function login(Request $request): Response
+    public function login()
     {
         if ($request->isPost()) {
             $email = $request->getPost('email');
@@ -30,12 +32,15 @@ class AuthController extends Controller
                 return new Response('', 302, ['Location' => '/admin']);
             }
 
-            return $this->render('login', [
-                'error' => 'Érvénytelen email cím vagy jelszó'
+            echo (new View())->render('login.php', [
+                'title' => 'Kezdőlap - Állatwebshop'
             ]);
+
+            // return $this->render('login', [
+            //     'error' => 'Érvénytelen email cím vagy jelszó'
+            // ]);
         }
 
-        return $this->render('login');
     }
 
     public function logout(Request $request): Response

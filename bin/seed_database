@@ -2,7 +2,9 @@
 <?php
 // seed_database.php
 require_once __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../src/Bootstrap.php';
+// .env konfigurációs fájl használata ($_ENV superglobalban)
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
 
 use Webshop\Model\Category;
 use Webshop\Model\User;
@@ -10,7 +12,7 @@ use Webshop\Model\Product;
 use Webshop\Model\Address;
 use Webshop\Model\Order;
 use Webshop\Model\OrderItem;
-use Webshop\Core\EntityManagerFactory;
+use Webshop\EntityManagerFactory;
 
 // EntityManager létrehozása
 $entityManager = EntityManagerFactory::getEntityManager();

@@ -2,11 +2,14 @@
 <?php
 // create_product.php <name> <price> <stock> <sku> <brand> <model> <category> [--description="Description"] [--attr="color=red,size=35"]
 use Webshop\Model\Product;
-use Webshop\Model\ProductAttribute;
-use Webshop\Model\Category;
+use Webshop\EntityManagerFactory;
 
 require_once "vendor/autoload.php";
-require __DIR__ . '/../src/Bootstrap.php';
+// .env konfigurációs fájl használata ($_ENV superglobalban)
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
 
 $newProductName = $argv[1];
 if ($newProductName != '') {
@@ -57,4 +60,5 @@ if ($newProductName != '') {
     $entityManager->persist($product);
     $entityManager->flush();
 
-echo "Termék létrehozva: {$name} (SKU: {$sku})\n";
+//echo "Termék létrehozva: {$name} (SKU: {$sku})\n";
+}

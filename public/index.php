@@ -9,7 +9,7 @@ session_start();
 // Autoloader betöltése
 require_once __DIR__ . "/../vendor/autoload.php";
 
-// .env fájl használata
+// .env konfigurációs fájl használata ($_ENV superglobalban)
 $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->safeLoad();
 

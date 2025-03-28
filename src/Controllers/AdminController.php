@@ -1,25 +1,21 @@
 <?php
 
-namespace Webshop\Controller;
+namespace Webshop\Controllers;
 
+use Webshop\Model\User;
+use Webshop\Model\Order;
+use Webshop\Core\Request;
+use Webshop\Model\Product;
+use Webshop\BaseController;
+use Webshop\Model\Category;
 use Doctrine\ORM\EntityManager;
-use Webshop\Controllers\BaseController;
-use Webshop\Entity\User;
-use Webshop\Entity\Product;
-use Webshop\Entity\Order;
-use Webshop\Entity\Category;
 use Webshop\Model\ProductAttribute;
-use Webshop\Core\EntityManagerFactory;
+use Webshop\EntityManagerFactory;
+
+
 
 class AdminController extends BaseController
 {
-    protected EntityManager $entityManager;
-
-    public function __construct(EntityManager $entityManager)
-    {
-        parent::__construct($entityManager);
-        $this->entityManager = EntityManagerFactory::getEntityManager();
-    }
 
     public function login(): void
     {
@@ -58,11 +54,11 @@ class AdminController extends BaseController
             } else {
                 $error = 'Hibás email vagy jelszó!';
                 error_log('Sikertelen bejelentkezés');
-                require __DIR__ . '/../View/admin/login.php';
+                require __DIR__ . '/../Templates/Admin/login.php';
             }
         } else {
             error_log('Login űrlap megjelenítése');
-            require __DIR__ . '/../View/admin/login.php';
+            require __DIR__ . '/../Templates/Admin/login.php';
         }
     }
 
@@ -82,7 +78,7 @@ class AdminController extends BaseController
         $totalUsers = $this->entityManager->getRepository(User::class)->count([]);
         $totalCategories = $this->entityManager->getRepository(Category::class)->count([]);
 
-        require __DIR__ . '/../View/admin/dashboard.php';
+        require __DIR__ . '/../Templates/Admin/dashboard.php';
     }
 
     public function products(): void
@@ -90,7 +86,7 @@ class AdminController extends BaseController
         $this->checkAdminAuth();
 
         $products = $this->entityManager->getRepository(Product::class)->findAll();
-        require __DIR__ . '/../View/admin/products.php';
+        require __DIR__ . '/../Templates/Admin/products.php';
     }
 
     public function newProduct(): void
@@ -117,7 +113,7 @@ class AdminController extends BaseController
         }
 
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        require __DIR__ . '/../View/admin/product_edit.php';
+        require __DIR__ . '/../Templates/Admin/product_edit.php';
     }
 
     public function editProduct(int $productId): void
@@ -148,7 +144,7 @@ class AdminController extends BaseController
         }
 
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        require __DIR__ . '/../View/admin/product_edit.php';
+        require __DIR__ . '/../Templates/Admin/product_edit.php';
     }
 
     public function deleteProduct(int $productId): void
@@ -170,7 +166,7 @@ class AdminController extends BaseController
         $this->checkAdminAuth();
 
         $orders = $this->entityManager->getRepository(Order::class)->findAll();
-        require __DIR__ . '/../View/admin/orders.php';
+        require __DIR__ . '/../Templates/Admin/orders.php';
     }
 
     public function viewOrder(int $orderId): void
@@ -183,7 +179,7 @@ class AdminController extends BaseController
             exit;
         }
 
-        require __DIR__ . '/../View/admin/order_view.php';
+        require __DIR__ . '/../Templates/Admin/order_view.php';
     }
 
     public function updateOrderStatus(int $orderId): void

@@ -3,6 +3,7 @@
 namespace Webshop\Controllers;
 
 use Webshop\View;
+use Webshop\BaseController;
 
 class ErrorController extends BaseController
 {
