@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'header.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
 ?>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -44,7 +44,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'he
 
                         <div class="mb-3">
                             <label for="category" class="form-label">Kategória</label>
-                            <select class="form-select" id="category" name="category">
+                            <select class="form-select" id="category" name="category_id">
                                 <option value="">Válassz kategóriát</option>
                                 <?php foreach ($categories as $category): ?>
                                     <option value="<?php echo $category->getId(); ?>"
@@ -76,7 +76,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'he
 
                         <div class="mb-3">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="isActive" name="isActive"
+                                <input type="checkbox" class="form-check-input" id="isActive" name="is_active"
                                     <?php echo $product && $product->isActive() ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="isActive">Aktív</label>
                             </div>
@@ -100,7 +100,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'he
                                                 value="<?php echo htmlspecialchars($attribute->getValue()); ?>" placeholder="Érték">
                                         </div>
                                         <div class="col-md-2">
-                                            <button type="button" class="btn btn-danger" onclick="removeAttribute(this)">
+                                            <button type="button" class="btn btn-danger">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
@@ -136,17 +136,34 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'he
                     <input type="text" class="form-control" name="attribute_values[]" placeholder="Érték">
                 </div>
                 <div class="col-md-2">
-                    <button type="button" class="btn btn-danger" onclick="removeAttribute(this)">
+                    <button type="button" class="btn btn-danger">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
             `;
+        const button = newRow.querySelector('.btn-danger');
+        button.addEventListener('click', function() {
+            removeAttribute(button);
+        });
+
+
         attributesDiv.appendChild(newRow);
     }
 
     function removeAttribute(button) {
+        console.log('xxxx', button.closest('.row'))
         button.closest('.row').remove();
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const attributesDiv = document.getElementById('attributes');
+        const buttons = attributesDiv.querySelectorAll('.btn-danger');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                removeAttribute(button);
+            });
+        })
+    })
 </script>
 </body>
 

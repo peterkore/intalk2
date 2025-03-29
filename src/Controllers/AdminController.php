@@ -2,15 +2,14 @@
 
 namespace Webshop\Controllers;
 
+use Webshop\View;
 use Webshop\Model\User;
 use Webshop\Model\Order;
 use Webshop\Core\Request;
 use Webshop\Model\Product;
 use Webshop\BaseController;
 use Webshop\Model\Category;
-use Doctrine\ORM\EntityManager;
 use Webshop\Model\ProductAttribute;
-use Webshop\EntityManagerFactory;
 
 
 
@@ -45,20 +44,21 @@ class AdminController extends BaseController
                 error_log('Felhasználó nem található');
             }
 
-            if ($user && $password === $user->getPassword()) {
+            if ($user && password_verify($password, $user->getPassword())) {
                 $_SESSION['admin_id'] = $user->getId();
                 $_SESSION['admin_email'] = $user->getEmail();
                 error_log('Sikeres bejelentkezés, átirányítás a dashboard-ra');
                 header('Location: /admin/dashboard');
                 exit;
             } else {
-                $error = 'Hibás email vagy jelszó!';
                 error_log('Sikertelen bejelentkezés');
-                require __DIR__ . '/../Templates/Admin/login.php';
+                echo (new View())->render('Admin/login.php', [
+                    'error' => 'Hibás email vagy jelszó!'
+                ]);
             }
         } else {
             error_log('Login űrlap megjelenítése');
-            require __DIR__ . '/../Templates/Admin/login.php';
+            echo (new View())->render('Admin/login.php');
         }
     }
 
@@ -73,20 +73,61 @@ class AdminController extends BaseController
     {
         $this->checkAdminAuth();
 
-        $totalProducts = $this->entityManager->getRepository(Product::class)->count([]);
-        $totalOrders = $this->entityManager->getRepository(Order::class)->count([]);
-        $totalUsers = $this->entityManager->getRepository(User::class)->count([]);
-        $totalCategories = $this->entityManager->getRepository(Category::class)->count([]);
-
-        require __DIR__ . '/../Templates/Admin/dashboard.php';
+        echo (new View())->render('Admin/dashboard.php', [
+            'totalProducts' => $this->entityManager->getRepository(Product::class)->count([]),
+            'totalOrders' => $this->entityManager->getRepository(Order::class)->count([]),
+            'totalUsers' => $this->entityManager->getRepository(User::class)->count([]),
+            'totalCategories' => $this->entityManager->getRepository(Category::class)->count([])
+        ]);
     }
 
-    public function products(): void
+    public function products($method = '', $id = ''): void
     {
         $this->checkAdminAuth();
+        switch ($method) {
+            case 'new':
+                $this->newProduct();
+                break;
+            case 'edit':
+                $this->editProduct($id);
+                break;
+            case 'delete':
+                $this->deleteProduct($id);
+                break;
+            case 'updateOrderStatus':
+                $this->updateOrderStatus($id);
+                break;
 
-        $products = $this->entityManager->getRepository(Product::class)->findAll();
-        require __DIR__ . '/../Templates/Admin/products.php';
+            default:
+                echo (new View())->render('Admin/products.php', [
+                    'title' => 'Kezdőlap - Állatwebshop',
+                    'products' => $this->entityManager->getRepository(Product::class)->findAll()
+                ]);
+                break;
+        }
+    }
+
+
+    public function orders($method = '', $id = ''): void
+    {
+        $this->checkAdminAuth();
+        switch ($method) {
+
+            case 'updateOrderStatus':
+                $this->updateOrderStatus($id);
+                break;
+
+            case 'viewOrder':
+                $this->viewOrder($id);
+                break;
+
+            default:
+                echo (new View())->render('Admin/orders.php', [
+                    'title' => 'Rendelések - Állatwebshop',
+                    'orders' => $this->entityManager->getRepository(Order::class)->findAll()
+                ]);
+                break;
+        }
     }
 
     public function newProduct(): void
@@ -108,12 +149,17 @@ class AdminController extends BaseController
             $this->entityManager->persist($product);
             $this->entityManager->flush();
 
+            $this->updateProductAttributes($product);
+
             header('Location: /admin/products');
             exit;
         }
 
-        $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        require __DIR__ . '/../Templates/Admin/product_edit.php';
+        echo (new View())->render('Admin/product_edit.php', [
+            'title' => 'Kezdőlap - Állatwebshop',
+            'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
+            'product' => false
+        ]);
     }
 
     public function editProduct(int $productId): void
@@ -139,12 +185,16 @@ class AdminController extends BaseController
 
             $this->entityManager->flush();
 
+            $this->updateProductAttributes($product);
+
             header('Location: /admin/products');
             exit;
         }
-
-        $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        require __DIR__ . '/../Templates/Admin/product_edit.php';
+        echo (new View())->render('Admin/product_edit.php', [
+            'title' => 'Kezdőlap - Állatwebshop',
+            'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
+            'product' => $this->entityManager->getRepository(Product::class)->find($productId)
+        ]);
     }
 
     public function deleteProduct(int $productId): void
@@ -161,14 +211,6 @@ class AdminController extends BaseController
         exit;
     }
 
-    public function orders(): void
-    {
-        $this->checkAdminAuth();
-
-        $orders = $this->entityManager->getRepository(Order::class)->findAll();
-        require __DIR__ . '/../Templates/Admin/orders.php';
-    }
-
     public function viewOrder(int $orderId): void
     {
         $this->checkAdminAuth();
@@ -179,7 +221,10 @@ class AdminController extends BaseController
             exit;
         }
 
-        require __DIR__ . '/../Templates/Admin/order_view.php';
+        echo (new View())->render('Admin/order_view.php', [
+            'title' => 'Rendelés - Állatwebshop',
+            'order' => $this->entityManager->getRepository(Order::class)->find($orderId)
+        ]);
     }
 
     public function updateOrderStatus(int $orderId): void
@@ -204,25 +249,8 @@ class AdminController extends BaseController
         }
     }
 
-    private function updateProductFromRequest(Product $product, Request $request): void
+    private function updateProductAttributes(Product $product, Request $request = new Request()): void
     {
-        $product->setName($request->getPost('name'));
-        $product->setSku($request->getPost('sku'));
-        $product->setPrice((float)$request->getPost('price'));
-        $product->setStock((int)$request->getPost('stock'));
-        $product->setBrand($request->getPost('brand'));
-        $product->setModel($request->getPost('model'));
-        $product->setDescription($request->getPost('description'));
-        $product->setIsActive($request->getPost('isActive') === 'on');
-
-        $categoryId = $request->getPost('category');
-        if ($categoryId) {
-            $category = $this->entityManager->getRepository(Category::class)->find($categoryId);
-            if ($category) {
-                $product->setCategory($category);
-            }
-        }
-
         // Attribútumok kezelése
         $attributeNames = $request->getPost('attribute_names', []);
         $attributeValues = $request->getPost('attribute_values', []);
@@ -232,6 +260,9 @@ class AdminController extends BaseController
             $this->entityManager->remove($attribute);
         }
 
+        $this->entityManager->flush();
+
+
         // Új attribútumok hozzáadása
         foreach ($attributeNames as $index => $name) {
             if (!empty($name) && isset($attributeValues[$index])) {
@@ -240,7 +271,49 @@ class AdminController extends BaseController
                 $attribute->setValue($attributeValues[$index]);
                 $attribute->setProduct($product);
                 $this->entityManager->persist($attribute);
+                $this->entityManager->flush();
             }
         }
     }
-} 
+
+    // private function updateProductFromRequest(Product $product, Request $request): void
+    // {
+    //     $product->setName($request->getPost('name'));
+    //     $product->setSku($request->getPost('sku'));
+    //     $product->setPrice((float)$request->getPost('price'));
+    //     $product->setStock((int)$request->getPost('stock'));
+    //     $product->setBrand($request->getPost('brand'));
+    //     $product->setModel($request->getPost('model'));
+    //     $product->setDescription($request->getPost('description'));
+    //     $product->setIsActive($request->getPost('isActive') === 'on');
+
+    //     $categoryId = $request->getPost('category');
+    //     if ($categoryId) {
+    //         $category = $this->entityManager->getRepository(Category::class)->find($categoryId);
+    //         if ($category) {
+    //             $product->setCategory($category);
+    //         }
+    //     }
+
+    //     // Attribútumok kezelése
+    //     $attributeNames = $request->getPost('attribute_names', []);
+    //     $attributeValues = $request->getPost('attribute_values', []);
+
+    //     // Régi attribútumok törlése
+    //     foreach ($product->getAttributes() as $attribute) {
+    //         $this->entityManager->remove($attribute);
+    //     }
+
+    //     // Új attribútumok hozzáadása
+    //     foreach ($attributeNames as $index => $name) {
+    //         if (!empty($name) && isset($attributeValues[$index])) {
+    //             $attribute = new ProductAttribute();
+    //             $attribute->setName($name);
+    //             $attribute->setValue($attributeValues[$index]);
+    //             $attribute->setProduct($product);
+    //             $this->entityManager->persist($attribute);
+    //             $this->entityManager->flush();
+    //         }
+    //     }
+    // }
+}

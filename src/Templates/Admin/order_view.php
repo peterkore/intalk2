@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'header.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
 ?>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -25,6 +25,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'he
                             <th>Státusz:</th>
                             <td>
                                 <span class="badge bg-<?php
+                                $x = $order->getStatus();
                                                         echo match ($order->getStatus()) {
                                                             'pending' => 'warning',
                                                             'processing' => 'info',

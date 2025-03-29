@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Admin' . DIRECTORY_SEPARATOR . 'header.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
 ?>
 <div class="container mt-4">
     <h2>Dashboard</h2>
