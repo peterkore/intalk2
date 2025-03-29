@@ -1,42 +1,113 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #00000;
-    text-align: center;
+  font-family: 'Arial', sans-serif; /* Alap betűtípus */
+  background-color: #f4f4f4; /* Halvány szürke háttér */
+  color: #311; /* Sötétebb szöveg szín */
+  line-height: 1.6; /* A sorok közötti távolság növelése */
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, h4 {
+  font-family: 'Roboto', sans-serif; /* Professzionálisabb betűtípus a címekhez */
+  font-weight: 600; /* Kiemelkedőbb címek */
+  color: #2c3e50; /* Sötétebb, elegáns szín */
 }
 
+p {
+  font-size: 16px; /* Szövegméret */
+  color: #555; /* Kicsit világosabb szöveg szín */
+  margin-bottom: 20px; /* Tördelés a bekezdések között */
+}
+
+section {
+  margin: 40px auto; /* Középre igazított tartalom */
+  width: 80%;
+  max-width: 1000px; /* Maximális szélesség */
+  padding: 20px;
+  background-color: #fff; /* Fehér háttér */
+  border-radius: 10px; /* Lekerekített sarkok */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Árnyék a szekciók körül */
+}
+
+
 header {
-    background: #88af6e;
+    background: #2e8b57; 
     color: white;
     padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky; /* A fejléc mindig látható marad görgetéskor */
+    top: 0;
+    z-index: 1000;
+}
+nav {
+    background: #2e8b57; /* Kicsit világosabb kék */
+    padding: 10px 0;
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
 
 nav ul li a {
-    color: white;
-    text-decoration: none;
+    color: #f1c40f; /* Sárga kiemelés */
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+nav ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
+/* Menü stílus */
+ul.menu {
+    color: #2f4f4f;
+  list-style: none; /* eltávolítja a listajelölőket */
+  margin: 0;
+  padding: 0;
+  background-color: transparent; /* Ha a háttérhez akarod igazítani, pl. fehér, akkor #fff */
+  display: flex; /* vízszintes menü */
+}
+
+/* Menü elemek */
+ul.menu li {
+  margin-right: 20px; /* Távolság a menüpontközött */
+}
+
+/* Linkek stílusa */
+ul.menu li a {
+  text-decoration: none; /* Eltünteti az aláhúzást */
+  color: inherit; /* Az aktuális szín öröklése (pl. ha háttér színe fehér, akkor fehér lesz a szöveg) */
+  font-size: 16px; /* Tetszőleges betűméret */
+}
+
+.float-image {
+  float:left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  width: 200px;
+}
+
+.shape-image {
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  width: 200px;
+  shape-outside: circle(50%);
+  clip-path: circle(50%);
+}
+
+
 .cart {
-    background: #007ba2;
+    background: #0e74c3c;
     color: white;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight:bold;
     cursor: pointer;
+    transition:background 0.3s ease;
+}
+
+.cart:hover {
+   background: #c0392b;
 }
 
 .product-list {
@@ -48,20 +119,27 @@ nav ul li a {
 
 .product {
     background: white;
-    margin: 10px;
+    margin: 15px;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 220px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
 
 .product img {
     width: 100%;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 button {
-    background: #28a123;
+    background: #28a745;
     color: white;
     border: none;
     padding: 10px;
@@ -70,14 +148,14 @@ button {
 }
 
 button:hover {
-    background: #20000;
+    background: #218838;
 }
 
 footer {
-    background: #88af6e;
+    background: #2e8b57;
     color: white;
-    padding: 5px;
-    margin-top: 10px;
+    padding: 10px;
+    margin-top: 20px;
 }
 
 .pagination {
@@ -90,10 +168,10 @@ footer {
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    background: #001111;
+    background: #007bff;
     color: white;
 }
 
 .pagination button:hover {
-    background: #0056b1;
+    background: #0056b3;
 }

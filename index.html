@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutya webshop</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
+
+</head>
+<body>
+    <header>
+        <h1>Kutya webshop</h1>    
+        <nav>
+	    <ul class="menu">
+                <li>|</li>
+		<li><a href="index.html">Kezdőlap</a></li>
+		<li>|</li>
+                <li><a href="termekek.html">Megrendelés-Termékek a kosárban</a></li>
+		<li>|</li>
+                <li><a href="#">Kapcsolat</a></li>
+		<li>|</li>
+            </ul>
+        </nav>
+
+        <div class="cart" onclick="viewCart()"> Kosár (<span id="cart-count">0</span>)</div>
+    </header>
+
+    <center>Minőségi kutyadivat.... Divatos kutyaruházat, kabátok, esőkabát, kutyasál, kendő. Ez az igazi kutyabarát webshop.
+<h2> Kutyadivat minden kutyának  </h2>
+<img src="kutya.png" alt="Divatos kutya" class="shape-image">
+<p style="text-align: justify;">A kutya divat csúcsa a kedvencednek! ERedeti spanyol kutyaruházat és kiegészítők. Magyar kutyaöltözék. 
+Elegáns, vagány viselet, nálunk mindent megtalálsz.Divatos háromszög <b>kutyakendők</b>, téli, meleg kutya körsál,
+póló, trikó, <b>kifordítható kutyaruhák</b> és emleg téli <b>kutyakabát, vízálló esőkabát</b> mind a kutyawebshopban! 
+<br>
+
+Ha meg szeretnéd kedvencedet lepni és igazán trendivé varázsolni, vagy csak ajándék ötlete keresel a kutyásoknak, 
+akkor a <b>kutya hajdísz </b> ajándékdobozunkkal nem fogsz mellélőni. Kutyaruha kiegészítője egy divatos nyakörv és 
+póráz, és a legújabb trend: a <b>kutyaékszer</b>, vagy más néven a kutya <b>póráz dísz.</b>
+Elegáns, divatos és trendi. A kutyawebshopban találsz még <b>kutya fürdőlepedőket</b>, puha <b>kutyatakarókat</b>
+és <b>kutyafekhelyeket</b> újrahasznosított anyagokból. 
+</p>
+
+<hr>    
+    Legújabb termékeink:
+    <section class="product-list" id="product-list">
+    <!-- A termékek JavaScript által töltődnek be -->
+    </section>    
+    
+    <!--div class="cart" onclick="viewCart()"> ... (<span id="cart-count">0</span>)</div> -->
+
+    <div class="pagination">
+	
+    <button id="prev-btn" onclick="prevPage()">Előző</button>
+    <span id="page-number">1</span> 
+    <button id="next-btn" onclick="nextPage()">Következő</button>
+         <!-- <button onclick="prevPage()">Előző</button> -->
+        <!-- <span id="page-number">1</span> -->
+        <!-- <button onclick="nextPage()">Következő</button> -->
+    </div>
+
+</center>
+
+    <footer>
+        <p>&copy; 2025. - Látogatottság:<?php echo valami ?> </p>
+    </footer>
+<?php print "hello"; ?>
+</body>
+</html>

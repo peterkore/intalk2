@@ -1,13 +1,10 @@
 let products = []; // Az összes termék tárolása
 let currentPage = 1;
-const itemsPerPage = 5; // Hány termék jelenjen meg egy oldalon
+const itemsPerPage = 3; // Hány termék jelenjen meg egy oldalon
 
 document.addEventListener("DOMContentLoaded", function () {
     loadProducts();
     updateCartCount();
-    if (document.getElementByID("cart-list")) {
-	displayCart();
-	}
 });
 
 // **1. Termékek betöltése PHP-ból AJAX segítségével**
@@ -24,28 +21,34 @@ function loadProducts() {
 // **2. Termékek megjelenítése**
 function displayProducts() {
     const productList = document.getElementById("product-list");
-    productList.innerHTML = ""; // Előző termékek törlése
+    productList.innerHTML = ""; // Korábbi termékek törlése
 
     let start = (currentPage - 1) * itemsPerPage;
     let end = start + itemsPerPage;
-    let paginatedItems = products.slice(start, end); // Az aktuális oldalon lévő termékek
+    let paginatedItems = products.slice(start, end); // Lapozott termékek
 
     paginatedItems.forEach(product => {
         const productItem = document.createElement("div");
         productItem.classList.add("product");
 
         productItem.innerHTML = `
-            <h3>${product.termek_nev}</h3>
+            <img src="${product.termek_image}" alt="${product.termek_nev}">
+	    <h3>${product.termek_nev}</h3>
             <p>Ár: ${product.termek_ara} Ft</p>
-            <button class="add-to-cart" data-i ="${product.id}" data-name="${product.termek_nev}" data-price="${product.termek_ara}">Kosárba</button>
+            <button class="add-to-cart" data-id="${product.id}" data-name="${product.termek_nev}" data-price="${product.termek_ara}">Kosárba</button>
         `;
 
         productList.appendChild(productItem);
     });
 
     updatePagination();
-    attachCartEventListeners(); // Fontos! Kosár gombokhoz event listener hozzáadása
+    attachCartEventListeners(); //  Gombokhoz eseménykezelők hozzáadása
 }
+
+
+
+
+
 
 // **3. Kosár gomb események hozzáadása (hogy működjön a dinamikusan betöltött gomboknál is)**
 function attachCartEventListeners() {
@@ -85,11 +88,20 @@ function addToCart(id, nev, ara) {
 }
 
 // **5. Kosár ikon frissítése**
+
 function updateCartCount() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Összes termék darabszámának kiszámítása
     let totalItems = cart.reduce((sum, item) => sum + item.mennyiseg, 0);
+
+    console.log("Frissített kosár darabszám:", totalItems); // Debug log
+
+    // Frissítjük a HTML-ben a kosár számlálóját
     document.getElementById("cart-count").textContent = totalItems;
 }
+
+
 
 function viewCart() {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -141,70 +153,4 @@ function nextPage() {
         currentPage++;
         displayProducts();
     }
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    if (document.getElementById("cart-list")) {
-        displayCart();
-    }
-});
-
-// **Kosár tartalmának megjelenítése a termekek.html oldalon**
-function displayCart() {
-    let cart = JSON.parse(localStorage.getItem("cart")) || []; // Kosár betöltése
-    let cartList = document.getElementById("cart-list");
-    let totalPriceElement = document.getElementById("total-price");
-
-    // Ellenőrizzük, hogy a HTML elemek léteznek-e
-    if (!cartList || !totalPriceElement) {
-        console.error("Hiba: Nem található a cart-list vagy total-price elem!");
-        return;
-    }
-
-    cartList.innerHTML = ""; // Korábbi elemek törlése
-    let totalPrice = 0;
-
-    if (cart.length === 0) {
-        cartList.innerHTML = "<li>A kosár üres.</li>"; // Ha nincs termék
-        totalPriceElement.textContent = "0 Ft";
-        return;
-    }
-
-    cart.forEach((item, index) => {
-        let itemTotal = parseFloat(item.ara) * item.mennyiseg;
-        totalPrice += itemTotal;
-
-        let listItem = document.createElement("li");
-        listItem.innerHTML = `
-            ${item.nev} - ${item.mennyiseg} db - ${itemTotal} Ft
-            <button onclick="removeFromCart(${index})">❌</button>
-        `;
-        cartList.appendChild(listItem);
-    });
-
-    totalPriceElement.textContent = totalPrice + " Ft";
-}
-
-// **Termék eltávolítása a kosárból**
-function removeFromCart(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.splice(index, 1); // Kivesszük az adott elemet a tömbből
-
-    localStorage.setItem("cart", JSON.stringify(cart)); // Frissítjük a kosarat
-    displayCart(); // Újratöltjük a kosár tartalmát
-    updateCartCount(); // Frissítjük a kosár ikonját a főoldalon
-}
-
-// **Kosár teljes ürítése**
-function clearCart() {
-    localStorage.removeItem("cart");
-    displayCart();
-    updateCartCount();
-}
-
-
-
-
 }
