@@ -55,5 +55,5 @@ if ($result->num_rows > 0) {
     echo "Nincs találat";
   }
 */
-  //$conn->close();  // kapcsolat lezársa
+  $conn->close();  // kapcsolat lezársa
 ?>
