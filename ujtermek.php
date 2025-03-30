@@ -3,14 +3,12 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kisallatbolt";
+$dbname = "kisallatbolt"; // Módosítsd a saját adatbázisnevedre
 
-// Kapcsolódás az adatbázishoz
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Kapcsolat ellenőrzése
 if ($conn->connect_error) {
-    die("Kapcsolat sikertelen: " . $conn->connect_error);
+    die("Kapcsolódás sikertelen: " . $conn->connect_error);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,22 +16,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pet = $_POST['pet'];
     $function = $_POST['function'];
     $description = $_POST['description'];
-    $expiry_date = $_POST['expiry_date'];
+    $expiry_date = $_POST['expiry_date'] ?? NULL;
+    
+    // Kép feltöltése
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["filename"]["name"]);
+    move_uploaded_file($_FILES["filename"]["tmp_name"], $target_file);
+    
+    $image_path = $target_file;
 
-    $stmt = $conn->prepare("INSERT INTO products (name, pet, function, description, expiry_date) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $pet, $function, $description, $expiry_date);
+    $sql = "INSERT INTO products (name, pet, function, description, expiry_date, image) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssss", $name, $pet, $function, $description, $expiry_date, $image_path);
 
     if ($stmt->execute()) {
         echo "Sikeresen hozzáadva!";
     } else {
-        echo "Hiba: " . $stmt->error;
+        echo "Hiba történt: " . $stmt->error;
     }
-    
+
     $stmt->close();
 }
 
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
