@@ -40,8 +40,10 @@ $conn->close();
 <html>
     <head>
         <title>Új termék felvétel</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
+        <h1>Új termék felvétele</h1>
         <form method="post" target="_self">
             <input type="text" name="name" placeholder="Megnevezés" required/>
             <select name="pet" id="pet">
@@ -62,6 +64,7 @@ $conn->close();
             Szavatossági idő: 
             <input type="datetime-local" />
             </div>
+            <input type="submit">
         </form>
     </body>
 </html>
