@@ -4,7 +4,7 @@ $username = "root";
 $password = "";
 $dbname = "kisallatbolt";
 
-// Kapcsolódás az adatbázishoz
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Kapcsolat ellenőrzése
