@@ -3,10 +3,12 @@
 session_start();
 print_r($_POST);
 // Adatbáziskapcsolat
-$servername = "localhost";
+include_once 'dbConnection.php';
+
+/*$servername = "localhost";
 $username = "root";
 $password = "mypass";
-$dbname = "adatok";
+$dbname = "adatok";*/
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {

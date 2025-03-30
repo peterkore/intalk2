@@ -2,6 +2,7 @@
 session_start();
 
 // Adatbáziskapcsolat
+
 $servername = "localhost";
 $username = "root";
 $password = "mypass";
