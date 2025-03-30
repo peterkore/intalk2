@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "kisallatbolt"; // Módosítsd a saját adatbázisnevedre
+$dbname = "kisallatbolt"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
