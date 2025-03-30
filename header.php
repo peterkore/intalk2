@@ -2,7 +2,6 @@
 <html lang="hu">
 
 <meta charset="UTF-8">
-
 <head>
 <title> Kutya webshop</title>    
 
@@ -11,7 +10,6 @@
 <link rel="stylesheet" href="CSS/style.css">
 
 </head>
-
 <!--  html kód -->
   <body>
 <header>
@@ -32,7 +30,7 @@
        
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Keres" aria-label="Search">
+        <input class="form-control me-2" type="search" name = "keres" placeholder="Keres" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Keres</button>
       </form>
     </div>
