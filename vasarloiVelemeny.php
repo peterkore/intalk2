@@ -44,7 +44,7 @@ $conn->close();
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <h1>Mondja el a véleményét</h1>
+        <h1>Kérjük mondja el a véleményét</h1>
         <h3>Milyen élményekkel gazdagodott a weboldalunkon eltöltött időben?<br>Mennyire elégedett a nálunk vásárolt termékkel és a kiszállítással?<br>Hogyan tudnánk még kellemesebbé tenni a vásárlást?<br>Kérjük mondja el a véleményét!</h3>
         <form method="post" target="_self">
             <input type="text" name="name" placeholder="Az Ön neve" required/>

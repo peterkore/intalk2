@@ -64,6 +64,10 @@ $conn->close();
             Szavatossági idő: 
             <input type="datetime-local" />
             </div>
+            <div>
+			<label for="myFile">Adjon meg egy képet</label>
+			<input type="file" id="myFile" name="filename" required>
+            </div>
             <input type="submit">
         </form>
     </body>
