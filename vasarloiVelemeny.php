@@ -1,41 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kisallatbolt";
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Kapcsolat ellenőrzése
-if ($conn->connect_error) {
-    die("Kapcsolódás sikertelen: " . $conn->connect_error);
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $valasztek = $_POST['valasztek'];
-    $minoseg = $_POST['minoseg'];
-    $szallitas = $_POST['szallitas'];
-    $description = $_POST['description'];
-
-    $stmt = $conn->prepare("INSERT INTO reviews (name, email, valasztek, minoseg, szallitas, description) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssiiis", $name, $email, $valasztek, $minoseg, $szallitas, $description);
-
-    if ($stmt->execute()) {
-        echo "Véleményét sikeresen elküldtük! Köszönjük!";
-    } else {
-        echo "Hiba: " . $stmt->error;
-    }
-    
-    $stmt->close();
-}
-
-$conn->close();
+include_once 'header.php';
+include_once('header.php');
+include_once('body.php');
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
@@ -88,3 +55,7 @@ $conn->close();
         </form>
     </body>
 </html>
+
+<?php
+ include_once('footer.php')
+?>
