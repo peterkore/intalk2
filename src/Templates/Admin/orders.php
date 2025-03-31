@@ -53,7 +53,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                                 <td><?php echo $order->getCreatedAt()->format('Y-m-d H:i'); ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="/admin/orders/viewOrder/<?php echo $order->getId(); ?>"
+                                        <a href="/admin/order/view/<?php echo $order->getId(); ?>"
                                             class="btn btn-sm btn-info">
                                             <i class="bi bi-eye"></i>
                                         </a>
@@ -109,7 +109,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
     const statusForm = document.getElementById('statusForm');
 
     function updateStatus(orderId) {
-        statusForm.action = `/admin/orders/updateOrderStatus/${orderId}`;
+        statusForm.action = `/admin/order/updateOrderStatus/${orderId}`;
         statusModal.show();
     }
 </script>

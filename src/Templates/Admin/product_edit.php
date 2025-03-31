@@ -15,7 +15,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="<?php echo $product ? '/admin/products/edit/' . $product->getId() : '/admin/products/new'; ?>">
+            <form method="POST" action="<?php echo $product ? '/admin/product/edit/' . $product->getId() : '/admin/product/new'; ?>">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">

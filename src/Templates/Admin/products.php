@@ -4,7 +4,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Termékek kezelése</h2>
-        <a href="/admin/products/new" class="btn btn-primary">
+        <a href="/admin/product/new" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i> Új termék
         </a>
     </div>
@@ -49,7 +49,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="/admin/products/edit/<?php echo $product->getId(); ?>"
+                                        <a href="/admin/product/edit/<?php echo $product->getId(); ?>"
                                             class="btn btn-sm btn-primary">
                                             <i class="bi bi-pencil"></i>
                                         </a>
@@ -73,7 +73,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
 <script>
     function confirmDelete(productId) {
         if (confirm('Biztosan törölni szeretnéd ezt a terméket?')) {
-            window.location.href = '/admin/products/delete/' + productId;
+            window.location.href = '/admin/product/delete/' + productId;
         }
     }
 </script>

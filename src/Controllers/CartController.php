@@ -63,7 +63,7 @@ class CartController extends BaseController
         }
         // Készlet növelése/csökkentése az adatbázisban
         if ($requestedQuantity <= $stockQuantity) {
-            $product->setQuantity($stockQuantity - $requestedQuantity);
+            $product->setStock($stockQuantity - $requestedQuantity);
             // Változtatások mentése
             $this->entityManager->flush();
         }
