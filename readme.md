@@ -200,3 +200,6 @@ echo (new View())->render('404.php', [
 Publikus tartalmak például css, js fájlok stb. elhelyezésére a /public/... könyvtárat tudjátok igénybevenni. 
 
 *Happy coding!* 😁
+
+
+Hello
