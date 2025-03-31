@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapcsolat</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
+
+</head>
+<body>
+<header>
+<h1>Kapcsolat</h1>
+           <nav>
+	    <ul class="menu">
+		<li>|</li>
+                <li><a href="index.html">Kezdőlap</a></li>
+		<li>|</li>
+                <li><a href="termekek.html">Megrendelés-Termékek a kosárban</a></li>
+		<li>|</li>
+                <li><a href="belepes.html">Belépés</a></li>
+		<li>|</li>
+		</ul>
+
+            
+        </nav>
+</header>
+<head>
+    
+</head>
+<body>
+
+    <h2>Lépjen velünk kapcsolatba: </h2>
+    <form action="mentes.php" method="post">
+        <div class="form-container">
+            <!-- Bal oldali oszlop: nagy szövegmező -->
+            <div class="column">
+                <label for="uzenet">Üzenet:</label>
+        <textarea name="uzenet" id="uzenet" required></textarea><br>
+
+            </div>
+
+            <!-- Jobb oldali oszlop: egyéb mezők -->
+            <div class="column">
+                <label for="fname">Név:</label>
+		<input type="text" name="nev" id="nev" required>
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email">
+
+                <label for="phone">Telefonszám:</label>
+                <input type="tel" id="phone" name="phone">
+
+                <label for="country">Ország:</label>
+                <select id="country" name="country">
+                    <option value="hu">Magyarország</option>
+                    <option value="de">Németország</option>
+                    <option value="us">USA</option>
+                </select>
+
+            </div>
+        </div>
+
+        <input type="checkbox" name="adatvedelem" required> Az Adatkezelési tájékoztatót elfogadom.<br>
+        <button type="submit">Küldés</button>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer>
+        <p>&copy; 2025. - Látogatottság:<?php echo valami ?> </p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belépés / Regisztráció</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { display: flex; justify-content: space-around; margin-top: 50px; }
+        .form-box { border: 1px solid #ccc; padding: 20px; border-radius: 5px; width: 300px; }
+        .form-box h2 { text-align: center; }
+        .form-box input { width: 100%; padding: 8px; margin: 10px 0; }
+        .form-box button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; }
+    </style>
+<link rel="stylesheet" href="styles.css">
+    <script src="scripts.js"></script>
+
+</head>
+<body>
+<header>
+<h1>Belépés / Regisztráció</h1>
+           <nav>
+	    <ul class="menu">
+		<li>|</li>
+                <li><a href="index.html">Kezdőlap</a></li>
+		<li>|</li>
+                <li><a href="termekek.html">Megrendelés-Termékek a kosárban</a></li>
+		<li>|</li>
+                <li><a href="kapcsolat.html">Kapcsolat</a></li>
+		<li>|</li>
+		</ul>
+
+            
+        </nav>
+</header>
+
+    <div class="container">
+        <div class="form-box">
+            <h2>Belépés</h2>
+            <form action="login.php" method="POST">
+                <label for="username">Felhasználónév vagy Email</label>
+                <input type="text" name="username" required>
+                <label for="password">Jelszó</label>
+                <input type="password" name="password" required>
+                <button type="submit">Belépés</button>
+            </form>
+        </div>
+        <div class="form-box">
+            <h2>Regisztráció</h2>
+            <form action="register.php" method="POST">
+                <label for="email">E-mail cím</label>
+                <input type="email" name="email" required>
+                <button type="submit">Regisztráció</button>
+<br>
+<br>
+<hr>
+<p style="text-align: justify;">
+*A regisztrációval a fiók létrejön és email-ben elküldjük a linket, 
+amivel beállítható a jelszó.
+<br>
+Adatait a törvénynek megfelelően kezeljük - ld: Adatkezelési tájékoztató.
+<br>
+<b>Figyelem!</b><br> 
+Személyes adatait felhasználjuk megrendelésének feldolgozásához, 
+melynek részletes ismertetését az adatkezelési tájékoztatóban találja. 
+Elolvastam és elfogadom az Adatkezelési tájékoztató -t. * </p>
+            </form>
+        </div>
+    </div>
+
+<footer>
+        <p>&copy; 2025. - Látogatottság:<?php echo valami ?> </p>
+    </footer>
+
+</body>
+</html>

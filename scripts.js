@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // **1. Termékek betöltése PHP-ból AJAX segítségével**
 function loadProducts() {
-    fetch("products.php")
+    fetch("products2.php")
         .then(response => response.json())
         .then(data => {
             products = data; // Elmentjük a termékeket
@@ -32,10 +32,10 @@ function displayProducts() {
         productItem.classList.add("product");
 
         productItem.innerHTML = `
-            <img src="${product.termek_image}" alt="${product.termek_nev}">
-	    <h3>${product.termek_nev}</h3>
-            <p>Ár: ${product.termek_ara} Ft</p>
-            <button class="add-to-cart" data-id="${product.id}" data-name="${product.termek_nev}" data-price="${product.termek_ara}">Kosárba</button>
+            
+	    <h3>${product.name}</h3>
+            <p>Ár: ${product.price} Ft</p>
+            <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}">Kosárba</button>
         `;
 
         productList.appendChild(productItem);
