@@ -12,6 +12,27 @@ class Router
         // URL elemeinek szétbontása
         // A megadott URI-t részekre bontjuk '/' karakter mentén, eltávolítva a végéről és elejéről a '/' karaktereket
         $segments = explode('/', trim($uri, '/'));
+        
+        if ($segments[0] == ''){
+            $segments[0] = 'Index';
+        }
+        // Lekezeljük a több szintű könyvtárstruktúrát a Controllers könyvtár alatt, ha van
+        // $path változóba eltároljuk a controller osztályok alap elérési útját
+        $path = __DIR__ . DIRECTORY_SEPARATOR . 'Controllers' . DIRECTORY_SEPARATOR;
+        // $prefix változóba eltároljuk controller osztályok alap névterét
+        $prefix = '\\Webshop\\Controllers\\';
+
+        // Amíg a controllers könyvár alatt létezik a segments[0]-ban megadott könyvtár (nagybetűvel kezdve)
+        while(!empty($segments[0]) && is_dir($path . ucfirst($segments[0]))){
+            // A $currentDir változóba eltesszük az aktuális $segments[0] értékét, amit egyben törlünk a $segments tömbből
+            $currentDir = ucfirst(array_shift($segments));
+            // A $path változó értékéhez hozzáfűzzük a könyvtár nevét és a megfelelő separatort
+            $path .= $currentDir . DIRECTORY_SEPARATOR;
+            //  A $prefix változó értékéhez hozzáfűzzük a könyvtár nevét és a megfelelő separatort
+            $prefix .= $currentDir . '\\';
+        }
+        
+        
         // Beazonosítjuk a kontroller osztály nevét (és a kezdőbetűt nagybetűre cseréljük); ha nem létezik az adott controller osztály, az alapértelmezett 'IndexController'-t használjuk
         $controller = ucfirst(!empty($segments[0]) ? $segments[0] : 'Index') . 'Controller';
         // Beazonosítjuk az url-ben meghívott, kontroller osztályban található metódust; ha nem létezik a metódus, az alapértelmezett 'index'-et használjuk
@@ -20,10 +41,11 @@ class Router
         $params = array_slice($segments, 2);
 
         // Az aktuális kontroller osztály teljes nevét meghatározzuk a `\\Webshop\\Controllers` névtérben keresve
-        $controllerClass = "\\Webshop\\Controllers\\{$controller}";
+        $controllerClass = $prefix . $controller;
 
         // Ha a kontroller osztály nem létezik a névtérben, hiba kezelést végzünk és kilépünk
         if (!class_exists($controllerClass)) {
+            // @TODO-extra megpróbáljuk példányosítani az eredeti alap osztályt
             $this->handleError();
             return;
         }
