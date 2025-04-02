@@ -1,5 +1,7 @@
 <?php
 //require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'header.php';
+// keresett szöveget úgy tudom elérni, input gomb -> javascript -> redirct url /url/search /input box értéke
+// index.2 php-t linkekkel
  require __DIR__ . '/../Partials/header.php';
  var_dump($products);
 ?>
