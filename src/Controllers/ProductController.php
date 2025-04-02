@@ -4,8 +4,6 @@ namespace Webshop\Controllers;
 
 use Webshop\BaseController;
 use Webshop\Model\Product;
-use Webshop\Model\Category;
-use Doctrine\ORM\EntityManager;
 
 class ProductController extends BaseController {
     public function view($id) {

@@ -33,8 +33,16 @@ abstract class BaseController
 
     protected function checkAdminAuth(): void
     {
-        if (!isset($_SESSION['admin_id'])) {
-            header('Location: /admin/login');
+        if (!isset($_SESSION['user']['is_admin'])) {
+            header('Location: /login');
+            exit;
+        }
+    }
+
+    protected function checkCustomerAuth(): void
+    {
+        if (!isset($_SESSION['user']['loggedin_id'])) {
+            header('Location: /login');
             exit;
         }
     }

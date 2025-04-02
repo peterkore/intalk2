@@ -12,7 +12,11 @@ if (isset($statusCode)) {
     <title><?php echo $title ?? 'Állatwebshop'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <style>
+        html {
+            background-color: #212529;
+        }
         .cart-count {
             position: absolute;
             top: -8px;
@@ -48,6 +52,11 @@ if (isset($statusCode)) {
                             <a class="nav-link" href="/products">Termékek</a>
                         </li>
                         <li class="nav-item">
+                            <?php if (isset($_SESSION['user']['loggedin_id'])): ?>
+                                <a class="nav-link" href="/order" >Rendeléseim</a>
+                            <?php endif; ?>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/about">Rólunk</a>
                         </li>
                         <li class="nav-item">
@@ -69,7 +78,7 @@ if (isset($statusCode)) {
                                 <span class="cart-count"><?php echo $cartCount; ?></span>
                             <?php endif; ?>
                         </a>
-                        <?php if (isset($_SESSION['user'])): ?>
+                        <?php if (isset($_SESSION['user']['loggedin_id'])): ?>
                             <a href="/profile" class="btn btn-outline-light me-2">
                                 <i class="fas fa-user"></i> Profil
                             </a>

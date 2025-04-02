@@ -80,7 +80,7 @@ class UsersController extends BaseController
         }
 
         echo (new View())->render('Admin/user_edit.php', [
-            'title' => 'Új felhasználó - - PetShop Admin',
+            'title' => 'Új felhasználó - PetShop Admin',
             'user' => false
         ]);
     }
