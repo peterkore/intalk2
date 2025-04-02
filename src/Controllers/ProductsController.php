@@ -36,4 +36,14 @@ class ProductsController extends BaseController
         header("Content-Type: application/json");
         echo json_encode($responseData);
     }
+
+    //a keresésre saját metódus létrehozása a ProductsControllerbe
+    public function searchProducts(string $searchTerm): array
+    {
+        return $this -> createQueryBuilder('p')
+            ->where('p.name LIKE :searchTerm')
+            ->setParameter('searchTerm', '%' . $searchTerm . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

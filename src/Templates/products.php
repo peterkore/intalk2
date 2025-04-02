@@ -13,7 +13,8 @@
         </thead>
         <tbody>
             <?php  ?>
-            <form class="form-inline my-2 my-lg-0" action = "<?php echo $search() ?>">
+<!--a products oldalon létrehozok egy kereső mezőt-->
+            <form method="GET" class="form-inline my-2 my-lg-0" action = "/search">
             <input class="form-control mr-sm-2" type="search" name="search" placeholder="Keresés" aria-label="Keresés">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Keresés</button>
             </form>

@@ -1,7 +1,7 @@
 <?php
 
 namespace Webshop\Controllers;
-
+use Webshop\View;
 use Webshop\BaseController;
 use Webshop\Model\Product;
 use Webshop\Model\Category;
@@ -32,9 +32,9 @@ class ProductController extends BaseController {
     }
 
     // Keresés végrahajtása a name, description mezőkben
-
-    public function search($search_string) {
-        $search = $_GET['search'] ?? '';
+    // a keresési funkció meghívása a Controllerből
+    public function search($search) {
+        //$search = $_GET['search'] ?? '';
         
         if (empty($search)) {
             header('Location: /');
@@ -49,9 +49,16 @@ class ProductController extends BaseController {
             ->andWhere('p.stock > 0')
             ->getQuery()
             ->getResult();
-
-        require_once __DIR__ . '/../Templates/product/search.php';
+          //  return $this -> $result = getResult();
+       // echo $products -> getDQL; 
+        // a search.php Template meghívása
+       // require_once __DIR__ . '/../Templates/product/search.php';
+       echo (new View())->render('product/search.php', [
+        
+        'products' => $products
+    ]);
     }
+
 
     public function addToCart($id) {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

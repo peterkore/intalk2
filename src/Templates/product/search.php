@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'header.php';
+//require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'header.php';
+ require __DIR__ . '/../Partials/header.php';
+ var_dump($products);
 ?>
 
 <div class="container">
