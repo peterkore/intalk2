@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'app/webshop',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '4654188238e81c54adcd8e233f15a2f448ce4a83',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'app/webshop' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '4654188238e81c54adcd8e233f15a2f448ce4a83',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

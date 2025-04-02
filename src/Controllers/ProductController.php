@@ -31,14 +31,16 @@ class ProductController extends BaseController {
         require_once __DIR__ . '/../Templates/product.php';
     }
 
-    public function search() {
+    // Keresés végrahajtása a name, description mezőkben
+
+    public function search($search_string) {
         $search = $_GET['search'] ?? '';
         
         if (empty($search)) {
             header('Location: /');
             exit;
         }
-
+      // a termékekben keres, meghívja az entityManager-t a Product osztályt
         $products = $this->entityManager->getRepository(Product::class)
             ->createQueryBuilder('p')
             ->where('p.name LIKE :search')
