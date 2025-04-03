@@ -5,11 +5,11 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
     <h2 class="mb-4">Rendelések kezelése</h2>
 
     <?php if (isset($success)): ?>
-        <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
+        <div class="alert alert-success"><?= htmlspecialchars($success); ?></div>
     <?php endif; ?>
 
     <?php if (isset($error)): ?>
-        <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
     <?php endif; ?>
 
     <div class="card">
@@ -31,9 +31,9 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                     <tbody>
                         <?php foreach ($orders as $order): ?>
                             <tr>
-                                <td><?php echo $order->getId(); ?></td>
-                                <td><?php echo htmlspecialchars($order->getUser()->getName()); ?></td>
-                                <td><?php echo number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</td>
+                                <td><?= $order->getId(); ?></td>
+                                <td><?= htmlspecialchars($order->getUser()->getName()); ?></td>
+                                <td><?= number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</td>
                                 <td>
                                     <span class="badge bg-<?php
                                                             echo match ($order->getStatus()) {
@@ -45,21 +45,21 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                                                                 default => 'secondary'
                                                             };
                                                             ?>">
-                                        <?php echo $order->getStatus(); ?>
+                                        <?= $order->getStatus(); ?>
                                     </span>
                                 </td>
-                                <td><?php echo $order->getPaymentMethod(); ?></td>
-                                <td><?php echo $order->getShippingMethod(); ?></td>
-                                <td><?php echo $order->getCreatedAt()->format('Y-m-d H:i'); ?></td>
+                                <td><?= $order->getPaymentMethod(); ?></td>
+                                <td><?= $order->getShippingMethod(); ?></td>
+                                <td><?= $order->getCreatedAt()->format('Y-m-d H:i'); ?></td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="/admin/order/view/<?php echo $order->getId(); ?>"
+                                        <a href="/admin/order/view/<?= $order->getId(); ?>"
                                             class="btn btn-sm btn-info">
                                             <i class="bi bi-eye"></i>
                                         </a>
                                         <button type="button"
                                             class="btn btn-sm btn-primary"
-                                            onclick="updateStatus(<?php echo $order->getId(); ?>)">
+                                            onclick="updateStatus(<?= $order->getId(); ?>)">
                                             <i class="bi bi-pencil"></i>
                                         </button>
                                     </div>

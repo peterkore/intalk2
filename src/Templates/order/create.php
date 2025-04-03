@@ -22,14 +22,14 @@ require __DIR__ . '/../Partials/header.php'; ?>
                             <?php foreach ($addresses as $address): ?>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="billing_address_id" 
-                                           id="billing_address_<?php echo $address->getId(); ?>" 
-                                           value="<?php echo $address->getId(); ?>" required>
-                                    <label class="form-check-label" for="billing_address_<?php echo $address->getId(); ?>">
-                                        <strong><?php echo htmlspecialchars($address->getName()); ?></strong><br>
-                                        <?php echo htmlspecialchars($address->getStreet()); ?><br>
-                                        <?php echo htmlspecialchars($address->getCity()); ?><br>
-                                        <?php echo htmlspecialchars($address->getPostalCode()); ?><br>
-                                        <?php echo htmlspecialchars($address->getCountry()); ?>
+                                           id="billing_address_<?= $address->getId(); ?>" 
+                                           value="<?= $address->getId(); ?>" required>
+                                    <label class="form-check-label" for="billing_address_<?= $address->getId(); ?>">
+                                        <strong><?= htmlspecialchars($address->getName()); ?></strong><br>
+                                        <?= htmlspecialchars($address->getStreet()); ?><br>
+                                        <?= htmlspecialchars($address->getCity()); ?><br>
+                                        <?= htmlspecialchars($address->getZipCode()); ?><br>
+                                        <?= htmlspecialchars($address->getCountry()); ?>
                                     </label>
                                 </div>
                             <?php endforeach; ?>
@@ -50,14 +50,14 @@ require __DIR__ . '/../Partials/header.php'; ?>
                             <?php foreach ($addresses as $address): ?>
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="radio" name="shipping_address_id" 
-                                           id="shipping_address_<?php echo $address->getId(); ?>" 
-                                           value="<?php echo $address->getId(); ?>" required>
-                                    <label class="form-check-label" for="shipping_address_<?php echo $address->getId(); ?>">
-                                        <strong><?php echo htmlspecialchars($address->getName()); ?></strong><br>
-                                        <?php echo htmlspecialchars($address->getStreet()); ?><br>
-                                        <?php echo htmlspecialchars($address->getCity()); ?><br>
-                                        <?php echo htmlspecialchars($address->getPostalCode()); ?><br>
-                                        <?php echo htmlspecialchars($address->getCountry()); ?>
+                                           id="shipping_address_<?= $address->getId(); ?>" 
+                                           value="<?= $address->getId(); ?>" required>
+                                    <label class="form-check-label" for="shipping_address_<?= $address->getId(); ?>">
+                                        <strong><?= htmlspecialchars($address->getName()); ?></strong><br>
+                                        <?= htmlspecialchars($address->getStreet()); ?><br>
+                                        <?= htmlspecialchars($address->getCity()); ?><br>
+                                        <?= htmlspecialchars($address->getZipCode()); ?><br>
+                                        <?= htmlspecialchars($address->getCountry()); ?>
                                     </label>
                                 </div>
                             <?php endforeach; ?>
@@ -74,9 +74,9 @@ require __DIR__ . '/../Partials/header.php'; ?>
                             <label for="payment_method" class="form-label">Fizetési mód</label>
                             <select class="form-select" id="payment_method" name="payment_method" required>
                                 <option value="">Válassz fizetési módot</option>
-                                <option value="<?php echo Order::PAYMENT_METHOD_CASH; ?>">Utánvét</option>
-                                <option value="<?php echo Order::PAYMENT_METHOD_BANK_TRANSFER; ?>">Banki átutalás</option>
-                                <option value="<?php echo Order::PAYMENT_METHOD_CREDIT_CARD; ?>">Bankkártya</option>
+                                <option value="<?= Order::PAYMENT_METHOD_CASH; ?>">Utánvét</option>
+                                <option value="<?= Order::PAYMENT_METHOD_BANK_TRANSFER; ?>">Banki átutalás</option>
+                                <option value="<?= Order::PAYMENT_METHOD_CREDIT_CARD; ?>">Bankkártya</option>
                             </select>
                         </div>
                         
@@ -84,15 +84,15 @@ require __DIR__ . '/../Partials/header.php'; ?>
                             <label for="shipping_method" class="form-label">Szállítási mód</label>
                             <select class="form-select" id="shipping_method" name="shipping_method" required>
                                 <option value="">Válassz szállítási módot</option>
-                                <option value="<?php echo Order::SHIPPING_METHOD_STANDARD; ?>">Standard szállítás</option>
-                                <option value="<?php echo Order::SHIPPING_METHOD_EXPRESS; ?>">Expressz szállítás</option>
+                                <option value="<?= Order::SHIPPING_METHOD_STANDARD; ?>">Standard szállítás</option>
+                                <option value="<?= Order::SHIPPING_METHOD_EXPRESS; ?>">Expressz szállítás</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-primary" <?php echo empty($addresses) ? 'disabled' : ''; ?>>
+                    <button type="submit" class="btn btn-primary" <?= empty($addresses) ? 'disabled' : ''; ?>>
                         Rendelés véglegesítése
                     </button>
                     <a href="/cart" class="btn btn-secondary">Vissza a kosárhoz</a>
@@ -114,9 +114,9 @@ require __DIR__ . '/../Partials/header.php'; ?>
                                     if ($product):
                                 ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($product->getName()); ?></td>
-                                        <td><?php echo $quantity; ?> db</td>
-                                        <td><?php echo number_format($product->getPrice() * $quantity, 0, ',', ' '); ?> Ft</td>
+                                        <td><?= htmlspecialchars($product->getName()); ?></td>
+                                        <td><?= $quantity; ?> db</td>
+                                        <td><?= number_format($product->getPrice() * $quantity, 0, ',', ' '); ?> Ft</td>
                                     </tr>
                                 <?php 
                                     endif;

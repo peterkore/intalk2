@@ -6,42 +6,42 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Főoldal</a></li>
-            <li class="breadcrumb-item"><a href="/category/show/<?php echo $product->getCategory()->getId(); ?>"><?php echo htmlspecialchars($product->getCategory()->getName()); ?></a></li>
-            <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($product->getName()); ?></li>
+            <li class="breadcrumb-item"><a href="/category/show/<?= $product->getCategory()->getId(); ?>"><?= htmlspecialchars($product->getCategory()->getName()); ?></a></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= htmlspecialchars($product->getName()); ?></li>
         </ol>
     </nav>
 
     <div class="row">
         <div class="col-md-6">
             <div class="product-image">
-                <img src="/assets/images/no-image.jpg" alt="<?php echo htmlspecialchars($product->getName()); ?>" class="img-fluid">
+                <img src="/assets/images/no-image.jpg" alt="<?= htmlspecialchars($product->getName()); ?>" class="img-fluid">
             </div>
         </div>
         <div class="col-md-6">
-            <h1 class="product-title"><?php echo htmlspecialchars($product->getName()); ?></h1>
+            <h1 class="product-title"><?= htmlspecialchars($product->getName()); ?></h1>
             <div class="product-price">
-                <span class="price"><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</span>
+                <span class="price"><?= number_format($product->getPrice(), 0, ',', ' '); ?> Ft</span>
             </div>
             <div class="product-stock mb-3">
                 <?php if ($product->getStock() == 0): ?>
                     <span class="badge bg-danger">Elfogyott</span>
                 <?php elseif ($product->getStock() <= 5): ?>
-                    <span class="badge bg-warning"><?php echo $product->getStock(); ?> db</span>
+                    <span class="badge bg-warning"><?= $product->getStock(); ?> db</span>
                 <?php else: ?>
-                    <span class="badge bg-success"><?php echo $product->getStock(); ?> db</span>
+                    <span class="badge bg-success"><?= $product->getStock(); ?> db</span>
                 <?php endif; ?>
             </div>
             <div class="product-description mb-4">
-                <?php echo nl2br(htmlspecialchars($product->getDescription())); ?>
+                <?= nl2br(htmlspecialchars($product->getDescription())); ?>
             </div>
             <div class="product-actions">
                 <?php if ($product->getStock() > 0): ?>
                     <div class="input-group mb-3" style="max-width: 200px;">
                         <button class="btn btn-outline-secondary" type="button" id="decreaseQuantity">-</button>
-                        <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="<?php echo $product->getStock(); ?>">
+                        <input type="number" class="form-control text-center" id="quantity" value="1" min="1" max="<?= $product->getStock(); ?>">
                         <button class="btn btn-outline-secondary" type="button" id="increaseQuantity">+</button>
                     </div>
-                    <button class="btn btn-primary btn-lg add-to-cart" data-product-id="<?php echo $product->getId(); ?>">
+                    <button class="btn btn-primary btn-lg add-to-cart" data-product-id="<?= $product->getId(); ?>">
                         <i class="fas fa-shopping-cart"></i> Kosárba
                     </button>
                 <?php else: ?>
@@ -60,11 +60,11 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
                 <?php foreach ($relatedProducts as $relatedProduct): ?>
                     <div class="col-md-3">
                         <div class="card h-100">
-                            <img src="/assets/images/no-image.jpg" class="card-img-top" alt="<?php echo htmlspecialchars($relatedProduct->getName()); ?>">
+                            <img src="/assets/images/no-image.jpg" class="card-img-top" alt="<?= htmlspecialchars($relatedProduct->getName()); ?>">
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($relatedProduct->getName()); ?></h5>
-                                <p class="card-text"><?php echo number_format($relatedProduct->getPrice(), 0, ',', ' '); ?> Ft</p>
-                                <a href="/product/view/<?php echo $relatedProduct->getId(); ?>" class="btn btn-primary">Részletek</a>
+                                <h5 class="card-title"><?= htmlspecialchars($relatedProduct->getName()); ?></h5>
+                                <p class="card-text"><?= number_format($relatedProduct->getPrice(), 0, ',', ' '); ?> Ft</p>
+                                <a href="/product/view/<?= $relatedProduct->getId(); ?>" class="btn btn-primary">Részletek</a>
                             </div>
                         </div>
                     </div>

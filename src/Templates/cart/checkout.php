@@ -14,11 +14,11 @@ require __DIR__ . '/../Partials/header.php'; ?>
                     <form action="/cart/placeOrder" method="POST">
                         <div class="mb-3">
                             <label for="name" class="form-label">Teljes név</label>
-                            <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($user->getName()); ?>" required>
+                            <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($user->getName()); ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail cím</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user->getEmail()); ?>" required>
+                            <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user->getEmail()); ?>" required>
                         </div>
 
 
@@ -26,24 +26,24 @@ require __DIR__ . '/../Partials/header.php'; ?>
                         <?php $billingAddress = $user ? $user->getDefaultAddress('billing') : ''; ?>
                         <div class="mb-3">
                             <label for="billing_street" class="form-label">Utca, házszám</label>
-                            <input type="text" class="form-control" id="billing_street" name="billing_street" value="<?php echo htmlspecialchars($billingAddress ? $billingAddress->getStreet() : ''); ?>" required>
+                            <input type="text" class="form-control" id="billing_street" name="billing_street" value="<?= htmlspecialchars($billingAddress ? $billingAddress->getStreet() : ''); ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="billing_city" class="form-label">Város</label>
-                            <input type="text" class="form-control" id="billing_city" name="billing_city" value="<?php echo htmlspecialchars($billingAddress ? $billingAddress->getCity() : ''); ?>" required>
+                            <input type="text" class="form-control" id="billing_city" name="billing_city" value="<?= htmlspecialchars($billingAddress ? $billingAddress->getCity() : ''); ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="billing_zip_code" class="form-label">Irányítószám</label>
-                            <input type="text" class="form-control" id="billing_zip_code" name="billing_zip_code" value="<?php echo htmlspecialchars($billingAddress ? $billingAddress->getZipCode() : ''); ?>" required>
+                            <input type="text" class="form-control" id="billing_zip_code" name="billing_zip_code" value="<?= htmlspecialchars($billingAddress ? $billingAddress->getZipCode() : ''); ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="billing_country" class="form-label">Ország</label>
-                            <input type="text" class="form-control" id="billing_country" name="billing_country" value="<?php echo htmlspecialchars($billingAddress ? $billingAddress->getCountry() : ''); ?>" required>
+                            <input type="text" class="form-control" id="billing_country" name="billing_country" value="<?= htmlspecialchars($billingAddress ? $billingAddress->getCountry() : ''); ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="billing_phone" class="form-label">Telefonszám</label>
-                            <input type="tel" class="form-control" id="billing_phone" name="billing_phone" value="<?php echo htmlspecialchars($billingAddress ? $billingAddress->getPhone() : ''); ?>">
+                            <input type="tel" class="form-control" id="billing_phone" name="billing_phone" value="<?= htmlspecialchars($billingAddress ? $billingAddress->getPhone() : ''); ?>">
                         </div>
 
                         <div class="mb-3">
@@ -51,23 +51,23 @@ require __DIR__ . '/../Partials/header.php'; ?>
                             <?php $shippingAddress = $user ? $user->getDefaultAddress('shipping') : ''; ?>
                             <div class="mb-3">
                                 <label for="shipping_street" class="form-label">Utca, házszám</label>
-                                <input type="text" class="form-control" id="shipping_street" name="shipping_street" value="<?php echo htmlspecialchars($shippingAddress ? $shippingAddress->getStreet() : ''); ?>" required>
+                                <input type="text" class="form-control" id="shipping_street" name="shipping_street" value="<?= htmlspecialchars($shippingAddress ? $shippingAddress->getStreet() : ''); ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="shipping_city" class="form-label">Város</label>
-                                <input type="text" class="form-control" id="shipping_city" name="shipping_city" value="<?php echo htmlspecialchars($shippingAddress ? $shippingAddress->getCity() : ''); ?>" required>
+                                <input type="text" class="form-control" id="shipping_city" name="shipping_city" value="<?= htmlspecialchars($shippingAddress ? $shippingAddress->getCity() : ''); ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="shipping_zip_code" class="form-label">Irányítószám</label>
-                                <input type="text" class="form-control" id="shipping_zip_code" name="shipping_zip_code" value="<?php echo htmlspecialchars($shippingAddress ? $shippingAddress->getZipCode() : ''); ?>" required>
+                                <input type="text" class="form-control" id="shipping_zip_code" name="shipping_zip_code" value="<?= htmlspecialchars($shippingAddress ? $shippingAddress->getZipCode() : ''); ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="shipping_country" class="form-label">Ország</label>
-                                <input type="text" class="form-control" id="shipping_country" name="shipping_country" value="<?php echo htmlspecialchars($shippingAddress ? $shippingAddress->getCountry() : ''); ?>" required>
+                                <input type="text" class="form-control" id="shipping_country" name="shipping_country" value="<?= htmlspecialchars($shippingAddress ? $shippingAddress->getCountry() : ''); ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="shipping_phone" class="form-label">Telefonszám</label>
-                                <input type="tel" class="form-control" id="shipping_phone" name="shipping_phone" value="<?php echo htmlspecialchars($shippingAddress ? $shippingAddress->getPhone() : ''); ?>">
+                                <input type="tel" class="form-control" id="shipping_phone" name="shipping_phone" value="<?= htmlspecialchars($shippingAddress ? $shippingAddress->getPhone() : ''); ?>">
                             </div>
                         </div>
                         <div class="mb-3">
@@ -113,8 +113,8 @@ require __DIR__ . '/../Partials/header.php'; ?>
                             $total += $subtotal;
                         ?>
                             <div class="d-flex justify-content-between mb-2">
-                                <span><?php echo htmlspecialchars($product->getName()); ?> x <?php echo $quantity; ?></span>
-                                <span><?php echo number_format($subtotal, 0, ',', ' '); ?> Ft</span>
+                                <span><?= htmlspecialchars($product->getName()); ?> x <?= $quantity; ?></span>
+                                <span><?= number_format($subtotal, 0, ',', ' '); ?> Ft</span>
                             </div>
                         <?php endif; ?>
                     <?php endforeach; ?>

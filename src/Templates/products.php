@@ -40,7 +40,7 @@
                                 <td><?= number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
                                 <td><?= $product->getStock(); ?></td>
                                 <td>
-                                    <span class="badge bg-<?php echo $product->isActive() ? 'success' : 'danger'; ?>">
+                                    <span class="badge bg-<?= $product->isActive() ? 'success' : 'danger'; ?>">
                                         <?= $product->isActive() ? 'Aktív' : 'Inaktív'; ?>
                                     </span>
                                 </td>

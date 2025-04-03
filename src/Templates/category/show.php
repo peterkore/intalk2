@@ -2,9 +2,9 @@
 
 <div class="banner">
     <div class="container">
-        <h1><?php echo htmlspecialchars($category->getName()); ?></h1>
+        <h1><?= htmlspecialchars($category->getName()); ?></h1>
         <?php if ($category->getDescription()): ?>
-            <p><?php echo htmlspecialchars($category->getDescription()); ?></p>
+            <p><?= htmlspecialchars($category->getDescription()); ?></p>
         <?php endif; ?>
     </div>
 </div>
@@ -28,22 +28,22 @@
                 <tbody>
                     <?php foreach ($products as $product): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($product->getName()); ?></td>
-                            <td><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
+                            <td><?= htmlspecialchars($product->getName()); ?></td>
+                            <td><?= number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
                             <td>
                                 <?php if ($product->getStock() == 0): ?>
                                     <span class="badge bg-danger">Elfogyott</span>
                                 <?php elseif ($product->getStock() <= 5): ?>
-                                    <span class="badge bg-warning"><?php echo $product->getStock(); ?> db</span>
+                                    <span class="badge bg-warning"><?= $product->getStock(); ?> db</span>
                                 <?php else: ?>
-                                    <span class="badge bg-success"><?php echo $product->getStock(); ?> db</span>
+                                    <span class="badge bg-success"><?= $product->getStock(); ?> db</span>
                                 <?php endif; ?>
                             </td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="/product/view/<?php echo $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
+                                    <a href="/product/view/<?= $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
                                     <?php if ($product->getStock() > 0): ?>
-                                        <button class="btn btn-sm btn-success add-to-cart" data-product-id="<?php echo $product->getId(); ?>">
+                                        <button class="btn btn-sm btn-success add-to-cart" data-product-id="<?= $product->getId(); ?>">
                                             Kosárba
                                         </button>
                                     <?php endif; ?>
