@@ -14,7 +14,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
     <div class="row">
         <div class="col-md-6">
             <div class="product-image">
-                <img src="/assets/images/no-image.jpg" alt="<?php echo htmlspecialchars($product->getName()); ?>" class="img-fluid">
+                <img src="/product.png" alt="<?php echo htmlspecialchars($product->getName()); ?>" class="img-fluid">  //termék főképét cseréljük a kontstans képünkre
             </div>
         </div>
         <div class="col-md-6">
@@ -60,7 +60,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
                 <?php foreach ($relatedProducts as $relatedProduct): ?>
                     <div class="col-md-3">
                         <div class="card h-100">
-                            <img src="/assets/images/no-image.jpg" class="card-img-top" alt="<?php echo htmlspecialchars($relatedProduct->getName()); ?>">
+                            <img src="/product.png" class="card-img-top" alt="<?php echo htmlspecialchars($relatedProduct->getName()); ?>"> //a kapcsolódó termékek képét is kicseréljük
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($relatedProduct->getName()); ?></h5>
                                 <p class="card-text"><?php echo number_format($relatedProduct->getPrice(), 0, ',', ' '); ?> Ft</p>
