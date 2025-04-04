@@ -3,41 +3,33 @@
 // keresett szöveget úgy tudom elérni, input gomb -> javascript -> redirct url /url/search /input box értéke
 // index.2 php-t linkekkel
 //http://localhost/product/search/s  így keres 
- require __DIR__ . '/../Partials/header.php';
- var_dump($products);
+require __DIR__ . '/../Partials/header.php'; 
+ //var_dump($products);
 ?>
-
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Főoldal</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Keresés: <?php echo htmlspecialchars($search); ?></li>
-        </ol>
-    </nav>
-
-    <h1 class="mb-4">Keresési találatok: "<?php echo htmlspecialchars($search); ?>"</h1>
-
-    <?php if (empty($products)): ?>
-        <div class="alert alert-info">
-            Nincsenek találatok a keresésre: "<?php echo htmlspecialchars($search); ?>"
-        </div>
-    <?php else: ?>
-        <div class="row">
-            <?php foreach ($products as $product): ?>
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100">
-                        <?php if ($product->getImage()): ?>
-                            <!--img src="<?php echo htmlspecialchars($product->getImage()); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product->getName()); ?>"-->
-                        <?php else: ?>
-                            <img src="/assets/images/no-image.jpg" class="card-img-top" alt="Nincs kép">
-                        <?php endif; ?>
+<div class="container-fluid px-4">
+<div class="row gx-5">
+    <h1 class="mb-4"  >Keresési találatok: <span id="search-string"> </span> </h1>
+   
+            <?php  ?>
+<!--a products oldalon létrehozok egy kereső mezőt-->
+            <!--form method="GET" class="form-inline my-2 my-lg-0" action = "">
+            <input class="form-control mr-sm-2" type="search" name="search" id="search" placeholder="Keresés" aria-label="Keresés">
+            <button class="btn btn-secondary my-2 my-sm-0" id="s-button" name="s-button" type="submit">Keresés</button>
+            </form-->
+            <?php
+            foreach ($products as $product): ?>
+                <?php
+                if (method_exists($product, 'getId')): 
+                    $id = $product->getId();
+                    ?>   <div class="card row col-6 col-sm-3 px-5" style="width: 18rem;">
                         <div class="card-body">
-                            <h5 class="card-title"><?php echo htmlspecialchars($product->getName()); ?></h5>
+                        <h5 class="card-title"><?php echo htmlspecialchars($product->getName()); ?></h5>
                             <p class="card-text"><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</p>
+                            <p class="text-dark"><?php echo htmlspecialchars($product->getDescription()); ?> </p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <a href="/product/<?php echo $product->getId(); ?>" class="btn btn-primary">Részletek</a>
                                 <?php if ($product->getStock() > 0): ?>
-                                    <button class="btn btn-success add-to-cart" data-product-id="<?php echo $product->getId(); ?>">
+                                    <button class="btn btn-success add-to-cart" data-product-id="<?php echo htmlspecialchars ($product->getId()) ?>">
                                         <i class="fas fa-shopping-cart"></i>
                                     </button>
                                 <?php else: ?>
@@ -46,13 +38,17 @@
                                     </button>
                                 <?php endif; ?>
                             </div>
+                                </div>
                         </div>
-                    </div>
-                </div>
+                    <!--tr>
+                        <td><?= $id ?></td>
+                        <td><a href="product/view/<?= $id ?>"><?= $product->getName() ?></a></td>
+                    </tr-->
+                <?php endif; ?>
             <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-</div>
+      
+
+    
 
 <style>
 .breadcrumb {
@@ -129,13 +125,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
  // a script a beírt kereső stringet megfelelő url-be teszi a kereséshez
-    function mySearch(){
-        document.getElementById
-
-    }
+ document.getElementById("search-string").innerHTML = searchString;
 });
 </script>
 
+
 <?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'footer.php';
+require __DIR__ . '/../Partials/footer.php'; 
 ?> 

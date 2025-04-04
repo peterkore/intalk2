@@ -44,12 +44,12 @@ function mySearch(){
     submitOK = "true";
     //lekéream az aktuális domaint a kereséshz
     var currentDomain = window.location.hostname;
-    alert (currentDomain);
+    //alert (currentDomain);
     var urlString = "/product/search/";
     // a domainhez hozzáteszem  a searchUrl-t
-    var a = "https://"
+    var a = "http://"
     var searchUrl = a+currentDomain + urlString + searchString;
-       alert(searchUrl);    
+      // alert(searchUrl);    
    try {
     //document.getElementById("s-button").innerHTML = "Ide kattintottál";
       
