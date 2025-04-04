@@ -48,6 +48,7 @@ function mySearch(){
     var urlString = "/product/search/";
     // a domainhez hozzáteszem  a searchUrl-t
     var a = "http://"
+    
     var searchUrl = a+currentDomain + urlString + searchString;
       // alert(searchUrl);    
    try {

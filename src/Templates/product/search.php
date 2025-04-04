@@ -40,10 +40,7 @@ require __DIR__ . '/../Partials/header.php';
                             </div>
                                 </div>
                         </div>
-                    <!--tr>
-                        <td><?= $id ?></td>
-                        <td><a href="product/view/<?= $id ?>"><?= $product->getName() ?></a></td>
-                    </tr-->
+                  
                 <?php endif; ?>
             <?php endforeach; ?>
       
