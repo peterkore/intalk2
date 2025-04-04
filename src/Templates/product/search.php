@@ -9,14 +9,13 @@ require __DIR__ . '/../Partials/header.php';
 <div class="container-fluid px-4">
 <div class="row gx-5">
     <h1 class="mb-4"  >Keresési találatok: <span id="search-string"> </span> </h1>
-   
-            <?php  ?>
-<!--a products oldalon létrehozok egy kereső mezőt-->
-            <!--form method="GET" class="form-inline my-2 my-lg-0" action = "">
-            <input class="form-control mr-sm-2" type="search" name="search" id="search" placeholder="Keresés" aria-label="Keresés">
-            <button class="btn btn-secondary my-2 my-sm-0" id="s-button" name="s-button" type="submit">Keresés</button>
-            </form-->
+
+
             <?php
+            //ellenőrzi hogy tömb-e az átadott változó
+           if (is_array($products) || is_object($products))
+          
+           {
             foreach ($products as $product): ?>
                 <?php
                 if (method_exists($product, 'getId')): 
@@ -43,7 +42,11 @@ require __DIR__ . '/../Partials/header.php';
                         </div>
                   
                 <?php endif; ?>
-            <?php endforeach; ?>
+            <?php endforeach; }
+            else{
+                echo 'Nincs találat!';
+            }
+            ;?>
       
 
     
