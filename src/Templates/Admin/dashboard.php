@@ -9,7 +9,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
             <div class="card bg-primary text-white">
                 <div class="card-body">
                     <h5 class="card-title">Termékek</h5>
-                    <p class="card-text display-4"><?php echo $totalProducts; ?></p>
+                    <p class="card-text display-4"><?= $totalProducts; ?></p>
                     <a href="/admin/products" class="btn btn-light">Termékek kezelése</a>
                 </div>
             </div>
@@ -18,7 +18,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <h5 class="card-title">Rendelések</h5>
-                    <p class="card-text display-4"><?php echo $totalOrders; ?></p>
+                    <p class="card-text display-4"><?= $totalOrders; ?></p>
                     <a href="/admin/orders" class="btn btn-light">Rendelések kezelése</a>
                 </div>
             </div>
@@ -27,7 +27,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
             <div class="card bg-info text-white">
                 <div class="card-body">
                     <h5 class="card-title">Felhasználók</h5>
-                    <p class="card-text display-4"><?php echo $totalUsers; ?></p>
+                    <p class="card-text display-4"><?= $totalUsers; ?></p>
                     <a href="/admin/users" class="btn btn-light">Felhasználók kezelése</a>
                 </div>
             </div>
@@ -36,7 +36,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
             <div class="card bg-warning text-white">
                 <div class="card-body">
                     <h5 class="card-title">Kategóriák</h5>
-                    <p class="card-text display-4"><?php echo $totalCategories; ?></p>
+                    <p class="card-text display-4"><?= $totalCategories; ?></p>
                     <a href="/admin/categories" class="btn btn-light">Kategóriák kezelése</a>
                 </div>
             </div>

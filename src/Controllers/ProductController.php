@@ -1,9 +1,9 @@
 <?php
 
 namespace Webshop\Controllers;
-use Webshop\View;
-use Webshop\BaseController;
+
 use Webshop\Model\Product;
+use Webshop\BaseController;
 
 class ProductController extends BaseController {
     public function view($id) {
@@ -26,7 +26,12 @@ class ProductController extends BaseController {
             ->getQuery()
             ->getResult();
 
-        require_once __DIR__ . '/../Templates/product.php';
+        echo (new View())->render('product.php', [
+            'title' => 'Termék - Állatwebshop',
+            'relatedProducts' => $relatedProducts,
+            'product' => $product,
+
+        ]);
     }
 
     // Keresés végrahajtása a name, description mezőkben

@@ -15,8 +15,8 @@
                 <p>Nincsenek kategóriák</p>
             <?php else: ?>
                 <?php foreach ($categories as $category): ?>
-                    <a href="#category-<?php echo $category->getId(); ?>" class="category-link">
-                        <?php echo htmlspecialchars($category->getName()); ?>
+                    <a href="#category-<?= $category->getId(); ?>" class="category-link">
+                        <?= htmlspecialchars($category->getName()); ?>
                     </a>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -32,10 +32,10 @@
         </div>
     <?php else: ?>
         <?php foreach ($categories as $category): ?>
-            <section id="category-<?php echo $category->getId(); ?>" class="category-section">
+            <section id="category-<?= $category->getId(); ?>" class="category-section">
                 <div class="category-header">
-                    <h2><?php echo htmlspecialchars($category->getName()); ?></h2>
-                    <a href="/category/show/<?php echo $category->getId(); ?>" class="btn btn-primary">Több</a>
+                    <h2><?= htmlspecialchars($category->getName()); ?></h2>
+                    <a href="/category/show/<?= $category->getId(); ?>" class="btn btn-primary">Több</a>
                 </div>
                 <?php 
                 $products = $productsByCategory[$category->getId()] ?? [];
@@ -58,22 +58,22 @@
                             <tbody>
                                 <?php foreach ($products as $product): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($product->getName()); ?></td>
-                                        <td><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
+                                        <td><?= htmlspecialchars($product->getName()); ?></td>
+                                        <td><?= number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
                                         <td>
                                             <?php if ($product->getStock() == 0): ?>
                                                 <span class="badge bg-danger">Elfogyott</span>
                                             <?php elseif ($product->getStock() <= 5): ?>
-                                                <span class="badge bg-warning"><?php echo $product->getStock(); ?> db</span>
+                                                <span class="badge bg-warning"><?= $product->getStock(); ?> db</span>
                                             <?php else: ?>
-                                                <span class="badge bg-success"><?php echo $product->getStock(); ?> db</span>
+                                                <span class="badge bg-success"><?= $product->getStock(); ?> db</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
                                             <div class="action-buttons">
-                                                <a href="/product/view/<?php echo $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
+                                                <a href="/product/view/<?= $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
                                                 <?php if ($product->getStock() > 0): ?>
-                                                    <button class="btn btn-sm btn-success add-to-cart" data-product-id="<?php echo $product->getId(); ?>">
+                                                    <button class="btn btn-sm btn-success add-to-cart" data-product-id="<?= $product->getId(); ?>">
                                                         Kosárba
                                                     </button>
                                                 <?php endif; ?>

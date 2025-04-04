@@ -24,9 +24,9 @@ require __DIR__ . '/../Partials/header.php'; ?>
                 <tbody>
                     <?php foreach ($orders as $order): ?>
                         <tr>
-                            <td>#<?php echo $order->getId(); ?></td>
-                            <td><?php echo $order->getCreatedAt()->format('Y.m.d H:i'); ?></td>
-                            <td><?php echo number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</td>
+                            <td>#<?= $order->getId(); ?></td>
+                            <td><?= $order->getCreatedAt()->format('Y.m.d H:i'); ?></td>
+                            <td><?= number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</td>
                             <td>
                                 <?php
                                 $statusClass = match($order->getStatus()) {
@@ -38,12 +38,12 @@ require __DIR__ . '/../Partials/header.php'; ?>
                                     default => 'secondary'
                                 };
                                 ?>
-                                <span class="badge bg-<?php echo $statusClass; ?>">
-                                    <?php echo $order->getStatus(); ?>
+                                <span class="badge bg-<?= $statusClass; ?>">
+                                    <?= $order->getStatus(); ?>
                                 </span>
                             </td>
                             <td>
-                                <a href="/order/show/<?php echo $order->getId(); ?>" class="btn btn-sm btn-primary">
+                                <a href="/order/show/<?= $order->getId(); ?>" class="btn btn-sm btn-primary">
                                     Részletek
                                 </a>
                             </td>

@@ -2,10 +2,9 @@
 
 namespace Webshop\Controllers;
 
+use Webshop\View;
 use Webshop\BaseController;
 use Webshop\Model\Category;
-use Webshop\Model\Product;
-use Doctrine\ORM\EntityManagerInterface;
 
 class CategoryController extends BaseController
 {
@@ -18,8 +17,10 @@ class CategoryController extends BaseController
             exit;
         }
 
-        $products = $category->getProducts();
-
-        require __DIR__ . '/../Templates/category/show.php';
+        echo (new View())->render('category/show.php', [
+            'title' => 'Állatwebshop - kategória',
+            'products' => $category->getProducts(),
+            'category' => $category
+        ]);
     }
 } 

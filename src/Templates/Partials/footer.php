@@ -26,7 +26,7 @@
             <hr class="my-4">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start">
-                    <p class="mb-0">&copy; <?php echo date('Y'); ?> Állatwebshop. Minden jog fenntartva.</p>
+                    <p class="mb-0">&copy; <?= date('Y'); ?> Állatwebshop. Minden jog fenntartva.</p>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
