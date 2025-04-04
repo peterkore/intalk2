@@ -4,6 +4,8 @@ namespace Webshop\Controllers;
 
 use Webshop\BaseController;
 use Webshop\Model\Product;
+use Webshop\Model\Category;
+use Doctrine\ORM\EntityManager;
 
 class ProductController extends BaseController {
     public function view($id) {
@@ -25,6 +27,10 @@ class ProductController extends BaseController {
             ->setMaxResults(4)
             ->getQuery()
             ->getResult();
+
+        // Kép elérési út beállítása
+        $imagePath = $product->getImagePath() ?: 'images/no-image-thumb.png';
+        $thumbnailPath = $product->getThumbnailPath() ?: 'images/no-image-thumb.png';
 
         require_once __DIR__ . '/../Templates/product.php';
     }

@@ -58,6 +58,29 @@ class Product
     #[ORM\OneToMany(mappedBy: "product", targetEntity: ProductAttribute::class, cascade: ["persist", "remove"])]
     private Collection $attributes;
 
+    /**
+     * A termék képének elérési útja
+     * 
+     * Ez a tulajdonság tárolja a termék eredeti képének elérési útját.
+     * A kép a public/uploads/products/ könyvtárban található.
+     * 
+     * @var string|null
+     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $imagePath = null;
+
+    /**
+     * A termék miniatűr képének elérési útja
+     * 
+     * Ez a tulajdonság tárolja a termék kisebb méretű képének elérési útját.
+     * A miniatűr kép a public/uploads/products/ könyvtárban található,
+     * és a 'thumb_' előtaggal kezdődik.
+     * 
+     * @var string|null
+     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $thumbnailPath = null;
+
     public function __construct()
     {
         $this->cartItems = new ArrayCollection();
@@ -273,6 +296,48 @@ class Product
             $attribute->setValue($value);
             $this->addAttribute($attribute);
         }
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Visszaadja a termék képének elérési útját
+     * 
+     * @return string|null A kép elérési útja vagy null, ha nincs kép
+     */
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    /**
+     * Beállítja a termék képének elérési útját
+     * 
+     * @param string|null $imagePath A kép elérési útja
+     */
+    public function setImagePath(?string $imagePath): void
+    {
+        $this->imagePath = $imagePath;
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Visszaadja a termék miniatűr képének elérési útját
+     * 
+     * @return string|null A miniatűr kép elérési útja vagy null, ha nincs miniatűr
+     */
+    public function getThumbnailPath(): ?string
+    {
+        return $this->thumbnailPath;
+    }
+
+    /**
+     * Beállítja a termék miniatűr képének elérési útját
+     * 
+     * @param string|null $thumbnailPath A miniatűr kép elérési útja
+     */
+    public function setThumbnailPath(?string $thumbnailPath): void
+    {
+        $this->thumbnailPath = $thumbnailPath;
         $this->updatedAt = new \DateTime();
     }
 }

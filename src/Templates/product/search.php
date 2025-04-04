@@ -24,7 +24,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Parti
                         <?php if ($product->getImage()): ?>
                             <img src="<?php echo htmlspecialchars($product->getImage()); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product->getName()); ?>">
                         <?php else: ?>
-                            <img src="/assets/images/no-image.jpg" class="card-img-top" alt="Nincs kép">
+                            <img src="images/no-image-thumb.png" class="card-img-top" alt="Nincs kép">
                         <?php endif; ?>
                         <div class="card-body">
                             <h5 class="card-title"><?php echo htmlspecialchars($product->getName()); ?></h5>

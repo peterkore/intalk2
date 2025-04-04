@@ -15,7 +15,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="<?php echo $product ? '/admin/product/edit/' . $product->getId() : '/admin/product/new'; ?>">
+            <form method="POST" action="<?php echo $product ? '/admin/product/edit/' . $product->getId() : '/admin/product/new'; ?>" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -111,6 +111,47 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
                         <button type="button" class="btn btn-secondary" onclick="addAttribute()">
                             <i class="bi bi-plus-lg"></i> Attribútum hozzáadása
                         </button>
+                    </div>
+                </div>
+
+                <!-- Kép feltöltés mező -->
+                <div class="mb-3">
+                    <label for="image" class="form-label">Termék képe</label>
+                    <!-- 
+                        Kép feltöltés input mező:
+                        - accept attribútum korlátozza a feltölthető fájltípusokat
+                        - enctype="multipart/form-data" szükséges a fájl feltöltéséhez
+                        - Ha van meglévő kép, azt megjelenítjük az űrlap felett
+                    -->
+                    <?php if ($product && $product->getImagePath()): ?>
+                        <div class="mb-2">
+                            <img src="/<?= htmlspecialchars($product->getImagePath()) ?>" 
+                                 alt="Jelenlegi kép" 
+                                 class="img-thumbnail" 
+                                 style="max-height: 200px;">
+                        </div>
+                    <?php else: ?>
+                        <div class="mb-2">
+                            <img src="/images/no-image-thumb.png" 
+                                 alt="Alapértelmezett kép" 
+                                 class="img-thumbnail" 
+                                 style="max-height: 200px;">
+                        </div>
+                    <?php endif; ?>
+                    <input type="file" 
+                           class="form-control" 
+                           id="image" 
+                           name="image" 
+                           accept="image/jpeg,image/png,image/gif">
+                    <div class="form-text">
+                        <!-- 
+                            Segéd szöveg a kép feltöltéshez:
+                            - Támogatott formátumok listázása
+                            - Maximális méret ajánlása
+                            - Miniatűr kép automatikus létrehozásának említése
+                        -->
+                        Támogatott formátumok: JPG, PNG, GIF. Ajánlott maximális méret: 2000x2000 pixel.
+                        A rendszer automatikusan létrehoz egy miniatűr verziót a feltöltött képről.
                     </div>
                 </div>
 

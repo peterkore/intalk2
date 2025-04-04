@@ -24,5 +24,6 @@ class DashboardController extends BaseController
             'totalUsers' => $this->entityManager->getRepository(User::class)->count([]),
             'totalCategories' => $this->entityManager->getRepository(Category::class)->count([])
         ]);
-    }   
+    }
+    
 }

@@ -12,9 +12,17 @@ class ProductsController extends BaseController
     public function index(): void
     {
         $productRepository = $this->entityManager->getRepository(Product::class);
+        $products = $productRepository->findAll();
+        
+        // Képek elérési útjainak beállítása
+        foreach ($products as $product) {
+            $product->imagePath = $product->getImagePath() ?: 'images/no-image-thumb.png';
+            $product->thumbnailPath = $product->getThumbnailPath() ?: 'images/no-image-thumb.jpg';
+        }
+
         echo (new View())->render('products.php', [
             'title' => 'Termékek - Állatwebshop',
-            'products' => $productRepository->findAll()
+            'products' => $products
         ]);
     }
 

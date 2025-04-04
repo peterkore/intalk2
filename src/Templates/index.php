@@ -43,44 +43,37 @@
                         Nincsenek termékek ebben a kategóriában.
                     </div>
                 <?php else: ?>
-                    <div class="table-responsive">
-                        <table class="product-table">
-                            <thead>
-                                <tr>
-                                    <th>Termék neve</th>
-                                    <th>Ár</th>
-                                    <th>Elérhető darabszám</th>
-                                    <th>Műveletek</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($products as $product): ?>
-                                    <tr>
-                                        <td><?php echo htmlspecialchars($product->getName()); ?></td>
-                                        <td><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
-                                        <td>
+                    <div class="row">
+                        <?php foreach ($products as $product): ?>
+                            <div class="col-md-3 mb-4">
+                                <div class="card h-100 product-card">
+                                    <div class="product-image">
+                                        <img src="/<?= htmlspecialchars($product->getThumbnailPath() ?: 'images/no-image-thumb.png') ?>" class="card-img-top" alt="<?= htmlspecialchars($product->getName()) ?>">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?= htmlspecialchars($product->getName()) ?></h5>
+                                        <p class="card-text price"><?= number_format($product->getPrice(), 0, ',', ' ') ?> Ft</p>
+                                        <div class="stock-info mb-2">
                                             <?php if ($product->getStock() == 0): ?>
                                                 <span class="badge bg-danger">Elfogyott</span>
                                             <?php elseif ($product->getStock() <= 5): ?>
-                                                <span class="badge bg-warning"><?php echo $product->getStock(); ?> db</span>
+                                                <span class="badge bg-warning"><?= $product->getStock() ?> db</span>
                                             <?php else: ?>
-                                                <span class="badge bg-success"><?php echo $product->getStock(); ?> db</span>
+                                                <span class="badge bg-success"><?= $product->getStock() ?> db</span>
                                             <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <a href="/product/view/<?php echo $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
-                                                <?php if ($product->getStock() > 0): ?>
-                                                    <button class="btn btn-sm btn-success add-to-cart" data-product-id="<?php echo $product->getId(); ?>">
-                                                        Kosárba
-                                                    </button>
-                                                <?php endif; ?>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <a href="/product/view/<?= $product->getId() ?>" class="btn btn-primary">Részletek</a>
+                                            <?php if ($product->getStock() > 0): ?>
+                                                <button class="btn btn-success add-to-cart" data-product-id="<?= $product->getId() ?>">
+                                                    Kosárba
+                                                </button>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
             </section>
@@ -134,34 +127,56 @@
     scroll-margin-top: 100px;
 }
 
-.table-responsive {
-    margin-top: 1rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    height: 200px;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
 }
 
-.product-table {
+.product-image img {
     width: 100%;
-    border-collapse: collapse;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
 }
 
-.product-table th,
-.product-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+.product-card:hover .product-image img {
+    transform: scale(1.05);
 }
 
-.product-table th {
-    background: #f8f9fa;
-    font-weight: 600;
-    color: #333;
+.card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    height: 2.4rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
-.product-table tr:hover {
-    background: #f8f9fa;
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #dc3545;
+    margin-bottom: 0.5rem;
+}
+
+.stock-info {
+    margin-bottom: 1rem;
 }
 
 .badge {
@@ -185,11 +200,6 @@
     color: white;
 }
 
-.action-buttons {
-    display: flex;
-    gap: 0.5rem;
-}
-
 .btn {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -198,11 +208,6 @@
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-}
-
-.btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
 }
 
 .btn-primary {
@@ -219,25 +224,27 @@
     opacity: 0.9;
 }
 
-@media (max-width: 768px) {
-    .action-buttons {
-        flex-direction: column;
-    }
-    
-    .btn-sm {
-        width: 100%;
-    }
-}
-
 .category-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .category-header h2 {
     margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .col-md-3 {
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-card {
+        margin-bottom: 0;
+    }
 }
 </style>
 
