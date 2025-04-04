@@ -22,6 +22,7 @@ require __DIR__ . '/../Partials/header.php';
                 if (method_exists($product, 'getId')): 
                     $id = $product->getId();
                     ?>   <div class="card row col-6 col-sm-3 px-5" style="width: 18rem;">
+                          <img src="/assets/images/no-image.jpg" class="card-img-top" alt="Nincs kép">
                         <div class="card-body">
                         <h5 class="card-title"><?php echo htmlspecialchars($product->getName()); ?></h5>
                             <p class="card-text"><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</p>
