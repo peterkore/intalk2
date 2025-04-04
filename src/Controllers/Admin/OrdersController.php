@@ -12,7 +12,7 @@ class OrdersController extends BaseController
     {
         $this->checkAdminAuth();
         echo (new View())->render('Admin/orders.php', [
-            'title' => 'Rendelések - Petshop Admin',
+            'title' => 'Rendelések - Állatwebshop',
             'orders' => $this->entityManager->getRepository(Order::class)->findAll()
                 ]);
     }

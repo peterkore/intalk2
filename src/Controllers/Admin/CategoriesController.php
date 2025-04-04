@@ -2,23 +2,24 @@
 
 namespace Webshop\Controllers\Admin;
 
-use Webshop\View;
+use Doctrine\ORM\EntityManager;
 use Webshop\BaseController;
 use Webshop\Model\Category;
+use Webshop\EntityManagerFactory;
 
 class CategoriesController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct(EntityManagerFactory::getEntityManager());
+    }
+
     public function index(): void
     {
         $this->checkAdminAuth();
 
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        
-        echo (new View())->render('Admin/categories.php', [
-            'title' => 'Kategóriák - PetShop Admin',
-            'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
-
-        ]);
+        require __DIR__ . '/../../Templates/Admin/categories.php';
     }
 
     public function view(int $categoryId): void
@@ -31,11 +32,7 @@ class CategoriesController extends BaseController
             exit;
         }
 
-        echo (new View())->render('Admin/category_view.php', [
-            'title' => 'Kategória részletek - PetShop Admin',
-            'category' => $this->entityManager->getRepository(Category::class)->find($categoryId),
-
-        ]);
+        require __DIR__ . '/../../Templates/Admin/category_view.php';
     }
 
     public function edit(int $categoryId): void
@@ -57,11 +54,7 @@ class CategoriesController extends BaseController
             exit;
         }
 
-        echo (new View())->render('Admin/category_edit.php', [
-            'title' => 'Kategória szerkesztése - PetShop Admin',
-            'category' => $category,
-
-        ]);
+        require __DIR__ . '/../../Templates/Admin/category_edit.php';
     }
 
     public function create(): void
@@ -79,10 +72,7 @@ class CategoriesController extends BaseController
             exit;
         }
 
-        echo (new View())->render('Admin/category_create.php', [
-            'title' => 'Új kategória - PetShop Admin',
-
-        ]);
+        require __DIR__ . '/../../Templates/Admin/category_create.php';
     }
 
     public function delete(int $categoryId): void

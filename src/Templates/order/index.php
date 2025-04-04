@@ -1,6 +1,6 @@
 <?php
 use Webshop\Model\Order;
-require __DIR__ . '/../Partials/header.php'; ?>
+require __DIR__ . '/../partials/header.php'; ?>
 
 <div class="container">
     <h1>Rendeléseim</h1>
@@ -156,4 +156,4 @@ require __DIR__ . '/../Partials/header.php'; ?>
 }
 </style>
 
-<?php require __DIR__ . '/../Partials/footer.php'; ?> 
+<?php require __DIR__ . '/../partials/footer.php'; ?> 

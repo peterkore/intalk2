@@ -112,6 +112,9 @@ class Product
 
     public function setStock(int $stock): void
     {
+        if ($stock < 0) {
+            throw new \InvalidArgumentException('A készlet nem lehet negatív.');
+        }
         $this->stock = $stock;
         $this->updatedAt = new \DateTime();
     }

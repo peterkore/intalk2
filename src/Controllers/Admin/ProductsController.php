@@ -12,7 +12,7 @@ class ProductsController extends BaseController
     {
         $this->checkAdminAuth();
         echo (new View())->render('Admin/products.php', [
-            'title' => 'Termékek - Petshop Admin',
+            'title' => 'Kezdőlap - Állatwebshop',
             'products' => $this->entityManager->getRepository(Product::class)->findAll()
         ]);
     }

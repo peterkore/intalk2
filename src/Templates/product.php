@@ -6,6 +6,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Főoldal</a></li>
+            <li class="breadcrumb-item"><a href="/category">Kategóriák</a></li>
             <li class="breadcrumb-item"><a href="/category/show/<?php echo $product->getCategory()->getId(); ?>"><?php echo htmlspecialchars($product->getCategory()->getName()); ?></a></li>
             <li class="breadcrumb-item active" aria-current="page"><?php echo htmlspecialchars($product->getName()); ?></li>
         </ol>
@@ -64,7 +65,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo htmlspecialchars($relatedProduct->getName()); ?></h5>
                                 <p class="card-text"><?php echo number_format($relatedProduct->getPrice(), 0, ',', ' '); ?> Ft</p>
-                                <a href="/product/view/<?php echo $relatedProduct->getId(); ?>" class="btn btn-primary">Részletek</a>
+                                <a href="/product/<?php echo $relatedProduct->getId(); ?>" class="btn btn-primary">Részletek</a>
                             </div>
                         </div>
                     </div>

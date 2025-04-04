@@ -1,7 +1,7 @@
 <?php
 use Webshop\Model\Order;
 use Webshop\Model\Product;
-require __DIR__ . '/../Partials/header.php'; ?>
+require __DIR__ . '/../partials/header.php'; ?>
 
 <div class="container">
     <h1>Rendelés létrehozása</h1>
@@ -282,4 +282,4 @@ require __DIR__ . '/../Partials/header.php'; ?>
 }
 </style>
 
-<?php require __DIR__ . '/../Partials/footer.php'; ?> 
+<?php require __DIR__ . '/../partials/footer.php'; ?> 

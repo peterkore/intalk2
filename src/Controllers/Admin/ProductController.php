@@ -38,7 +38,7 @@ class ProductController extends BaseController
         }
 
         echo (new View())->render('Admin/product_edit.php', [
-            'title' => 'Új termék - Petshop Admin',
+            'title' => 'Kezdőlap - Állatwebshop',
             'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
             'product' => false
         ]);
@@ -73,7 +73,7 @@ class ProductController extends BaseController
             exit;
         }
         echo (new View())->render('Admin/product_edit.php', [
-            'title' => 'Termék szerkesztése - Petshop Admin',
+            'title' => 'Kezdőlap - Állatwebshop',
             'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
             'product' => $this->entityManager->getRepository(Product::class)->find($productId)
         ]);

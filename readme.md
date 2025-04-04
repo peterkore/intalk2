@@ -115,6 +115,39 @@ php bin/create_product TERMÉKNÉV MENNYISÉG
 &nbsp;
 ## Tesztelés
 
+### Unit tesztek futtatása
+A rendszer két fő unit tesztet tartalmaz:
+
+1. **ProductTest** - A termékek kezelését teszteli:
+   - Létre lehet-e hozni új terméket
+   - Frissíthető-e egy meglévő termék
+   - Törölhető-e egy termék
+   - Nem lehet-e negatív a készlet
+
+2. **SimpleWebshopTest** - A webshop alapvető működését teszteli:
+   - Az adatbázis struktúra működését
+   - A rendelések létrehozását
+
+A tesztek futtatásához használd a következő parancsot:
+```console
+./vendor/bin/phpunit tests/Unit
+```
+
+Ha csak egy adott tesztet szeretnél futtatni, használd ezt a parancsot:
+```console
+./vendor/bin/phpunit tests/Unit/ProductTest.php
+```
+
+A tesztek futtatása előtt:
+1. Győződj meg róla, hogy az adatbázis séma létre van hozva
+2. A tesztek automatikusan létrehoznak és törölnek adatokat, ne aggódj miatta
+3. Minden teszt függetlenül fut, nem befolyásolják egymást
+
+A tesztek eredménye:
+- ✅ Zöld: A teszt sikeresen lefutott
+- ❌ Piros: A teszt hibát talált
+- ℹ️ Sárga: Figyelmeztetés van a teszttel kapcsolatban
+
 ### Tekintsed meg a Termékek lapot
 http://localhost/products/index
 ### Az 1. azonosítóval rendelkező egyedi terméklap megtekintéséhez

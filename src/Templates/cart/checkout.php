@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/../../Partials/header.php'; ?>
+<?php require __DIR__ . '/../../partials/header.php'; ?>
 
 <div class="container">
     <h1>Rendelés véglegesítése</h1>
@@ -132,4 +132,4 @@
 }
 </style>
 
-<?php require __DIR__ . '/../../Partials/footer.php'; ?> 
+<?php require __DIR__ . '/../../partials/footer.php'; ?> 

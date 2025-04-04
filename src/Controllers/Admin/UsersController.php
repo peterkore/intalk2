@@ -2,22 +2,25 @@
 
 namespace Webshop\Controllers\Admin;
 
-use Webshop\View;
+use Doctrine\ORM\EntityManager;
+use Webshop\BaseController;
 use Webshop\Model\User;
 use Webshop\Model\Address;
-use Webshop\BaseController;
+use Webshop\EntityManagerFactory;
 
 class UsersController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct(EntityManagerFactory::getEntityManager());
+    }
+
     public function index(): void
     {
         $this->checkAdminAuth();
 
-        echo (new View())->render('Admin/users.php', [
-            'title' => 'Felhasználók - PetShop Admin',
-            'users' => $this->entityManager->getRepository(User::class)->findAll(),
-
-        ]);
+        $users = $this->entityManager->getRepository(User::class)->findAll();
+        require __DIR__ . '/../../Templates/Admin/users.php';
     }
 
     public function view(int $userId): void
@@ -30,59 +33,10 @@ class UsersController extends BaseController
             exit;
         }
 
-        echo (new View())->render('Admin/user_view.php', [
-            'title' => 'Felhasználó részletei - PetShop Admin',
-            'user' => $user,
-            'billingAddress' => $user->getDefaultAddress('billing'),
-            'shippingAddress' => $user->getDefaultAddress('shipping')
-        ]);
-    }
+        $billingAddress = $user->getDefaultAddress('billing');
+        $shippingAddress = $user->getDefaultAddress('shipping');
 
-    public function new(): void
-    {
-        $this->checkAdminAuth();
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user = new User();
-            $user->setName($_POST['name']);
-            $user->setEmail($_POST['email']);
-            $user->setPassword($_POST['password']);
-
-            $billingAddress = new Address();
-            $billingAddress->setType('billing');
-            $billingAddress->setName('Számlázási cím');
-            $billingAddress->setStreet($_POST['billing_street']);
-            $billingAddress->setCity($_POST['billing_city']);
-            $billingAddress->setZipCode($_POST['billing_postal_code']);
-            $billingAddress->setCountry($_POST['billing_country']);
-            $billingAddress->setPhone($_POST['billing_phone']);
-            $billingAddress->setIsDefault(true);
-            $billingAddress->setUser($user);
-            $user->addAddress($billingAddress);
-
-            $shippingAddress = new Address();
-            $shippingAddress->setType('shipping');
-            $shippingAddress->setName('Szállítási cím');
-            $shippingAddress->setStreet($_POST['shipping_street']);
-            $shippingAddress->setCity($_POST['shipping_city']);
-            $shippingAddress->setZipCode($_POST['shipping_postal_code']);
-            $shippingAddress->setCountry($_POST['shipping_country']);
-            $shippingAddress->setPhone($_POST['shipping_phone']);
-            $shippingAddress->setIsDefault(true);
-            $billingAddress->setUser($user);
-            $user->addAddress($shippingAddress);
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-
-            header('Location: /admin/users');
-            exit;
-        }
-
-        echo (new View())->render('Admin/user_edit.php', [
-            'title' => 'Új felhasználó - PetShop Admin',
-            'user' => false
-        ]);
+        require __DIR__ . '/../../Templates/Admin/user_view.php';
     }
 
     public function edit(int $userId): void
@@ -98,7 +52,7 @@ class UsersController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user->setName($_POST['name']);
             $user->setEmail($_POST['email']);
-
+            
             if (!empty($_POST['password'])) {
                 $user->setPassword(password_hash($_POST['password'], PASSWORD_DEFAULT));
             }
@@ -132,10 +86,7 @@ class UsersController extends BaseController
             exit;
         }
 
-        echo (new View())->render('Admin/user_edit.php', [
-            'title' => 'Felhaszáló szerkesztése - PetShop Admin',
-            'user' => $user
-        ]);
+        require __DIR__ . '/../../Templates/Admin/user_edit.php';
     }
 
     public function delete(int $userId): void
@@ -151,4 +102,4 @@ class UsersController extends BaseController
         header('Location: /admin/users');
         exit;
     }
-}
+} 

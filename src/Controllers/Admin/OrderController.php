@@ -19,7 +19,7 @@ class OrderController extends BaseController
         }
 
         echo (new View())->render('Admin/order_view.php', [
-            'title' => 'Rendelés - - Petshop Admin',
+            'title' => 'Rendelés - Állatwebshop',
             'order' => $this->entityManager->getRepository(Order::class)->find($orderId)
         ]);
     }

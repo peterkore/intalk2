@@ -16,9 +16,17 @@
             "Webshop\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "GDEteam"
         }
-    ]
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "10.0"
+    }
 }
