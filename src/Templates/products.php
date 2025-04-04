@@ -1,57 +1,70 @@
 <?php
   require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'header.php';
+  //var_dump($products);
 ?>
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Termékek</h2>
-    </div>
 
-    <?php if (isset($success)): ?>
-        <div class="alert alert-success"><?= htmlspecialchars($success); ?></div>
-    <?php endif; ?>
+<div class="container">
+    <h1>Termékek#</h1>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Név</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php  ?>
+<!--a products oldalon létrehozok egy kereső mezőt-->
+            <form method="GET" class="form-inline my-2 my-lg-0" action = "">
+            <input class="form-control mr-sm-2" type="search" name="search" id="search" placeholder="Keresés" aria-label="Keresés">
+            <button class="btn btn-secondary my-2 my-sm-0" id="s-button" name="s-button" type="submit">Keresés</button>
+            </form>
+            <?php
+            foreach ($products as $product): ?>
+                <?php
+                if (method_exists($product, 'getId')): 
+                    $id = $product->getId();
+                    ?>
+                    <tr>
+                        <td><?= $id ?></td>
+                        <td><a href="product/view/<?= $id ?>"><?= $product->getName() ?></a></td>
+                    </tr>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
-    <?php if (isset($error)): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
-    <?php endif; ?>
+<script>
+// a script a beírt kereső stringet megfelelő url-be teszi a kereséshez
+document.getElementById("s-button").addEventListener("click", mySearch);
+function mySearch(){
+    var searchString = document.getElementById("search").value;
+    submitOK = "true";
+    //lekéream az aktuális domaint a kereséshz
+    var currentDomain = window.location.hostname;
+    //alert (currentDomain);
+    var urlString = "/product/search/";
+    // a domainhez hozzáteszem  a searchUrl-t
+    var a = "http://"
+    
+    var searchUrl = a+currentDomain + urlString + searchString;
+      // alert(searchUrl);    
+   try {
+    //document.getElementById("s-button").innerHTML = "Ide kattintottál";
+      
+        const sameOriginContext = window.open(searchUrl);
+   }
+   catch (e){
+      alert("hiba, újra!");
+      consol.log(e)
+   }
+    
+  
+       
 
-    <div class="card">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Név</th>
-                            <th>SKU</th>
-                            <th>Kategória</th>
-                            <th>Ár</th>
-                            <th>Készlet</th>
-                            <th>Státusz</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($products as $product): ?>
-                            <tr>
-                                <td><?= $product->getId(); ?></td>
-                                <td><?= htmlspecialchars($product->getName()); ?></td>
-                                <td><a href="product/view/<?= $product->getId() ?>"><?= htmlspecialchars($product->getName()) ?></a></td>
-                                <td><?= htmlspecialchars($product->getSku()); ?></td>
-                                <td><?= htmlspecialchars($product->getCategory()?->getName() ?? 'Nincs kategória'); ?></td>
-                                <td><?= number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
-                                <td><?= $product->getStock(); ?></td>
-                                <td>
-                                    <span class="badge bg-<?php echo $product->isActive() ? 'success' : 'danger'; ?>">
-                                        <?= $product->isActive() ? 'Aktív' : 'Inaktív'; ?>
-                                    </span>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+    }
+
+</script>
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'footer.php';
 ?>
