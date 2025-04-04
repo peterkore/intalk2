@@ -18,11 +18,11 @@ class DashboardController extends BaseController
         $this->checkAdminAuth();
 
         echo (new View())->render('Admin/dashboard.php', [
+            'title' => 'Dashboard - Petshop Admin',
             'totalProducts' => $this->entityManager->getRepository(Product::class)->count([]),
             'totalOrders' => $this->entityManager->getRepository(Order::class)->count([]),
             'totalUsers' => $this->entityManager->getRepository(User::class)->count([]),
             'totalCategories' => $this->entityManager->getRepository(Category::class)->count([])
         ]);
-    }
-    
+    }   
 }
