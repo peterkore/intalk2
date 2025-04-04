@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/Partials/header.php'; ?>
+<?php require __DIR__ . '/Partials/header.php'; ; ?>
 
 <div class="banner">
     <div class="container">
@@ -24,6 +24,7 @@
 </div>
 
 <main class="container">
+    <?php require __DIR__ . '/Partials/query.php';  ?>
     <?php if (empty($categories)): ?>
         <div class="alert alert-info">
             Nincsenek elérhető kategóriák.
@@ -274,4 +275,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php require __DIR__ . '/partials/footer.php'; ?>
+<?php require __DIR__ . '/Partials/footer.php'; ?>
