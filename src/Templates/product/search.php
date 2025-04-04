@@ -27,7 +27,7 @@ require __DIR__ . '/../Partials/header.php';
                             <p class="card-text"><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</p>
                             <p class="text-dark"><?php echo htmlspecialchars($product->getDescription()); ?> </p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="/product/<?php echo $product->getId(); ?>" class="btn btn-primary">Részletek</a>
+                                <a href="/product/view/<?php echo $product->getId(); ?>" class="btn btn-primary">Részletek</a>
                                 <?php if ($product->getStock() > 0): ?>
                                     <button class="btn btn-success add-to-cart" data-product-id="<?php echo htmlspecialchars ($product->getId()) ?>">
                                         <i class="fas fa-shopping-cart"></i>
