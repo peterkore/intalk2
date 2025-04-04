@@ -3,7 +3,6 @@
 namespace Webshop;
 
 use Webshop\Controllers\ErrorController;
-use Webshop\EntityManagerFactory;
 
 class Router
 {
@@ -31,8 +30,7 @@ class Router
             //  A $prefix változó értékéhez hozzáfűzzük a könyvtár nevét és a megfelelő separatort
             $prefix .= $currentDir . '\\';
         }
-        
-        
+
         // Beazonosítjuk a kontroller osztály nevét (és a kezdőbetűt nagybetűre cseréljük); ha nem létezik az adott controller osztály, az alapértelmezett 'IndexController'-t használjuk
         $controller = ucfirst(!empty($segments[0]) ? $segments[0] : 'Index') . 'Controller';
         // Beazonosítjuk az url-ben meghívott, kontroller osztályban található metódust; ha nem létezik a metódus, az alapértelmezett 'index'-et használjuk
@@ -45,12 +43,12 @@ class Router
 
         // Ha a kontroller osztály nem létezik a névtérben, hiba kezelést végzünk és kilépünk
         if (!class_exists($controllerClass)) {
+            $this->handleError('A ' . $controllerClass . ' osztály nem található');
             // @TODO-extra megpróbáljuk példányosítani az eredeti alap osztályt
-            $this->handleError();
             return;
         }
 
-        // Controller példányosítása a
+        // Controller osztály példányosítása
         $instance = new $controllerClass();
 
         try {
@@ -64,7 +62,7 @@ class Router
             // Ellenőrizzük, hogy a megadott paraméterek száma egyezik e a metódus paramétereinek számával
             if (count($params) > $totalParams || count($params) < $requiredParams) {
                 // Amennyiben kevesebb vagy több paramétert találunk az URL-ben adjunk 404-et.
-                $this->handleError();
+                $this->handleError('Túl sok vagy túl kevés paraméter!');
                 return;
             } else {
                 try {
@@ -80,14 +78,14 @@ class Router
         // Ha nem sikerül, hibakezelést hajt végre
         } catch (\Throwable $th) {
             //Meghívhja a handleError() metódust, ami lekezeli a hibát
-            $this->handleError();
+            $this->handleError($controllerClass . ' osztály ' . $method . ' metódusa nem található');
             return;
         }
     }
 
-    private function handleError(): void
+    private function handleError(string $message = ''): void
     {
         // Példányosítja az ErrorController osztályt és meghívja annak index metódusát.
-        (new ErrorController())->index();
+        (new ErrorController())->index($message);
     }
 }

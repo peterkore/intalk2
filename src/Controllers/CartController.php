@@ -172,8 +172,6 @@ class CartController extends BaseController
         // Lekérjük a felhasználót az adatbázisból
         $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']['loggedin_id']);
         // Lekérjük a felhasználóhoz tartozó addresseket az adatbázisból
-        //$billingAddress = $this->getOrSetAddress($user, 'billing');
-        //$shippingAddress = $this->getOrSetAddress($user, 'shipping');
 
         // Létrehozzuk a rendelést
         $order = new Order();

@@ -26,9 +26,9 @@ abstract class BaseController
         exit;
     }
 
-    protected function handleError(): void
+    protected function handleError($message = ''): void
     {
-        (new ErrorController($this->entityManager))->index();
+        (new ErrorController($this->entityManager))->index($message);
     }
 
     protected function checkAdminAuth(): void
