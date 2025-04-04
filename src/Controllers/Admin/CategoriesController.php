@@ -2,24 +2,23 @@
 
 namespace Webshop\Controllers\Admin;
 
-use Doctrine\ORM\EntityManager;
+use Webshop\View;
 use Webshop\BaseController;
 use Webshop\Model\Category;
-use Webshop\EntityManagerFactory;
 
 class CategoriesController extends BaseController
 {
-    public function __construct()
-    {
-        parent::__construct(EntityManagerFactory::getEntityManager());
-    }
-
     public function index(): void
     {
         $this->checkAdminAuth();
 
         $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        require __DIR__ . '/../../Templates/Admin/categories.php';
+        
+        echo (new View())->render('Admin/categories.php', [
+            'title' => 'Kategóriák - PetShop Admin',
+            'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
+
+        ]);
     }
 
     public function view(int $categoryId): void
@@ -32,7 +31,11 @@ class CategoriesController extends BaseController
             exit;
         }
 
-        require __DIR__ . '/../../Templates/Admin/category_view.php';
+        echo (new View())->render('Admin/category_view.php', [
+            'title' => 'Kategória részletek - PetShop Admin',
+            'category' => $this->entityManager->getRepository(Category::class)->find($categoryId),
+
+        ]);
     }
 
     public function edit(int $categoryId): void
@@ -54,7 +57,11 @@ class CategoriesController extends BaseController
             exit;
         }
 
-        require __DIR__ . '/../../Templates/Admin/category_edit.php';
+        echo (new View())->render('Admin/category_edit.php', [
+            'title' => 'Kategória szerkesztése - PetShop Admin',
+            'category' => $category,
+
+        ]);
     }
 
     public function create(): void
@@ -72,7 +79,10 @@ class CategoriesController extends BaseController
             exit;
         }
 
-        require __DIR__ . '/../../Templates/Admin/category_create.php';
+        echo (new View())->render('Admin/category_create.php', [
+            'title' => 'Új kategória - PetShop Admin',
+
+        ]);
     }
 
     public function delete(int $categoryId): void

@@ -1,4 +1,5 @@
-<?php require __DIR__ . '/Partials/header.php'; ; ?>
+
+<?php require __DIR__ . '/Partials/header.php'; ?>
 
 <div class="banner">
     <div class="container">
@@ -70,7 +71,7 @@
                                         </td>
                                         <td>
                                             <div class="action-buttons">
-                                                <a href="/product/<?php echo $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
+                                                <a href="/product/view/<?php echo $product->getId(); ?>" class="btn btn-sm btn-primary">Részletek</a>
                                                 <?php if ($product->getStock() > 0): ?>
                                                     <button class="btn btn-sm btn-success add-to-cart" data-product-id="<?php echo $product->getId(); ?>">
                                                         Kosárba

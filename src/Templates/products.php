@@ -2,6 +2,7 @@
   require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'header.php';
   //var_dump($products);
 ?>
+
 <div class="container">
     <h1>Termékek#</h1>
     <table class="table table-dark table-striped">
@@ -32,10 +33,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
-<?php
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'footer.php';
-?>
+
 <script>
 // a script a beírt kereső stringet megfelelő url-be teszi a kereséshez
 document.getElementById("s-button").addEventListener("click", mySearch);
@@ -66,5 +64,7 @@ function mySearch(){
 
     }
 
-
 </script>
+<?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 'footer.php';
+?>

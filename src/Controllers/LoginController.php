@@ -1,6 +1,6 @@
 <?php
 
-namespace Webshop\Controllers\Admin;
+namespace Webshop\Controllers;
 
 use Webshop\View;
 use Webshop\Model\User;
@@ -11,14 +11,13 @@ class LoginController extends BaseController
 
     public function index(): void
     {
-        // Debug információk
-        error_log('Login metódus meghívva');
-        error_log('Session állapot: ' . print_r($_SESSION, true));
-        error_log('POST adatok: ' . print_r($_POST, true));
 
-        if (isset($_SESSION['admin_id'])) {
-            error_log('Már be van jelentkezve, átirányítás a dashboard-ra');
-            header('Location: /admin/dashboard');
+        if (isset($_SESSION['user']['loggedin_id'])) {
+            if (isset($_SESSION['user']['is_admin'])) {
+                header('Location: /admin/dashboard');
+            } else {
+                header('Location: /');
+            }
             exit;
         }
 
@@ -38,11 +37,16 @@ class LoginController extends BaseController
             }
 
             if ($user && password_verify($password, $user->getPassword())) {
-                $_SESSION['admin_id'] = $user->getId();
-                $_SESSION['admin_email'] = $user->getEmail();
-                error_log('Sikeres bejelentkezés, átirányítás a dashboard-ra');
-                header('Location: /admin/dashboard');
-                exit;
+                $_SESSION['user']['loggedin_id'] = $user->getId();
+                $_SESSION['user']['loggedin_email'] = $user->getEmail();
+                    if ($user->isAdmin()) {
+                        $_SESSION['user']['is_admin'] = true;
+                        header('Location: /admin/dashboard');
+                        exit;
+                    } else {
+                        header('Location: /');
+                        exit;
+                    }
             } else {
                 error_log('Sikertelen bejelentkezés');
                 echo (new View())->render('Admin/login.php', [
@@ -53,12 +57,5 @@ class LoginController extends BaseController
             error_log('Login űrlap megjelenítése');
             echo (new View())->render('Admin/login.php');
         }
-    }
-
-    public function logout(): void
-    {
-        session_destroy();
-        header('Location: /admin/login');
-        exit;
     }
 }
