@@ -4,6 +4,7 @@ namespace Webshop\Controllers;
 
 use Webshop\Model\Product;
 use Webshop\BaseController;
+use Webshop\View;
 
 class ProductController extends BaseController {
     public function view($id) {
