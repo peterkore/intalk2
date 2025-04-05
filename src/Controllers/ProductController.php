@@ -6,7 +6,6 @@ use Webshop\View;
 
 use Webshop\Model\Product;
 use Webshop\BaseController;
-use Webshop\Model\Product;
 
 class ProductController extends BaseController {
     public function view($id) {
