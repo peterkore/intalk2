@@ -76,7 +76,20 @@
         margin-bottom: 20px;
     }
     .shop-info .alert {
+        padding: 15px;
         margin-bottom: 20px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    .shop-info .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+    }
+    .shop-info .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
     }
     .shop-info .form-label {
         font-weight: bold;
@@ -141,21 +154,5 @@
     .shop-info .btn-primary:disabled:active {
         background-color: #007bff;
         border-color: #007bff;
-    }
-    .alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border-color: #c3e6cb;
-    }
-    .alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-    border-color: #f5c6cb;
-    }
-    .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        font-size: 16px;
-    }
+    } 
 </style>
