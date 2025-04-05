@@ -1,0 +1,7 @@
+http://localhost/Sajat_projekt/login.php
+
+http://localhost/Sajat_projekt/signup.php
+
+http://localhost/Sajat_projekt/welcome.php
+
+http://localhost/Sajat_projekt/Rolunk.php

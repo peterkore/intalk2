@@ -12,11 +12,11 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
             <form method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Név</label>
-                    <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($category->getName()); ?>" required>
+                    <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($category->getName()); ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Leírás</label>
-                    <textarea class="form-control" id="description" name="description" rows="3"><?php echo htmlspecialchars($category->getDescription() ?? ''); ?></textarea>
+                    <textarea class="form-control" id="description" name="description" rows="3"><?= htmlspecialchars($category->getDescription() ?? ''); ?></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Mentés</button>
             </form>

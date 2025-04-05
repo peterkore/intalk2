@@ -11,9 +11,7 @@ class CategoriesController extends BaseController
     public function index(): void
     {
         $this->checkAdminAuth();
-
-        $categories = $this->entityManager->getRepository(Category::class)->findAll();
-        
+       
         echo (new View())->render('Admin/categories.php', [
             'title' => 'Kategóriák - PetShop Admin',
             'categories' => $this->entityManager->getRepository(Category::class)->findAll(),

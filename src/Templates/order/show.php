@@ -18,11 +18,11 @@ require __DIR__ . '/../Partials/header.php'; ?>
                 <table class="table">
                     <tr>
                         <th>Rendelés azonosító:</th>
-                        <td>#<?php echo $order->getId(); ?></td>
+                        <td>#<?= $order->getId(); ?></td>
                     </tr>
                     <tr>
                         <th>Rendelés dátuma:</th>
-                        <td><?php echo $order->getCreatedAt()->format('Y.m.d H:i'); ?></td>
+                        <td><?= $order->getCreatedAt()->format('Y.m.d H:i'); ?></td>
                     </tr>
                     <tr>
                         <th>Státusz:</th>
@@ -37,18 +37,18 @@ require __DIR__ . '/../Partials/header.php'; ?>
                                 default => 'secondary'
                             };
                             ?>
-                            <span class="badge bg-<?php echo $statusClass; ?>">
-                                <?php echo $order->getStatus(); ?>
+                            <span class="badge bg-<?= $statusClass; ?>">
+                                <?= $order->getStatus(); ?>
                             </span>
                         </td>
                     </tr>
                     <tr>
                         <th>Fizetési mód:</th>
-                        <td><?php echo $order->getPaymentMethod(); ?></td>
+                        <td><?= $order->getPaymentMethod(); ?></td>
                     </tr>
                     <tr>
                         <th>Szállítási mód:</th>
-                        <td><?php echo $order->getShippingMethod(); ?></td>
+                        <td><?= $order->getShippingMethod(); ?></td>
                     </tr>
                 </table>
             </div>
@@ -57,22 +57,22 @@ require __DIR__ . '/../Partials/header.php'; ?>
                 <h3>Számlázási adatok</h3>
                 <div class="address">
                     <p>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getName()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getStreet()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getCity()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getZipCode()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getCountry()); ?>
+                        <?= htmlspecialchars($order->getBillingAddress()->getName()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getStreet()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getCity()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getZipCode()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getCountry()); ?>
                     </p>
                 </div>
 
                 <h3>Szállítási adatok</h3>
                 <div class="address">
                     <p>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getName()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getStreet()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getCity()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getZipCode()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getCountry()); ?>
+                        <?= htmlspecialchars($order->getShippingAddress()->getName()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getStreet()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getCity()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getZipCode()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getCountry()); ?>
                     </p>
                 </div>
             </div>
@@ -94,15 +94,15 @@ require __DIR__ . '/../Partials/header.php'; ?>
                 <tbody>
                     <?php foreach ($order->getItems() as $item): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($item->getProduct()->getName()); ?></td>
-                            <td><?php echo $item->getQuantity(); ?> db</td>
-                            <td><?php echo number_format($item->getPrice(), 0, ',', ' '); ?> Ft</td>
-                            <td><?php echo number_format($item->getSubtotal(), 0, ',', ' '); ?> Ft</td>
+                            <td><?= htmlspecialchars($item->getProduct()->getName()); ?></td>
+                            <td><?= $item->getQuantity(); ?> db</td>
+                            <td><?= number_format($item->getPrice(), 0, ',', ' '); ?> Ft</td>
+                            <td><?= number_format($item->getSubtotal(), 0, ',', ' '); ?> Ft</td>
                         </tr>
                     <?php endforeach; ?>
                     <tr>
                         <td colspan="3" class="text-end"><strong>Összesen:</strong></td>
-                        <td><strong><?php echo number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</strong></td>
+                        <td><strong><?= number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</strong></td>
                     </tr>
                 </tbody>
             </table>

@@ -44,7 +44,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Partials' . DIRECTORY_SEPARATOR . 
                 <div class="card-body">
                     <div class="d-grid gap-2">
                         <a href="/cart/checkout" class="btn btn-primary">
-                            Rendelés véglegesítése
+                            Pénztárhoz
                         </a>
                     </div>
                 </div>

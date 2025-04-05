@@ -19,7 +19,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                     <table class="table">
                         <tr>
                             <th>Rendelés ID:</th>
-                            <td><?php echo $order->getId(); ?></td>
+                            <td><?= $order->getId(); ?></td>
                         </tr>
                         <tr>
                             <th>Státusz:</th>
@@ -35,25 +35,25 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                                                             default => 'secondary'
                                                         };
                                                         ?>">
-                                    <?php echo $order->getStatus(); ?>
+                                    <?= $order->getStatus(); ?>
                                 </span>
                             </td>
                         </tr>
                         <tr>
                             <th>Fizetési mód:</th>
-                            <td><?php echo $order->getPaymentMethod(); ?></td>
+                            <td><?= $order->getPaymentMethod(); ?></td>
                         </tr>
                         <tr>
                             <th>Szállítási mód:</th>
-                            <td><?php echo $order->getShippingMethod(); ?></td>
+                            <td><?= $order->getShippingMethod(); ?></td>
                         </tr>
                         <tr>
                             <th>Rendelés dátuma:</th>
-                            <td><?php echo $order->getCreatedAt()->format('Y-m-d H:i'); ?></td>
+                            <td><?= $order->getCreatedAt()->format('Y-m-d H:i'); ?></td>
                         </tr>
                         <tr>
                             <th>Utolsó módosítás:</th>
-                            <td><?php echo $order->getUpdatedAt()->format('Y-m-d H:i'); ?></td>
+                            <td><?= $order->getUpdatedAt()->format('Y-m-d H:i'); ?></td>
                         </tr>
                     </table>
                 </div>
@@ -77,17 +77,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                             <tbody>
                                 <?php foreach ($order->getItems() as $item): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($item->getProduct()->getName()); ?></td>
-                                        <td><?php echo $item->getQuantity(); ?></td>
-                                        <td><?php echo number_format($item->getPrice(), 0, ',', ' '); ?> Ft</td>
-                                        <td><?php echo number_format($item->getSubtotal(), 0, ',', ' '); ?> Ft</td>
+                                        <td><?= htmlspecialchars($item->getProduct()->getName()); ?></td>
+                                        <td><?= $item->getQuantity(); ?></td>
+                                        <td><?= number_format($item->getPrice(), 0, ',', ' '); ?> Ft</td>
+                                        <td><?= number_format($item->getSubtotal(), 0, ',', ' '); ?> Ft</td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th colspan="3" class="text-end">Összesen:</th>
-                                    <th><?php echo number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</th>
+                                    <th><?= number_format($order->getTotalAmount(), 0, ',', ' '); ?> Ft</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -103,10 +103,10 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                 </div>
                 <div class="card-body">
                     <h6>Név:</h6>
-                    <p><?php echo htmlspecialchars($order->getUser()->getName()); ?></p>
+                    <p><?= htmlspecialchars($order->getUser()->getName()); ?></p>
 
                     <h6>Email:</h6>
-                    <p><?php echo htmlspecialchars($order->getUser()->getEmail()); ?></p>
+                    <p><?= htmlspecialchars($order->getUser()->getEmail()); ?></p>
                 </div>
             </div>
 
@@ -116,14 +116,14 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                 </div>
                 <div class="card-body">
                     <p>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getName()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getStreet()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getZipCode()); ?>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getCity()); ?><br>
-                        <?php echo htmlspecialchars($order->getBillingAddress()->getCountry()); ?>
+                        <?= htmlspecialchars($order->getBillingAddress()->getName()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getStreet()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getZipCode()); ?>
+                        <?= htmlspecialchars($order->getBillingAddress()->getCity()); ?><br>
+                        <?= htmlspecialchars($order->getBillingAddress()->getCountry()); ?>
                     </p>
                     <?php if ($order->getBillingAddress()->getPhone()): ?>
-                        <p>Tel: <?php echo htmlspecialchars($order->getBillingAddress()->getPhone()); ?></p>
+                        <p>Tel: <?= htmlspecialchars($order->getBillingAddress()->getPhone()); ?></p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -134,14 +134,14 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                 </div>
                 <div class="card-body">
                     <p>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getName()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getStreet()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getZipCode()); ?>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getCity()); ?><br>
-                        <?php echo htmlspecialchars($order->getShippingAddress()->getCountry()); ?>
+                        <?= htmlspecialchars($order->getShippingAddress()->getName()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getStreet()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getZipCode()); ?>
+                        <?= htmlspecialchars($order->getShippingAddress()->getCity()); ?><br>
+                        <?= htmlspecialchars($order->getShippingAddress()->getCountry()); ?>
                     </p>
                     <?php if ($order->getShippingAddress()->getPhone()): ?>
-                        <p>Tel: <?php echo htmlspecialchars($order->getShippingAddress()->getPhone()); ?></p>
+                        <p>Tel: <?= htmlspecialchars($order->getShippingAddress()->getPhone()); ?></p>
                     <?php endif; ?>
                 </div>
             </div>

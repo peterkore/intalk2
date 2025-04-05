@@ -23,14 +23,14 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                     <tbody>
                         <?php foreach ($users as $user): ?>
                             <tr>
-                                <td><?php echo $user->getId(); ?></td>
-                                <td><?php echo htmlspecialchars($user->getName()); ?></td>
-                                <td><?php echo htmlspecialchars($user->getEmail()); ?></td>
-                                <td><?php echo $user->getCreatedAt()->format('Y-m-d H:i'); ?></td>
+                                <td><?= $user->getId(); ?></td>
+                                <td><?= htmlspecialchars($user->getName()); ?></td>
+                                <td><?= htmlspecialchars($user->getEmail()); ?></td>
+                                <td><?= $user->getCreatedAt()->format('Y-m-d H:i'); ?></td>
                                 <td>
-                                    <a href="/admin/users/view/<?php echo $user->getId(); ?>" class="btn btn-sm btn-info">Részletek</a>
-                                    <a href="/admin/users/edit/<?php echo $user->getId(); ?>" class="btn btn-sm btn-warning">Szerkesztés</a>
-                                    <a href="/admin/users/delete/<?php echo $user->getId(); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a felhasználót?')">Törlés</a>
+                                    <a href="/admin/users/view/<?= $user->getId(); ?>" class="btn btn-sm btn-info">Részletek</a>
+                                    <a href="/admin/users/edit/<?= $user->getId(); ?>" class="btn btn-sm btn-warning">Szerkesztés</a>
+                                    <a href="/admin/users/delete/<?= $user->getId(); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a felhasználót?')">Törlés</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -3,43 +3,43 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
 ?>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><?php echo $product ? 'Termék szerkesztése' : 'Új termék'; ?></h2>
+        <h2><?= $product ? 'Termék szerkesztése' : 'Új termék'; ?></h2>
         <a href="/admin/products" class="btn btn-secondary">
             <i class="bi bi-arrow-left"></i> Vissza
         </a>
     </div>
 
     <?php if (isset($error)): ?>
-        <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+        <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
     <?php endif; ?>
 
     <div class="card">
         <div class="card-body">
-            <form method="POST" action="<?php echo $product ? '/admin/product/edit/' . $product->getId() : '/admin/product/new'; ?>">
+            <form method="POST" action="<?= $product ? '/admin/product/edit/' . $product->getId() : '/admin/product/new'; ?>">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="name" class="form-label">Név</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                value="<?php echo htmlspecialchars($product ? $product->getName() : ''); ?>" required>
+                                value="<?= htmlspecialchars($product ? $product->getName() : ''); ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="sku" class="form-label">SKU</label>
                             <input type="text" class="form-control" id="sku" name="sku"
-                                value="<?php echo htmlspecialchars($product ? $product->getSku() : ''); ?>" required>
+                                value="<?= htmlspecialchars($product ? $product->getSku() : ''); ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="price" class="form-label">Ár</label>
                             <input type="number" class="form-control" id="price" name="price"
-                                value="<?php echo $product ? $product->getPrice() : ''; ?>" required>
+                                value="<?= $product ? $product->getPrice() : ''; ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="stock" class="form-label">Készlet</label>
                             <input type="number" class="form-control" id="stock" name="stock"
-                                value="<?php echo $product ? $product->getStock() : ''; ?>" required>
+                                value="<?= $product ? $product->getStock() : ''; ?>" required>
                         </div>
 
                         <div class="mb-3">
@@ -47,9 +47,9 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
                             <select class="form-select" id="category" name="category_id">
                                 <option value="">Válassz kategóriát</option>
                                 <?php foreach ($categories as $category): ?>
-                                    <option value="<?php echo $category->getId(); ?>"
-                                        <?php echo $product && $product->getCategory() && $product->getCategory()->getId() === $category->getId() ? 'selected' : ''; ?>>
-                                        <?php echo htmlspecialchars($category->getName()); ?>
+                                    <option value="<?= $category->getId(); ?>"
+                                        <?= $product && $product->getCategory() && $product->getCategory()->getId() === $category->getId() ? 'selected' : ''; ?>>
+                                        <?= htmlspecialchars($category->getName()); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -60,24 +60,24 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
                         <div class="mb-3">
                             <label for="brand" class="form-label">Márka</label>
                             <input type="text" class="form-control" id="brand" name="brand"
-                                value="<?php echo htmlspecialchars($product ? $product->getBrand() : ''); ?>">
+                                value="<?= htmlspecialchars($product ? $product->getBrand() : ''); ?>">
                         </div>
 
                         <div class="mb-3">
                             <label for="model" class="form-label">Modell</label>
                             <input type="text" class="form-control" id="model" name="model"
-                                value="<?php echo htmlspecialchars($product ? $product->getModel() : ''); ?>">
+                                value="<?= htmlspecialchars($product ? $product->getModel() : ''); ?>">
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Leírás</label>
-                            <textarea class="form-control" id="description" name="description" rows="4"><?php echo htmlspecialchars($product ? $product->getDescription() : ''); ?></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="4"><?= htmlspecialchars($product ? $product->getDescription() : ''); ?></textarea>
                         </div>
 
                         <div class="mb-3">
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="isActive" name="is_active"
-                                    <?php echo $product && $product->isActive() ? 'checked' : ''; ?>>
+                                    <?= $product && $product->isActive() ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="isActive">Aktív</label>
                             </div>
                         </div>
@@ -93,11 +93,11 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';;
                                     <div class="row mb-2">
                                         <div class="col-md-5">
                                             <input type="text" class="form-control" name="attribute_names[]"
-                                                value="<?php echo htmlspecialchars($attribute->getName()); ?>" placeholder="Attribútum neve">
+                                                value="<?= htmlspecialchars($attribute->getName()); ?>" placeholder="Attribútum neve">
                                         </div>
                                         <div class="col-md-5">
                                             <input type="text" class="form-control" name="attribute_values[]"
-                                                value="<?php echo htmlspecialchars($attribute->getValue()); ?>" placeholder="Érték">
+                                                value="<?= htmlspecialchars($attribute->getValue()); ?>" placeholder="Érték">
                                         </div>
                                         <div class="col-md-2">
                                             <button type="button" class="btn btn-danger">

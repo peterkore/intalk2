@@ -48,14 +48,12 @@ class LoginController extends BaseController
                         exit;
                     }
             } else {
-                error_log('Sikertelen bejelentkezés');
-                echo (new View())->render('Admin/login.php', [
+                 echo (new View())->render('login.php', [
                     'error' => 'Hibás email vagy jelszó!'
                 ]);
             }
         } else {
-            error_log('Login űrlap megjelenítése');
-            echo (new View())->render('Admin/login.php');
+             echo (new View())->render('login.php');
         }
     }
 }
