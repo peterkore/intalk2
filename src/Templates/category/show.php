@@ -59,7 +59,7 @@
 
 <style>
 .banner {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/images/banner.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
     background-size: cover;
     background-position: center;
     color: white;

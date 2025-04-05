@@ -3,7 +3,7 @@
 
 <div class="banner">
     <div class="container">
-        <h1>Üdvözöljük az Állatwebshopban!</h1>
+        <h1>Üdvözöljük a PAWsome Állatwebshopban!</h1>
         <p>Fedezze fel kiváló termékeinket kedvenc háziállatához</p>
     </div>
 </div>
@@ -92,7 +92,7 @@
 
 <style>
 .banner {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/assets/images/banner.jpg');
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5));
     background-size: cover;
     background-position: center;
     color: white;
