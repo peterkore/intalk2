@@ -76,6 +76,7 @@
         margin-bottom: 20px;
     }
     .shop-info .alert {
+        margin-bottom: 20px;
         padding: 15px;
         margin-bottom: 20px;
         border-radius: 5px;
