@@ -7,21 +7,32 @@ use Webshop\BaseController;
 
 class ContactController extends BaseController
 {
+    // A kontakt oldal megjelenítése
     public function index()
     {
-        $this->view('contact/index');
+        echo (new View())->render('contact.php', 
+        [
+            'title' => 'Kapcsolat',
+        ]);
     }
 
+    // Kontakt oldal űrlap beküldés feldolgozása
     public function submit()
     {
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
         $message = $_POST['message'] ?? '';
 
-        if (empty($name) || empty($email) || empty($message)) {
-            $_SESSION['contact_success'] = "Kérjük minden mezőt töltsön ki!";
-            header("Location: /contact");
-            exit;
+        // Ellenőrizzük, hogy minden mező ki van e töltve
+        if (empty($name) || empty($email) || empty($message)) 
+        {
+            // Hiányos kitöltés esetén hibaüzenetet jelenítünk meg
+            echo (new View())->render('contact.php',
+            [
+                'title' => 'Kapcsolat',
+                'message' => 'Kérjük minden mezőt töltsön ki!',
+                'success' => false,
+            ]);
         }
 
         // Email validalas
@@ -34,13 +45,15 @@ class ContactController extends BaseController
         $subject = "Új üzenet a feladótól: $name";
         $body = "Feladó: $name <$email>\n\n$message";
 
-        if (mail($to, $subject, $body)) {
-            $_SESSION['contact_success'] = "Köszönjük, hogy felvette velünk a kapcsolatot! Hamarosan válaszolunk.";
-        } else {
-            $_SESSION['contact_success'] = "Hiba történt az üzenet küldésekor. Kérjük, próbálja újra később.";
-        }
+        // Email küldés
+        $success = mail($to, $subject, $body);
 
-        header("Location: /contact");
-        exit;
+        // Email küldést követően az oldal megjelenítése üzenet kiírásával 
+        echo (new View())->render('contact.php', 
+        [
+            'title' => 'Kapcsolat',
+            'message' => $success ? 'Köszönjük, hogy felvette velünk a kapcsolatot! Hamarosan válaszolunk.' : 'Hiba történt az üzenet küldésekor. Kérjük, próbálja újra később.',
+            'success' => $success
+        ]);
     }
 }
