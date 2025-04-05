@@ -1,7 +1,5 @@
-# Verzió 0.1
-
 ## Feladat:
-MVC struktúrával rendelkező php alkalmazás routolási feladatainak megoldása. Kérlek titeket, hogy bármilyen módosítás a dokumentációban új verzió szám feltüntetésével, jelen dokumentum alá kerüljön beírásra.
+MVC struktúrával rendelkező php alkalmazás routolási feladatainak megoldása.
 
 ## Telepítés
 
@@ -124,7 +122,7 @@ http://localhost/product/view/1
 
 &nbsp;
 ## A router működése
-A router osztály úgy került megvalósításra, hogy az ne igényeljen külön konfigurációs állományt a meghívásra kerülő kontroller osztály beazonosításához. A router funkcionalitás használatához csupán néhány szabályt kell megjegyeznünk a kódolás során.
+A router osztály úgy került megvalósításra, hogy az ne igényeljen külön konfigurációs állományt a meghívásra kerülő kontroller osztály beazonosításához. Továbbá rugalmasan kezeli a Controllers osztály alatt esetlegesen előforduló többszintű könyvtárstruktúrát. A router funkcionalitás használatához csupán néhány szabályt kell megjegyeznünk a kódolás során.
 
 A meghívott URL felépítése:
 
@@ -142,19 +140,58 @@ http://domain.com/CONTROLLER/METHOD/PARAM
       * Amennyiben nem adunk meg második tagot az URL-ben, automatikusan az index metódus kerül meghívásra
 3. Amennyiben SEO barát URL-eket szeretnénk használni, az URL path további részei átadásra kerülnek a meghivott controller metódusának paramétereként. (lásd ProductController osztály.)
 
-### Hogyan működik
-A webszerver a .htaccess állományban beállítottaknak megfelelően minden kérést a public könyvtárban található index.php-hoz irányít. Az index.php meghívja a Router.php dispatch() metódusát, ami gondoskodik a megfelelő controller osztály példányosításáról, valamint a megfelő metódus meghívásáról. A kérésben szereplő URL path első tagja a controller osztályt azonosítja, amig a második tag a hívásra kerülő metódust azonosítására szolgál. Az URL további tagjait SEO barát URL paraméterként értelmezi a rendszer, ami átadásra kerül a meghívott metódus számára.
 
-A http://domain.com/product/view/1 webcím hívása esetén a ProdcutController.php osztájunkba felvett view metódus átveszi a paraméterként megadott 1-es számot az $id változóban
-```php
- public function view($id = '')
+vagy (egy vagy több directory is lehet a controllers könyvtár alatt)
+
+```console
+http://domain.com/DIRECTORY/CONTROLLER/METHOD/PARAM
 ```
-A következő kódblokk elhelyezése esetén, az $id értékét $_GET változó alapján állítjuk be, ha nincsen megadva SEO URL parméter
-```php
-if(empty($id) && isset($_GET['id'])){
-    $id = $_GET['id'];
-}
-```
+*Ebben az esetben is a fent részletezett elnevezési konvenciót használjuk.*
+
+1. Az elérési út első tagja a controllers könyvtár alatti könyvtárat azonosítja
+    * pl. /src/Controllers/**Admin** könyvtár
+2. Az elérési út második tagja a controller osztályt azonosítja.
+    * Ebben az esetben a controller osztályokat /src/Controllers/Admin alatt helyezzük el
+    * pl. a controllers könyvtár alatti Admin könyvtárban lévő **OrderController** osztály elérési útja a /src/Controllers/Admin/**order** 
+3. Az elérési út harmadik tagja a controller osztályon belüli metódust azonosítja
+    * pl. az OrderController **view** metódusa az /src/Controllers/Admin/order/**view**/ elérési úton érhető el
+4. Az elérési út negyedik tagja az URL path további részeit (paramétereit) tartalmazza
+    * pl. az OrderController view metódusának az 1-es idéjű rendelés elérési útja az /src/Controllers/Admin/order/view/**1**
+
+
+**Megjegyzés: A router jelenleg nem kezeli le azt az esetet, ha a Controllers könyvtáron belül létrehozunk pl. egy Admin könyvtárat, valamint ezzel párhuzamosan, szintén a Controllers könyvtáron belül egy AdminControllers kontroller osztályt.**
+
+### Hogyan működik
+A webszerver a .htaccess állományban beállítottaknak megfelelően minden kérést a public könyvtárban található index.php-hoz irányít. Az index.php meghívja a Router.php dispatch() metódusát, ami gondoskodik a megfelelő controller osztály példányosításáról, valamint a megfelő metódus meghívásáról. 
+
+Példa URL-ek a Router működésére:
+
+| URL                                       | Könyvtár (ha van a Controllesr könyvtár alatt) | Controller osztály   | Metódus | Paraméter    | Renderelt View            |
+| ----------------------------------------- | ---------------------------------------------- |--------------------- | ------- | ------------ | ------------------------- |
+| http://domain.com/                        | -                                              | IndexController      | index   | -            | index.php                 |
+| http://domain.com/products                | -                                              | ProductsController   | index   | -            | products.php              |
+| http://domain.com/product/view/1          | -                                              | ProductController    | view    | termék id    | product.php               |
+| http://domain.com/category/show/1         | -                                              | CategoryController   | show    | kategória id | category/show.php         |
+| http://domain.com/cart                    | -                                              | CartController       | index   | -            | cart.php                  |
+| http://domain.com/cart/checkout           | -                                              | CartController       | checkout| -            | cart/checkout.php         |
+| http://domain.com/order                   | -                                              | OrderController      | index   | -            | order/index.php           |
+| http://domain.com/order/show/12           | -                                              | OrderController      | show    | rendelés id  | order/show.php            |
+| http://domain.com/login                   | -                                              | LoginController      | index   | -            | login.php                 |
+| http://domain.com/Admin/dashboard         | Admin                                          | DashboardController  | index   | -            | Admin/dashboard.php       |
+| http://domain.com/Admin/products          | Admin                                          | ProductsController   | index   | -            | Admin/products.php        |
+| http://domain.com/Admin/product/new       | Admin                                          | ProductController    | new     | -            | Admin/product_edit.php    |
+| http://domain.com/Admin/product/edit/1    | Admin                                          | ProductController    | edit    | termék id    | Admin/product_edit.php    |
+| http://domain.com/Admin/orders            | Admin                                          | OrdersController     | index   | -            | Admin/orders.php          |
+| http://domain.com/Admin/order/view/1      | Admin                                          | OrderController      | view    | rendelés id  | Admin/order_view.php      |
+| http://domain.com/Admin/categories        | Admin                                          | CategoriesController | index   | -            | Admin/categories.php      |
+| http://domain.com/Admin/categories/create | Admin                                          | CategoriesController | create  | -            | Admin/category_create.php |
+| http://domain.com/Admin/categories/view/1 | Admin                                          | CategoriesController | view    | kategória id | Admin/category_view.php   |
+| http://domain.com/Admin/categories/edit/1 | Admin                                          | CategoriesController | edit    | kategória id | Admin/category_edit.php   |
+| http://domain.com/Admin/users             | Admin                                          | UsersController      | index   | -            | Admin/users.php           |
+| http://domain.com/Admin/users/view/1      | Admin                                          | UsersController      | view    | user id      | Admin/user_view.php       |
+| http://domain.com/Admin/users/edit/1      | Admin                                          | UsersController      | edit    | user id      | Admin/user_edit.php       |
+| http://domain.com/Admin/users/new         | Admin                                          | UsersController      | new     | -            | Admin/user_edit.php       |
+
 
 A gyökér és a public folder alatt található .htaccess fájlokban meghatározott átírányítások részleteiért lásd: *https://stackoverflow.com/questions/23635746/htaccess-redirect-from-site-root-to-public-folder-hiding-public-in-url*
 
@@ -194,12 +231,7 @@ echo (new View())->render('404.php', [
 ]);
 ```
 
-*Természetesen ettől eltérő megoldás is alkalmazható pl. twig template használata*
-
 ### Publikus tartalmak elhelyezése
 Publikus tartalmak például css, js fájlok stb. elhelyezésére a /public/... könyvtárat tudjátok igénybevenni. 
 
 *Happy coding!* 😁
-
-
-Hello

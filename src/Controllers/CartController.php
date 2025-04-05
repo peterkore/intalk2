@@ -3,18 +3,20 @@
 namespace Webshop\Controllers;
 
 use Webshop\View;
-use Webshop\Model\Product;
+
 use Webshop\Model\User;
 use Webshop\Model\Order;
-use Webshop\Model\OrderItem;
+use Webshop\Model\Address;
+use Webshop\Model\Product;
 use Webshop\BaseController;
+use Webshop\Model\OrderItem;
 
 class CartController extends BaseController
 {
     public function index()
     {
         // Ha még nincs kosár a session-ben, létrehozzuk
-        if(!isset($_SESSION['cart'])){
+        if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
         // Kigyűjtjük a kosárban lévő termékek id-jét
@@ -45,7 +47,7 @@ class CartController extends BaseController
 
         // Adott azonosítójú termék lekérdezése az adatbázisból
         $product = $this->entityManager->find(Product::class, $id);
-        
+
         //Ellenőrizni, hogy létezik e a termék
         if (!$product) {
             header('HTTP/1.1 404 Not Found');
@@ -55,10 +57,10 @@ class CartController extends BaseController
 
         // Lekérjük az adott termék készletét
         $stockQuantity = $product->getStock();
-        
+
         // POST paraméterből kivesszük a kosárba teendő termékmennyiséget (ha nem kaptunk adatot, 1 db termékkel dolgozunk)
         $requestedQuantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
-        
+
         // Megvizsgáljuk, hogy rendelkezésre áll e a kért mennyiség a készletben
         if ($requestedQuantity > $stockQuantity) {
             header('HTTP/1.1 400 Bad Request');
@@ -81,7 +83,7 @@ class CartController extends BaseController
         }
 
         // Ha a kosárban az adott termék mennyisége 0, akkor töröljük a kosárból
-        if ($_SESSION['cart'][$id] == 0){
+        if ($_SESSION['cart'][$id] == 0) {
             unset($_SESSION['cart'][$id]);
         }
 
@@ -110,23 +112,46 @@ class CartController extends BaseController
         }
 
         // Ha nincs bejelentkezett felhasználó, létrehozunk egy vendég felhasználót
-        if (!isset($_SESSION['user'])) {
-            $guestUser = new User();
-            $guestUser->setEmail('guest_' . uniqid() . '@example.com');
-            $guestUser->setPassword(password_hash(uniqid(), PASSWORD_DEFAULT));
-            $guestUser->setName('Vendég felhasználó');
-            $guestUser->setRole('user');
-            
-            $this->entityManager->persist($guestUser);
+        if (!isset($_SESSION['user']['loggedin_id'])) {
+            $user = new User();
+            $user->setEmail('guest_' . uniqid() . '@example.com');
+            $user->setPassword(password_hash(uniqid(), PASSWORD_DEFAULT));
+            $user->setName('Vendég felhasználó');
+            $user->setRole('ROLE_CUSTOMER');
+
+            $this->entityManager->persist($user);
             $this->entityManager->flush();
-            
-            $_SESSION['user'] = $guestUser;
+
+            $_SESSION['user']['loggedin_id'] = $user->getId();
+        } else {
+            $user = $this->entityManager->find(User::class, $_SESSION['user']['loggedin_id']);
         }
+
+        // Kigyűjtjük a kosárban lévő termékek id-jét
+        $productIds = array_keys($_SESSION['cart']);
+        $productRepository = $this->entityManager->getRepository(Product::class);
+        // A product id-k alapján lekérjük a termékeket a db-ből
+        $products = $productRepository->createQueryBuilder('p')
+            ->where('p.id IN (:ids)')
+            ->setParameter('ids', $productIds)
+            ->getQuery()
+            ->getResult();
+
+
+        // A user id alapján kérjük le a billing addresst a db-ből    
+        $billingAddress = $user->getDefaultAddress('billing') ?? new Address();
+
+        // A user id alapján kérjük le a shipping addresst a db-ből    
+        $shippingAddress = $user->getDefaultAddress('shipping') ?? new Address();
 
         // Rendereljük a checkout oldalt
         echo (new View())->render('cart/checkout.php', [
             'title' => 'Rendelés véglegesítése',
-            'user' => $_SESSION['user']
+            'user' => $user,
+            'products' => $products,
+            'cart' => $_SESSION['cart'],
+            'billingAddress' => $billingAddress,
+            'shippingAddress' => $shippingAddress,
         ]);
     }
 
@@ -139,17 +164,25 @@ class CartController extends BaseController
         }
 
         // Ellenőrizzük, hogy van-e bejelentkezett felhasználó
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user']['loggedin_id'])) {
             header('Location: /cart/checkout');
             exit;
         }
 
+        // Lekérjük a felhasználót az adatbázisból
+        $user = $this->entityManager->getRepository(User::class)->find($_SESSION['user']['loggedin_id']);
+        // Lekérjük a felhasználóhoz tartozó addresseket az adatbázisból
+
         // Létrehozzuk a rendelést
         $order = new Order();
-        $order->setUser($_SESSION['user']);
+        $order->setUser($user);
+        $order->setBillingAddress($this->getOrSetAddress($user, 'billing'));
+        $order->setShippingAddress($this->getOrSetAddress($user, 'shipping'));
         $order->setStatus('pending');
         $order->setTotalAmount(0);
-        $order->setCreatedAt(new \DateTime());
+        $order->setPaymentMethod($_POST['payment_method']);
+        $order->setShippingMethod($_POST['shipping_method']);
+        $order->getCreatedAt(new \DateTime());
 
         // Hozzáadjuk a rendeléshez a termékeket
         $totalAmount = 0;
@@ -161,7 +194,7 @@ class CartController extends BaseController
                 $orderItem->setProduct($product);
                 $orderItem->setQuantity($quantity);
                 $orderItem->setPrice($product->getPrice());
-                
+
                 $this->entityManager->persist($orderItem);
                 $totalAmount += $product->getPrice() * $quantity;
             }
@@ -177,5 +210,52 @@ class CartController extends BaseController
         // Átirányítjuk a felhasználót a rendelés részletes nézetére
         header('Location: /order/show/' . $order->getId());
         exit;
+    }
+
+    private function getOrSetAddress(User $user, string $type)
+    {
+        // Lekérés készítése a $_POST adatainak felhasználásával
+        $criteria = [];
+        if (isset($_POST[$type . '_street'])) {
+            $criteria['street'] = $_POST[$type . '_street'];
+        }
+        if (isset($_POST[$type . '_zip_code'])) {
+            $criteria['zipCode'] = $_POST[$type . '_zip_code'];
+        }
+        if (isset($_POST[$type . '_city'])) {
+            $criteria['city'] = $_POST[$type . '_city'];
+        }
+        if (isset($_POST[$type . '_country'])) {
+            $criteria['country'] = $_POST[$type . '_country'];
+        }
+        if (isset($_POST[$type . '_phone'])) {
+            $criteria['phone'] = $_POST[$type . '_phone'];
+        }
+
+        $criteria['type'] = $type;
+        $criteria['user'] = $user->getId();
+
+        // Keresés az EntityManager használatával
+        $userData = $this->entityManager->getRepository(Address::class)->findOneBy($criteria);
+
+        if ($userData) {
+            return $userData;
+        }else{
+            // Új entitás létrehozása, ha nincs találat
+            $newUserData = new Address();
+            $newUserData->setName($user->getName());
+            $newUserData->setStreet($criteria['street']);
+            $newUserData->setZipCode($criteria['zipCode']);
+            $newUserData->setCity($criteria['city']);
+            $newUserData->setCountry($criteria['country']);
+            $newUserData->setPhone($criteria['phone']);
+            $newUserData->setType($criteria['type']);
+            $newUserData->setUser($user);
+
+            // Mentés az adatbázisba
+            $this->entityManager->persist($newUserData);
+            $this->entityManager->flush();
+            return $newUserData;
+        }
     }
 }
