@@ -28,16 +28,19 @@ class ProductTest extends TestCase
      */
     public function test_can_create_product()
     {
+        echo "\n\n=== Termék létrehozásának tesztelése ===\n";
+        echo "1. Kategória létrehozása...\n";
+
         // Kategória létrehozása és mentése az adatbázisba
-        // A persist() metódus jelzi az entityManager-nek, hogy ezt az objektumot mentse
-        // A flush() metódus végrehajtja a tényleges mentést az adatbázisba
         $category = new Category();
         $category->setName('Test kategória');
         $this->entityManager->persist($category);
         $this->entityManager->flush();
 
+        echo "✅ Kategória sikeresen létrehozva\n";
+        echo "2. Termék létrehozása...\n";
+
         // Új termék létrehozása és tulajdonságainak beállítása
-        // Minden tulajdonság beállítása után a termék kapcsolódik a kategóriához
         $product = new Product();
         $product->setName('Test termék');
         $product->setDescription('Test leírás');
@@ -45,19 +48,36 @@ class ProductTest extends TestCase
         $product->setStock(10);
         $product->setCategory($category);
 
+        echo "✅ Termék tulajdonságai beállítva\n";
+        echo "3. Termék mentése az adatbázisba...\n";
+
         // Termék mentése az adatbázisba
         $this->entityManager->persist($product);
         $this->entityManager->flush();
 
-        // Ellenőrzések, hogy a termék megfelelően jött-e létre
-        // Az assertNotNull ellenőrzi, hogy a termék kapott-e egyedi azonosítót
-        // A többi assertEquals ellenőrzi, hogy minden tulajdonság megfelelően mentődött-e
-        $this->assertNotNull($product->getId());
-        $this->assertEquals('Test termék', $product->getName());
-        $this->assertEquals('Test leírás', $product->getDescription());
-        $this->assertEquals(1000, $product->getPrice());
-        $this->assertEquals(10, $product->getStock());
-        $this->assertEquals($category, $product->getCategory());
+        echo "✅ Termék sikeresen mentve\n";
+        echo "4. Ellenőrzések végrehajtása...\n";
+
+        // Ellenőrzések
+        $this->assertNotNull($product->getId(), 'A termék azonosítója nem lehet null, mert az adatbázisban létre kell jönnie');
+        echo "✅ Azonosító ellenőrzése: OK\n";
+
+        $this->assertEquals('Test termék', $product->getName(), 'A termék neve nem egyezik a beállított értékkel');
+        echo "✅ Név ellenőrzése: OK\n";
+
+        $this->assertEquals('Test leírás', $product->getDescription(), 'A termék leírása nem egyezik a beállított értékkel');
+        echo "✅ Leírás ellenőrzése: OK\n";
+
+        $this->assertEquals(1000, $product->getPrice(), 'A termék ára nem egyezik a beállított értékkel');
+        echo "✅ Ár ellenőrzése: OK\n";
+
+        $this->assertEquals(10, $product->getStock(), 'A termék készlete nem egyezik a beállított értékkel');
+        echo "✅ Készlet ellenőrzése: OK\n";
+
+        $this->assertEquals($category, $product->getCategory(), 'A termék kategóriája nem egyezik a beállított értékkel');
+        echo "✅ Kategória ellenőrzése: OK\n";
+
+        echo "=== Termék létrehozásának tesztelése befejezve ===\n\n";
     }
 
     /**
@@ -71,11 +91,17 @@ class ProductTest extends TestCase
      */
     public function test_can_update_product()
     {
+        echo "\n\n=== Termék frissítésének tesztelése ===\n";
+        echo "1. Kategória létrehozása...\n";
+
         // Kategória létrehozása
         $category = new Category();
         $category->setName('Test kategória');
         $this->entityManager->persist($category);
         $this->entityManager->flush();
+
+        echo "✅ Kategória sikeresen létrehozva\n";
+        echo "2. Termék létrehozása...\n";
 
         // Termék létrehozása
         $product = new Product();
@@ -88,20 +114,34 @@ class ProductTest extends TestCase
         $this->entityManager->persist($product);
         $this->entityManager->flush();
 
+        echo "✅ Termék sikeresen létrehozva\n";
+        echo "3. Termék tulajdonságainak módosítása...\n";
+
         // Termék tulajdonságainak módosítása
-        // A módosítások után nem kell újra persist()-et hívni,
-        // mert a termék már "managed" állapotban van
         $product->setName('Frissített termék');
         $product->setPrice(2000);
         $product->setStock(5);
 
+        echo "✅ Tulajdonságok módosítva\n";
+        echo "4. Módosítások mentése...\n";
+
         // Módosítások mentése
         $this->entityManager->flush();
 
-        // Ellenőrzések, hogy a módosítások megfelelően mentődtek-e
-        $this->assertEquals('Frissített termék', $product->getName());
-        $this->assertEquals(2000, $product->getPrice());
-        $this->assertEquals(5, $product->getStock());
+        echo "✅ Módosítások sikeresen mentve\n";
+        echo "5. Ellenőrzések végrehajtása...\n";
+
+        // Ellenőrzések
+        $this->assertEquals('Frissített termék', $product->getName(), 'A termék neve nem frissült megfelelően');
+        echo "✅ Név frissítésének ellenőrzése: OK\n";
+
+        $this->assertEquals(2000, $product->getPrice(), 'A termék ára nem frissült megfelelően');
+        echo "✅ Ár frissítésének ellenőrzése: OK\n";
+
+        $this->assertEquals(5, $product->getStock(), 'A termék készlete nem frissült megfelelően');
+        echo "✅ Készlet frissítésének ellenőrzése: OK\n";
+
+        echo "=== Termék frissítésének tesztelése befejezve ===\n\n";
     }
 
     /**
@@ -116,11 +156,17 @@ class ProductTest extends TestCase
      */
     public function test_can_delete_product()
     {
+        echo "\n\n=== Termék törlésének tesztelése ===\n";
+        echo "1. Kategória létrehozása...\n";
+
         // Kategória létrehozása
         $category = new Category();
         $category->setName('Test kategória');
         $this->entityManager->persist($category);
         $this->entityManager->flush();
+
+        echo "✅ Kategória sikeresen létrehozva\n";
+        echo "2. Termék létrehozása...\n";
 
         // Termék létrehozása
         $product = new Product();
@@ -133,16 +179,23 @@ class ProductTest extends TestCase
         $this->entityManager->persist($product);
         $this->entityManager->flush();
 
+        echo "✅ Termék sikeresen létrehozva\n";
+        echo "3. Termék törlése...\n";
+
         // Termék törlése
-        // Elmentjük az azonosítót, hogy később ellenőrizhessük a törlést
         $productId = $product->getId();
         $this->entityManager->remove($product);
         $this->entityManager->flush();
 
-        // Ellenőrzés, hogy a termék tényleg törlődött-e
-        // A find() metódus null-t ad vissza, ha nem találja a terméket
+        echo "✅ Termék sikeresen törölve\n";
+        echo "4. Ellenőrzés, hogy a termék tényleg törlődött-e...\n";
+
+        // Ellenőrzés
         $deletedProduct = $this->entityManager->getRepository(Product::class)->find($productId);
-        $this->assertNull($deletedProduct);
+        $this->assertNull($deletedProduct, 'A termék még mindig megtalálható az adatbázisban a törlés után');
+        echo "✅ Törlés ellenőrzése: OK\n";
+
+        echo "=== Termék törlésének tesztelése befejezve ===\n\n";
     }
 
     /**
@@ -156,10 +209,8 @@ class ProductTest extends TestCase
      */
     public function test_product_stock_cannot_be_negative()
     {
-        // Elvárás, hogy InvalidArgumentException kivétel keletkezzen
-        // Ez a sor jelzi a teszt keretrendszernek, hogy a következő kód
-        // InvalidArgumentException kivételt kell, hogy dobjon
-        $this->expectException(\InvalidArgumentException::class);
+        echo "\n\n=== Negatív készlet tesztelése ===\n";
+        echo "1. Kategória létrehozása...\n";
 
         // Kategória létrehozása
         $category = new Category();
@@ -167,17 +218,28 @@ class ProductTest extends TestCase
         $this->entityManager->persist($category);
         $this->entityManager->flush();
 
+        echo "✅ Kategória sikeresen létrehozva\n";
+        echo "2. Termék létrehozása negatív készlettel...\n";
+
+        // Elvárás, hogy kivétel keletkezzen
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('A készlet nem lehet negatív');
+
         // Termék létrehozása negatív készlettel
-        // Ez a sor kivételt fog dobni, amit a teszt keretrendszer elkap
         $product = new Product();
         $product->setName('Test termék');
         $product->setDescription('Test leírás');
         $product->setPrice(1000);
-        $product->setStock(-1); // Ez kivételt fog dobni
+        $product->setStock(-1);
         $product->setCategory($category);
+
+        echo "3. Termék mentése (kivétel várható)...\n";
 
         // A mentés során kivétel keletkezik
         $this->entityManager->persist($product);
         $this->entityManager->flush();
+
+        echo "✅ Kivétel keletkezett, ahogy vártuk\n";
+        echo "=== Negatív készlet tesztelése befejezve ===\n\n";
     }
 } 

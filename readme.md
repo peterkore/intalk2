@@ -1,4 +1,4 @@
-# Verzió 0.1
+# Verzió 0.2
 
 ## Feladat:
 MVC struktúrával rendelkező php alkalmazás routolási feladatainak megoldása. Kérlek titeket, hogy bármilyen módosítás a dokumentációban új verzió szám feltüntetésével, jelen dokumentum alá kerüljön beírásra.
@@ -127,21 +127,27 @@ A rendszer két fő unit tesztet tartalmaz:
 2. **SimpleWebshopTest** - A webshop alapvető működését teszteli:
    - Az adatbázis struktúra működését
    - A rendelések létrehozását
+   - A címek kezelését
 
 A tesztek futtatásához használd a következő parancsot:
 ```console
-./vendor/bin/phpunit tests/Unit
+./vendor/bin/phpunit tests/Unit --testdox
 ```
 
 Ha csak egy adott tesztet szeretnél futtatni, használd ezt a parancsot:
 ```console
-./vendor/bin/phpunit tests/Unit/ProductTest.php
+./vendor/bin/phpunit tests/Unit/ProductTest.php --testdox
 ```
 
 A tesztek futtatása előtt:
 1. Győződj meg róla, hogy az adatbázis séma létre van hozva
 2. A tesztek automatikusan létrehoznak és törölnek adatokat, ne aggódj miatta
 3. Minden teszt függetlenül fut, nem befolyásolják egymást
+4. A tesztek részletes visszajelzést adnak a folyamatról, beleértve:
+   - A teszt lépéseit
+   - A sikeres műveleteket (✅)
+   - A hibákat (❌)
+   - A figyelmeztetéseket (ℹ️)
 
 A tesztek eredménye:
 - ✅ Zöld: A teszt sikeresen lefutott
