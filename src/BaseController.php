@@ -72,7 +72,7 @@ abstract class BaseController
 
     // Lejárt tokenek törlése
     private function removeExpiredTokens(): void {
-        $tokenExpirationTime = (int)$_ENV['CSRF_TOKEN_EXPIRATION_TIME'] ?? 3600;
+        $tokenExpirationTime = isset($_ENV['CSRF_TOKEN_EXPIRATION_TIME']) ? (int)$_ENV['CSRF_TOKEN_EXPIRATION_TIME'] : 3600;
         $currentTime = time();
         foreach ($_SESSION['csrf_token'] as $token => $timestamp) {
             if ($currentTime - $timestamp > $tokenExpirationTime) {
