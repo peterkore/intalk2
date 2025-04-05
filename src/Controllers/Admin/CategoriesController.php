@@ -31,8 +31,7 @@ class CategoriesController extends BaseController
 
         echo (new View())->render('Admin/category_view.php', [
             'title' => 'Kategória részletek - PetShop Admin',
-            'category' => $this->entityManager->getRepository(Category::class)->find($categoryId),
-
+            'category' => $category,
         ]);
     }
 
@@ -58,7 +57,6 @@ class CategoriesController extends BaseController
         echo (new View())->render('Admin/category_edit.php', [
             'title' => 'Kategória szerkesztése - PetShop Admin',
             'category' => $category,
-
         ]);
     }
 
@@ -79,7 +77,6 @@ class CategoriesController extends BaseController
 
         echo (new View())->render('Admin/category_create.php', [
             'title' => 'Új kategória - PetShop Admin',
-
         ]);
     }
 

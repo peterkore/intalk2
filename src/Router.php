@@ -86,6 +86,6 @@ class Router
     private function handleError(string $message = ''): void
     {
         // Példányosítja az ErrorController osztályt és meghívja annak index metódusát.
-        (new ErrorController())->index($message);
+        (new ErrorController())->index(404, $message);
     }
 }

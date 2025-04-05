@@ -22,6 +22,7 @@ class LoginController extends BaseController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->validateToken();
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
@@ -38,7 +39,6 @@ class LoginController extends BaseController
 
             if ($user && password_verify($password, $user->getPassword())) {
                 $_SESSION['user']['loggedin_id'] = $user->getId();
-                $_SESSION['user']['loggedin_email'] = $user->getEmail();
                     if ($user->isAdmin()) {
                         $_SESSION['user']['is_admin'] = true;
                         header('Location: /admin/dashboard');
@@ -49,11 +49,14 @@ class LoginController extends BaseController
                     }
             } else {
                  echo (new View())->render('login.php', [
+                    'csrfToken' => $this->generateToken(),
                     'error' => 'Hibás email vagy jelszó!'
                 ]);
             }
         } else {
-             echo (new View())->render('login.php');
+            echo (new View())->render('login.php', [
+                'csrfToken' => $this->generateToken()
+            ]);
         }
     }
 }

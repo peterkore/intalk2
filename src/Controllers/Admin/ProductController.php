@@ -75,7 +75,7 @@ class ProductController extends BaseController
         echo (new View())->render('Admin/product_edit.php', [
             'title' => 'Termék szerkesztése - Petshop Admin',
             'categories' => $this->entityManager->getRepository(Category::class)->findAll(),
-            'product' => $this->entityManager->getRepository(Product::class)->find($productId)
+            'product' => $product,
         ]);
     }
 

@@ -12,10 +12,7 @@ class OrderController extends BaseController
     public function index(): void
     {
         // Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
-        if (!isset($_SESSION['user']['loggedin_id'])) {
-            header('Location: /');
-            exit;
-        }
+        $this->checkUserIsLoggedin();
 
         echo (new View())->render('order/index.php', [
             'title' => 'Rendelések - Állatwebshop',
@@ -27,22 +24,19 @@ class OrderController extends BaseController
     public function show(int $id): void
     {
         // Ellenőrizzük, hogy a felhasználó be van-e jelentkezve
-        if (!isset($_SESSION['user']['loggedin_id'])) {
-            header('Location: /');
-            exit;
-        }
+        $userId = $this->checkUserIsLoggedin();
 
         $order = $this->entityManager->getRepository(Order::class)->find($id);
         
-        // Ellenőrizzük, hogy a rendelés létezik-e és a bejelentkezett felhasználóé-e
-        if (!$order || $order->getUser()->getId() !== $_SESSION['user']['loggedin_id']) {
-            header('Location: /');
+        // Ellenőrizzük, hogy a felhasználó rendelése létezik-e
+        if (!$order || $order->getUser()->getId() !== $userId) {
+            header('Location: /order');
             exit;
         }
 
         echo (new View())->render('order/show.php', [
             'title' => 'Rendelés - Állatwebshop',
-            'order' => $this->entityManager->getRepository(Order::class)->find($id),
+            'order' => $order,
         ]);
     }
 } 

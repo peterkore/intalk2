@@ -1,7 +1,12 @@
 <?php
+if (isset($csrfToken)) {
+    header('X-CSRF-Token: ' . $csrfToken);
+}
+
 if (isset($statusCode)) {
     http_response_code($statusCode);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="hu">
