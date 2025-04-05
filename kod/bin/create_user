@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+// create_user.php <name> <email> <password>
+use Webshop\Model\User;
+use Webshop\EntityManagerFactory;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+// .env konfigurációs fájl használata ($_ENV superglobalban)
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
+
+// Parancssori argumentumok feldolgozása
+$options = getopt('', ['role:']);
+$name = $argv[1] ?? null;
+$email = $argv[2] ?? null;
+$password = $argv[3] ?? null;
+$role = $options['role'] ?? User::ROLE_CUSTOMER;
+
+if (!$name || !$email || !$password) {
+    echo "Használat: php create_user.php \"Név\" \"email@example.com\" \"jelszó\" [--role=ROLE_CUSTOMER]\n";
+    exit(1);
+}
+
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
+
+// Felhasználó létrehozása
+$user = new User();
+$user->setName($name);
+$user->setEmail($email);
+$user->setPassword($password);
+$user->setRole($role);
+
+// Mentés az adatbázisba
+$entityManager->persist($user);
+$entityManager->flush();
+
+echo "Felhasználó létrehozva: {$name} ({$role})\n"; 
