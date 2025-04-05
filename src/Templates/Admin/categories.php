@@ -23,14 +23,14 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                     <tbody>
                         <?php foreach ($categories as $category): ?>
                             <tr>
-                                <td><?php echo $category->getId(); ?></td>
-                                <td><?php echo htmlspecialchars($category->getName()); ?></td>
-                                <td><?php echo htmlspecialchars($category->getDescription() ?? ''); ?></td>
-                                <td><?php echo $category->getProducts()->count(); ?></td>
+                                <td><?= $category->getId(); ?></td>
+                                <td><?= htmlspecialchars($category->getName()); ?></td>
+                                <td><?= htmlspecialchars($category->getDescription() ?? ''); ?></td>
+                                <td><?= $category->getProducts()->count(); ?></td>
                                 <td>
-                                    <a href="/admin/categories/view/<?php echo $category->getId(); ?>" class="btn btn-sm btn-info">Részletek</a>
-                                    <a href="/admin/categories/edit/<?php echo $category->getId(); ?>" class="btn btn-sm btn-warning">Szerkesztés</a>
-                                    <a href="/admin/categories/delete/<?php echo $category->getId(); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a kategóriát?')">Törlés</a>
+                                    <a href="/admin/categories/view/<?= $category->getId(); ?>" class="btn btn-sm btn-info">Részletek</a>
+                                    <a href="/admin/categories/edit/<?= $category->getId(); ?>" class="btn btn-sm btn-warning">Szerkesztés</a>
+                                    <a href="/admin/categories/delete/<?= $category->getId(); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Biztosan törölni szeretnéd ezt a kategóriát?')">Törlés</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -5,17 +5,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Kategória részletek</h2>
             <div>
-                <a href="/admin/categories/edit/<?php echo $category->getId(); ?>" class="btn btn-warning">Szerkesztés</a>
+                <a href="/admin/categories/edit/<?= $category->getId(); ?>" class="btn btn-warning">Szerkesztés</a>
                 <a href="/admin/categories" class="btn btn-secondary">Vissza</a>
             </div>
         </div>
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><?php echo htmlspecialchars($category->getName()); ?></h5>
-                <p class="card-text"><?php echo nl2br(htmlspecialchars($category->getDescription() ?? '')); ?></p>
+                <h5 class="card-title"><?= htmlspecialchars($category->getName()); ?></h5>
+                <p class="card-text"><?= nl2br(htmlspecialchars($category->getDescription() ?? '')); ?></p>
                 
-                <h6 class="mt-4">Termékek (<?php echo $category->getProducts()->count(); ?>)</h6>
+                <h6 class="mt-4">Termékek (<?= $category->getProducts()->count(); ?>)</h6>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -29,10 +29,10 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'admin_header.php';
                         <tbody>
                             <?php foreach ($category->getProducts() as $product): ?>
                             <tr>
-                                <td><?php echo $product->getId(); ?></td>
-                                <td><?php echo htmlspecialchars($product->getName()); ?></td>
-                                <td><?php echo number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
-                                <td><?php echo $product->getStock(); ?></td>
+                                <td><?= $product->getId(); ?></td>
+                                <td><?= htmlspecialchars($product->getName()); ?></td>
+                                <td><?= number_format($product->getPrice(), 0, ',', ' '); ?> Ft</td>
+                                <td><?= $product->getStock(); ?></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
