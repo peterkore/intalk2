@@ -1,0 +1,349 @@
+#!/usr/bin/env php
+<?php
+// seed_database.php
+require_once __DIR__ . '/../vendor/autoload.php';
+// .env konfigurációs fájl használata ($_ENV superglobalban)
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
+
+use Webshop\Model\Category;
+use Webshop\Model\User;
+use Webshop\Model\Product;
+use Webshop\Model\Address;
+use Webshop\Model\Order;
+use Webshop\Model\OrderItem;
+use Webshop\EntityManagerFactory;
+
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
+
+echo "Adatbázis feltöltése...\n";
+
+// Kategóriák létrehozása
+echo "\n=== Kategóriák létrehozása ===\n";
+$categories = [
+    ['name' => 'Kutyaeledel', 'description' => 'Száraz és nedves tápok kutyáknak'],
+    ['name' => 'Macskaeledel', 'description' => 'Száraz és nedves tápok macskáknak'],
+    ['name' => 'Felszerelések', 'description' => 'Nyakörvek, pórázok, játékok'],
+    ['name' => 'Higiénia', 'description' => 'Samponok, kefék, almok'],
+    ['name' => 'Kiegészítők', 'description' => 'Tálak, fekhelyek, szállítóboxok']
+];
+
+$createdCategories = [];
+foreach ($categories as $categoryData) {
+    $category = new Category();
+    $category->setName($categoryData['name']);
+    $category->setDescription($categoryData['description']);
+    $entityManager->persist($category);
+    $createdCategories[$categoryData['name']] = $category;
+    echo "✓ Kategória létrehozva: {$categoryData['name']}\n";
+}
+$entityManager->flush();
+echo "Összesen " . count($createdCategories) . " kategória lett létrehozva.\n";
+
+// Felhasználók létrehozása
+echo "\n=== Felhasználók létrehozása ===\n";
+$users = [
+    [
+        'name' => 'Admin User',
+        'email' => 'admin@petshop.hu',
+        'password' => 'admin123',
+        'role' => User::ROLE_ADMIN,
+        'billing' => [
+            'name' => 'Admin User',
+            'street' => 'Admin utca 1',
+            'zipCode' => '1234',
+            'city' => 'Budapest',
+            'country' => 'Magyarország',
+            'phone' => '+36201234567'
+        ],
+        'shipping' => [
+            'name' => 'Admin User',
+            'street' => 'Admin utca 1',
+            'zipCode' => '1234',
+            'city' => 'Budapest',
+            'country' => 'Magyarország',
+            'phone' => '+36201234567'
+        ]
+    ],
+    [
+        'name' => 'Test User',
+        'email' => 'test@petshop.hu',
+        'password' => 'test123',
+        'role' => User::ROLE_CUSTOMER,
+        'billing' => [
+            'name' => 'Test User',
+            'street' => 'Vásárló utca 1',
+            'zipCode' => '5678',
+            'city' => 'Debrecen',
+            'country' => 'Magyarország',
+            'phone' => '+36207654321'
+        ],
+        'shipping' => [
+            'name' => 'Test User',
+            'street' => 'Vásárló utca 2',
+            'zipCode' => '5678',
+            'city' => 'Debrecen',
+            'country' => 'Magyarország',
+            'phone' => '+36207654321'
+        ]
+    ]
+];
+
+$createdUsers = [];
+foreach ($users as $userData) {
+    // Felhasználó létrehozása
+    $user = new User();
+    $user->setName($userData['name']);
+    $user->setEmail($userData['email']);
+    $user->setPassword($userData['password']);
+    $user->setRole($userData['role']);
+    $entityManager->persist($user);
+    
+    // Számlázási cím létrehozása
+    $billingAddress = new Address();
+    $billingAddress->setName($userData['billing']['name']);
+    $billingAddress->setStreet($userData['billing']['street']);
+    $billingAddress->setZipCode($userData['billing']['zipCode']);
+    $billingAddress->setCity($userData['billing']['city']);
+    $billingAddress->setCountry($userData['billing']['country']);
+    $billingAddress->setPhone($userData['billing']['phone']);
+    $billingAddress->setIsDefault(true);
+    $billingAddress->setType('billing');
+    $user->addAddress($billingAddress);
+    $entityManager->persist($billingAddress);
+    
+    // Szállítási cím létrehozása
+    $shippingAddress = new Address();
+    $shippingAddress->setName($userData['shipping']['name']);
+    $shippingAddress->setStreet($userData['shipping']['street']);
+    $shippingAddress->setZipCode($userData['shipping']['zipCode']);
+    $shippingAddress->setCity($userData['shipping']['city']);
+    $shippingAddress->setCountry($userData['shipping']['country']);
+    $shippingAddress->setPhone($userData['shipping']['phone']);
+    $shippingAddress->setIsDefault(true);
+    $shippingAddress->setType('shipping');
+    $user->addAddress($shippingAddress);
+    $entityManager->persist($shippingAddress);
+    
+    $createdUsers[$userData['email']] = $user;
+    echo "✓ Felhasználó létrehozva: {$userData['name']} ({$userData['role']})\n";
+}
+$entityManager->flush();
+echo "Összesen " . count($createdUsers) . " felhasználó lett létrehozva.\n";
+
+// Termékek létrehozása
+echo "\n=== Termékek létrehozása ===\n";
+$products = [
+    [
+        'name' => 'Royal Canin Adult',
+        'price' => 8999,
+        'stock' => 50,
+        'sku' => 'DOG-FOOD-001',
+        'brand' => 'Royal Canin',
+        'model' => 'Adult',
+        'category' => 'Kutyaeledel',
+        'description' => 'Kiváló minőségű felnőtt kutyaeledel',
+        'attributes' => [
+            'weight' => '15kg',
+            'type' => 'dry'
+        ]
+    ],
+    [
+        'name' => 'Whiskas Csirke',
+        'price' => 399,
+        'stock' => 200,
+        'sku' => 'CAT-FOOD-001',
+        'brand' => 'Whiskas',
+        'model' => 'Classic',
+        'category' => 'Macskaeledel',
+        'description' => 'Finom csirkehúsos macskaeledel',
+        'attributes' => [
+            'weight' => '100g',
+            'type' => 'wet',
+            'flavor' => 'chicken'
+        ]
+    ],
+    [
+        'name' => 'Flexi póráz',
+        'price' => 4999,
+        'stock' => 30,
+        'sku' => 'DOG-LEASH-001',
+        'brand' => 'Flexi',
+        'model' => 'Classic',
+        'category' => 'Felszerelések',
+        'description' => 'Kifogástalan minőségű kutya póráz',
+        'attributes' => [
+            'length' => '5m',
+            'color' => 'black',
+            'size' => 'L'
+        ]
+    ],
+    [
+        'name' => 'Macska kaparófa',
+        'price' => 12999,
+        'stock' => 15,
+        'sku' => 'CAT-TREE-001',
+        'brand' => 'PetComfort',
+        'model' => 'Tower',
+        'category' => 'Felszerelések',
+        'description' => 'Kényelmes és tartós macska kaparófa',
+        'attributes' => [
+            'height' => '150cm',
+            'color' => 'beige',
+            'material' => 'sisal'
+        ]
+    ],
+    [
+        'name' => 'Kutyasampon',
+        'price' => 2499,
+        'stock' => 40,
+        'sku' => 'DOG-SHAM-001',
+        'brand' => 'PetCare',
+        'model' => 'Sensitive',
+        'category' => 'Higiénia',
+        'description' => 'Kíméletes kutyasampon érzékeny bőrre',
+        'attributes' => [
+            'volume' => '250ml',
+            'type' => 'sensitive',
+            'scent' => 'neutral'
+        ]
+    ],
+    [
+        'name' => 'Macska alom',
+        'price' => 3999,
+        'stock' => 60,
+        'sku' => 'CAT-LIT-001',
+        'brand' => 'CatSan',
+        'model' => 'Ultra',
+        'category' => 'Higiénia',
+        'description' => 'Csomósodó macskaalom',
+        'attributes' => [
+            'weight' => '5kg',
+            'type' => 'clumping',
+            'scent' => 'fresh'
+        ]
+    ],
+    [
+        'name' => 'Kutya fekhely',
+        'price' => 6999,
+        'stock' => 25,
+        'sku' => 'DOG-BED-001',
+        'brand' => 'DogComfort',
+        'model' => 'Luxury',
+        'category' => 'Kiegészítők',
+        'description' => 'Kényelmes memóriahabos kutya fekhely',
+        'attributes' => [
+            'size' => 'XL',
+            'color' => 'brown',
+            'material' => 'memory_foam'
+        ]
+    ]
+];
+
+$createdProducts = [];
+foreach ($products as $productData) {
+    $product = new Product();
+    $product->setName($productData['name']);
+    $product->setPrice($productData['price']);
+    $product->setStock($productData['stock']);
+    $product->setSku($productData['sku']);
+    $product->setBrand($productData['brand']);
+    $product->setModel($productData['model']);
+    $product->setDescription($productData['description']);
+    $product->setCategory($createdCategories[$productData['category']]);
+    
+    foreach ($productData['attributes'] as $name => $value) {
+        $product->setAttribute($name, $value);
+    }
+    
+    $entityManager->persist($product);
+    $createdProducts[$productData['sku']] = $product;
+    echo "✓ Termék létrehozva: {$productData['name']} (SKU: {$productData['sku']})\n";
+}
+$entityManager->flush();
+echo "Összesen " . count($createdProducts) . " termék lett létrehozva.\n";
+
+// Rendelések létrehozása
+echo "\n=== Rendelések létrehozása ===\n";
+$orders = [
+    [
+        'user' => 'test@petshop.hu',
+        'items' => [
+            ['sku' => 'DOG-FOOD-001', 'quantity' => 2],
+            ['sku' => 'DOG-LEASH-001', 'quantity' => 1],
+            ['sku' => 'DOG-SHAM-001', 'quantity' => 3]
+        ],
+        'status' => Order::STATUS_PENDING,
+        'payment_method' => Order::PAYMENT_METHOD_CASH,
+        'shipping_method' => Order::SHIPPING_METHOD_STANDARD
+    ],
+    [
+        'user' => 'test@petshop.hu',
+        'items' => [
+            ['sku' => 'CAT-FOOD-001', 'quantity' => 5],
+            ['sku' => 'CAT-TREE-001', 'quantity' => 1],
+            ['sku' => 'CAT-LIT-001', 'quantity' => 2]
+        ],
+        'status' => Order::STATUS_PROCESSING,
+        'payment_method' => Order::PAYMENT_METHOD_BANK_TRANSFER,
+        'shipping_method' => Order::SHIPPING_METHOD_EXPRESS
+    ]
+];
+
+$createdOrders = [];
+foreach ($orders as $orderData) {
+    $user = $createdUsers[$orderData['user']];
+    if (!$user) {
+        echo "Hiba: Nem található felhasználó: {$orderData['user']}\n";
+        continue;
+    }
+
+    $order = new Order();
+    $order->setUser($user);
+    $order->setStatus($orderData['status']);
+    $order->setPaymentMethod($orderData['payment_method']);
+    $order->setShippingMethod($orderData['shipping_method']);
+
+    $billingAddress = $user->getDefaultAddress('billing');
+    $shippingAddress = $user->getDefaultAddress('shipping');
+
+    if (!$billingAddress || !$shippingAddress) {
+        echo "Hiba: A felhasználónak nincs meg minden szükséges címe: {$orderData['user']}\n";
+        continue;
+    }
+
+    $order->setBillingAddress($billingAddress);
+    $order->setShippingAddress($shippingAddress);
+
+    $totalAmount = 0;
+    foreach ($orderData['items'] as $itemData) {
+        $product = $createdProducts[$itemData['sku']];
+        if (!$product) {
+            echo "Hiba: Nem található termék: {$itemData['sku']}\n";
+            continue;
+        }
+
+        $orderItem = new OrderItem();
+        $orderItem->setOrder($order);
+        $orderItem->setProduct($product);
+        $orderItem->setQuantity($itemData['quantity']);
+        $orderItem->setPrice($product->getPrice());
+        
+        $totalAmount += $product->getPrice() * $itemData['quantity'];
+        $entityManager->persist($orderItem);
+    }
+
+    $order->setTotalAmount($totalAmount);
+    $entityManager->persist($order);
+    $createdOrders[] = $order;
+    echo "✓ Rendelés létrehozva: {$orderData['user']} - {$totalAmount} Ft\n";
+}
+
+$entityManager->flush();
+echo "\n=== Összesítés ===\n";
+echo "Létrehozott kategóriák: " . count($createdCategories) . "\n";
+echo "Létrehozott felhasználók: " . count($createdUsers) . "\n";
+echo "Létrehozott termékek: " . count($createdProducts) . "\n";
+echo "Létrehozott rendelések: " . count($createdOrders) . "\n";
+echo "\nAdatbázis feltöltése befejezve.\n"; 

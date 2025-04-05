@@ -1,16 +1,25 @@
 {
-    "name": "kepe/intalk2",
-    "description": "intalk 2 unit test",
+    "name": "app/webshop",
+    "description": "Webshop alkalmazás",
+    "type": "project",
+    "require": {
+        "php": "^8.0",
+        "vlucas/phpdotenv": "^5.5",
+        "doctrine/orm": "^2.11",
+        "doctrine/dbal": "^3.3",
+        "doctrine/annotations": "^2.0",
+        "symfony/cache": "^6.0",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Kepe\\Intalk2\\": "src/"
+            "Webshop\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Peter Kore",
-            "email": "kore.peter@gmail.com"
+            "name": "GDEteam"
         }
-    ],
-    "require": {}
+    ]
 }

@@ -1,0 +1,17 @@
+#!/usr/bin/env php
+<?php
+
+use Webshop\EntityManagerFactory;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+require_once __DIR__ . '/../vendor/autoload.php';
+// .env konfigurációs fájl használata ($_ENV superglobalban)
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
+
+// EntityManager létrehozása
+$entityManager = EntityManagerFactory::getEntityManager();
+
+ConsoleRunner::run(
+    new SingleManagerProvider($entityManager)
+);
