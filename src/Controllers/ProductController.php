@@ -51,6 +51,7 @@ class ProductController extends BaseController {
        // echo $products -> getDQL; 
         // a search.php Template meghívása
        // require_once __DIR__ . '/../Templates/product/search.php';
+       // meghívja a product/searcht.php-t ami a View nézet részhez tartozik, ezáltal jelennek meg a találatok
        echo (new View())->render('product/search.php', [
         
         'products' => $products
